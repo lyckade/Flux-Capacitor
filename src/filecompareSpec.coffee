@@ -2,13 +2,29 @@ FileCompare = require "./filecompare"
 
 tmp = require "tmp"
 
-describe "getNewerFile", ->
-
+describe "getNewerFile and getOlderFile", ->
 
   it "should call checkInputFiles to check the input parameters", ->
     spyOn FileCompare, "checkInputFiles"
+    spyOn FileCompare, "getLastModifiedTime"
     FileCompare.getNewerFile "firstFilename", "secondFileName"
     expect(FileCompare.checkInputFiles).toHaveBeenCalledWith(["firstFilename", "secondFileName"])
+
+  describe "time relevant", ->
+    newerTime = null
+    olderTime = null
+    beforeAll ->
+      newerTime = new Date(2015, 1, 1, 11, 55, 0)
+      olderTime = new Date(2014, 2, 1, 11, 55, 0)
+      spyOn(FileCompare, "checkInputFiles").and.returnValue(true)
+      spyOn(FileCompare, "getLastModifiedTime").and.returnValues(newerTime, olderTime)
+    describe "getNewerFile", ->
+      it "should return the newer file - with the bigger timestamp", ->
+        expect(FileCompare.getNewerFile "newerFile", "olderFile").toEqual("newerFile")
+
+    describe "getOlderFile", ->
+      it "should return the older file", ->
+        expect(FileCompare.getOlderFile "newerFile", "olderFile").toEqual("olderFile")
 
 describe "checkInputFiles", ->
   tmpFileObj = null

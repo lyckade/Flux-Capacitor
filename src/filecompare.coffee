@@ -1,10 +1,22 @@
 fileExists = require "./fileexists"
+fs = require "fs-extra"
 
 
 class FileCompare
-  constructor: ->
+
   getNewerFile: (firstFile, secondFile) ->
     @checkInputFiles [firstFile, secondFile]
+    if @getLastModifiedTime(firstFile) >= @getLastModifiedTime(secondFile)
+      return firstFile
+    else
+      return secondFile
+
+  getOlderFile: (firstFile, secondFile) ->
+    @checkInputFiles [firstFile, secondFile]
+    if @getLastModifiedTime(firstFile) <= @getLastModifiedTime(secondFile)
+      return firstFile
+    else
+      return secondFile
 
   checkInputFiles: (inputFiles) ->
     for inputFile in inputFiles
@@ -12,4 +24,8 @@ class FileCompare
       throw new Error "No file is given" if inputFile is ""
     true
 
+  getLastModifiedTime: (filePath) ->
+    fs.statSync(filePath).mtime
+
+# Return an instance of FileCompare
 module.exports = new FileCompare()
