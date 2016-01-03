@@ -13,17 +13,16 @@ class FileSync
     @options = _.defaults options, defaultOptions
 
   sync: (srcFile, dstFile = "", options = {}) ->
-    oldOptions = @options
-    @options = _.defaults options, oldOptions
-    if @options.noErrors is false
+    syncOptions = _.defaults options, @options
+    if syncOptions.noErrors is false
       throw new Error "#{srcFile} file does not exist!" if not fileExists srcFile
       throw new Error "No destination file is given!" if dstFile is ""
-    sortedFiles = @sortFiles srcFile, dstFile
+    sortedFiles = @sortFiles srcFile, dstFile, syncOptions
     @copy sortedFiles[0], sortedFiles[1]
 
-  sortFiles: (srcFile, dstFile) ->
+  sortFiles: (srcFile, dstFile, options) ->
     sorted = []
-    if not @options.justBackup and @fileExists dstFile
+    if not options.justBackup and @fileExists dstFile
       sorted[0] = FileCompare.getNewerFile srcFile, dstFile
       sorted[1] = FileCompare.getOlderFile srcFile, dstFile
     else
