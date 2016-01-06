@@ -1,5 +1,6 @@
 tmp = require "tmp"
-fileSync = require "./filesync"
+FileSync = require "./filesync"
+fileSync = new FileSync
 FileCompare = require "./filecompare"
 
 describe "Filesync", ->

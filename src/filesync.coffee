@@ -3,7 +3,7 @@ FileCompare = require "./filecompare"
 fs = require "fs-extra"
 _ = require "underscore"
 
-
+module.exports =
 class FileSync
 
   constructor: (options = {}) ->
@@ -37,4 +37,4 @@ class FileSync
     fs.copySync srcFile, dstFile
 
 
-module.exports = new FileSync
+#module.exports = new FileSync

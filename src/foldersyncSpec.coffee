@@ -1,4 +1,5 @@
-FolderSync = require "./foldersync"
+foldersync = require "./foldersync"
+FolderSync = new foldersync
 path = require "path"
 tmp = require "tmp"
 fs = require "fs"
