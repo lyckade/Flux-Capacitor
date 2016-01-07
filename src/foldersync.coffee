@@ -18,12 +18,19 @@ class FolderSync
 
   sync: (srcFolder, dstFolder, options = {}) ->
     syncOptions = _.defaults options, @options
-    items = []
-    @fs.walk(srcFolder)
-    .on('data', (item) ->
+    @walk srcFolder, (item) ->
       if not @skipItem item, syncOptions.skipItem
         @FileSync.sync item.path, @makeDstPath(item.path), syncOptions.FileSync
-        #console.log @makeDstPath item.path
+
+
+  walk: (folder, callback) ->
+    @items = []
+    @fs.walk(folder).on('data', (item) =>
+      if not @skipItem item, syncOptions.skipItem
+        @items.push item
+        if callback
+          callback item
+
     )
     #.on('end', ->
     #  return items)
