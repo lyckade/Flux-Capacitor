@@ -28,7 +28,8 @@
   "dependencies": {
     "electron-debug": "^0.5.0",
     "fs-extra": "^0.26.3",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "walk": "^2.3.9"
   },
   "devDependencies": {
     "electron-packager": "^5.0.0",

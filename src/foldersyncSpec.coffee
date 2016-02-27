@@ -24,35 +24,6 @@ describe "FolderSync", ->
       FolderSync.sync "myFolder", "backup"
       expect(FolderSync.syncItem).toHaveBeenCalledWith("myFirstItem")
 
-  describe "integration tests", ->
-    tmpDirObj1 = null
-    tmpDirObj2 = null
-    beforeEach ->
-      tmpDirObj1 = tmp.dirSync()
-      tmpDirObj2 = tmp.dirSync()
-      fs.ensureFileSync(path.join tmpDirObj1.name, "firstFile")
-      fs.ensureFileSync(path.join tmpDirObj1.name, "secondFile")
-
-    afterEach ->
-      tmp.setGracefulCleanup()
-
-    xit "should copy all files of the source folder", ->
-      FolderSync = new foldersync
-      FolderSync.sync tmpDirObj1.name, tmpDirObj2.name
-      expect(fs.readdirSync tmpDirObj2.name).toBe(fs.readdirSync tmpDirObj1.name)
-
-
-  describe "walk", ->
-    xit "should callback with an item", ->
-      FolderSync = new foldersync
-      callbackFunction = jasmine.createSpy 'callbackFunction'
-      tmpDirObj = tmp.dirSync()
-      fs.ensureFileSync(path.join tmpDirObj.name, "firstFile")
-      FolderSync.walk tmpDirObj.name, callbackFunction
-      expect(callbackFunction).toHaveBeenCalled()
-      tmp.setGracefulCleanup()
-
-
   describe "skipItem", ->
     options = null
     beforeEach ->

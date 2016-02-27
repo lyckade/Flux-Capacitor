@@ -1,4 +1,4 @@
-fs = require "fs-extra"
+#fs = require "fs-extra"
 path = require "path"
 _ = require "underscore"
 FileSync = require "./filesync"
@@ -24,17 +24,14 @@ class FolderSync
     @dstFolder = dstFolder
     @walk srcFolder, @syncItem
 
-  walk: (folder, callback) ->
-    fs.walk(folder)
-    .on('data', (item) ->
-      if callback
-        callback item
-    )
+  walk: (folder, callback) =>
+    @fs.walk(folder)
+    .on("data", (item) ->
+      callback item)
 
   syncItem: (item) =>
     #console.log this
     if not @skipItem item, @options.skipItem
-
       @FileSync.sync item.path, @makeDstPath(item.path), @syncOptions.FileSync
 
   skipItem: (item, options) ->
