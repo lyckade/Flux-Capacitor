@@ -15,7 +15,8 @@
 		</div>
 		<script>
 			FolderSync = require("./lib/foldersync.js");
-			FolderSync.sync(__dirname);
+			fs = new FolderSync();
+			fs.sync("C:\\Users\\Schroepfer\\ownCloud\\projects\\flux_capacitor_alt","C:\\Users\\Schroepfer\\Desktop\\Test");
 		</script>
 	</body>
 </html>

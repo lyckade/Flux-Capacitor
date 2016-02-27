@@ -11,6 +11,8 @@ class FileSync
     defaultOptions =
       justBackup: false   #Backup syncs just from src to destination
       noErrors: false     #No error output
+      copyOptions:
+        preserveTimestamps: true
     @options = _.defaults options, defaultOptions
 
   sync: (srcFile, dstFile = "", options = {}) ->
@@ -31,7 +33,9 @@ class FileSync
       sorted[1] = dstFile
     sorted
 
-
-
   copy: (srcFile, dstFile) ->
-    fs.copySync srcFile, dstFile
+    try
+      fs.copySync srcFile, dstFile, @options.copyOptions
+      #console.log "#{srcFiles} has been copied"
+    catch error
+      throw error

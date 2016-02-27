@@ -30,7 +30,6 @@ class FolderSync
       callback item)
 
   syncItem: (item) =>
-    #console.log this
     if not @skipItem item, @options.skipItem
       @FileSync.sync item.path, @makeDstPath(item.path), @syncOptions.FileSync
 
