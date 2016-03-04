@@ -13,7 +13,7 @@ class FileCompare
 
   getOlderFile: (firstFile, secondFile) ->
     @checkInputFiles [firstFile, secondFile]
-    if @getLastModifiedTime(firstFile) <= @getLastModifiedTime(secondFile)
+    if @getLastModifiedTime(firstFile) < @getLastModifiedTime(secondFile)
       return firstFile
     else
       return secondFile

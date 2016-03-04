@@ -16,14 +16,16 @@ class FileSync
     @options = _.defaults options, defaultOptions
 
   sync: (srcFile, dstFile = "", options = {}) ->
-    syncOptions = _.defaults options, @options
-    if syncOptions.noErrors is false
+    @syncOptions = _.defaults options, @options
+    if @syncOptions.noErrors is false
       throw new Error "#{srcFile} file does not exist!" if not @fileExists srcFile
       throw new Error "No destination file is given!" if dstFile is ""
-    sortedFiles = @sortFiles srcFile, dstFile, syncOptions
+    sortedFiles = @sortFiles srcFile, dstFile, @syncOptions
     @copy sortedFiles[0], sortedFiles[1]
 
   sortFiles: (srcFile, dstFile, options) ->
+    if srcFile is dstFile
+      console.log "sortFiles Datei ist gleich"
     sorted = []
     if not options.justBackup and @fileExists dstFile
       sorted[0] = FileCompare.getNewerFile srcFile, dstFile
@@ -34,6 +36,11 @@ class FileSync
     sorted
 
   copy: (srcFile, dstFile) ->
+
+    if srcFile is dstFile
+      if @syncOptions.noErrors is false
+        throw new Error "Source and destination are same file: #{srcFile}"
+      return true
     try
       fs.copySync srcFile, dstFile, @options.copyOptions
       #console.log "#{srcFiles} has been copied"
