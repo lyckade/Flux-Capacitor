@@ -9,13 +9,11 @@ eventEmitter = new events.EventEmitter()
 describe "FolderSync", ->
 
   describe "constructor", ->
-
     it "should include the default options of FileSync", ->
       FolderSync = new foldersync
       expect(FolderSync.options.FileSync.justBackup).toEqual(false)
 
   describe "sync", ->
-
     it "should call @syncItem, when walk gives a callback", ->
       FolderSync = new foldersync
       spyOn(FolderSync, "syncItem")

@@ -2,6 +2,7 @@
 path = require "path"
 _ = require "underscore"
 FileSync = require "./filesync"
+pathHelper = require "./path-helper"
 
 module.exports =
 class FolderSync
@@ -9,6 +10,7 @@ class FolderSync
     @path = path
     @fs = require "fs-extra"
     @FileSync = new FileSync
+    @ph = new pathHelper()
     defaultOptions =
       FileSync: @FileSync.options
       skipItem:
@@ -16,7 +18,6 @@ class FolderSync
     @options = _.defaults options, defaultOptions
     @srcFolder = null
     @dstFolder = null
-
 
   sync: (srcFolder, dstFolder, options = {}) ->
     @syncOptions = _.defaults options, @options
@@ -46,5 +47,7 @@ class FolderSync
     return false
 
   makeDstPath: (filePath) ->
-    wayToSrcRoot = @path.relative @srcFolder, filePath
-    @path.join @dstFolder, wayToSrcRoot
+    @ph.makePath @srcFolder, @dstFolder, filePath
+
+  makeSrcPath: (filePath) ->
+    @ph.makePath @dstFolder, @srcFolder, filePath

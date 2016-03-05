@@ -10,6 +10,7 @@ class FileSync
     @fileExists = fileExists
     defaultOptions =
       justBackup: false   #Backup syncs just from src to destination
+      justNewFiles: false #Copies just files when dstFile don't exists
       noErrors: false     #No error output
       copyOptions:
         preserveTimestamps: true
@@ -24,8 +25,6 @@ class FileSync
     @copy sortedFiles[0], sortedFiles[1]
 
   sortFiles: (srcFile, dstFile, options) ->
-    if srcFile is dstFile
-      console.log "sortFiles Datei ist gleich"
     sorted = []
     if not options.justBackup and @fileExists dstFile
       sorted[0] = FileCompare.getNewerFile srcFile, dstFile
@@ -40,6 +39,8 @@ class FileSync
     if srcFile is dstFile
       if @syncOptions.noErrors is false
         throw new Error "Source and destination are same file: #{srcFile}"
+      return true
+    else if @syncOptions.justNewFiles and not @fileExists dstFile
       return true
     try
       fs.copySync srcFile, dstFile, @options.copyOptions

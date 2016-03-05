@@ -34,6 +34,8 @@
   "devDependencies": {
     "electron-packager": "^5.0.0",
     "electron-prebuilt": "^0.36.0",
+    "grunt": "^0.4.5",
+    "grunt-jasmine-nodejs": "^1.5.1",
     "tmp": "0.0.28",
     "xo": "^0.12.0"
   },
