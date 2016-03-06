@@ -20,9 +20,27 @@ describe "FolderSync", ->
       FolderSync = new foldersync
       spyOn(FolderSync, "syncItem")
       spyOn(FolderSync, "walk").and.callFake (folder, callback) ->
-        callback "myFirstItem"
+        callback "myFirstItem", "src"
       FolderSync.sync "myFolder", "backup"
-      expect(FolderSync.syncItem).toHaveBeenCalledWith("myFirstItem")
+      expect(FolderSync.syncItem).toHaveBeenCalledWith("myFirstItem", "src")
+
+  describe "syncItem", ->
+    FolderSync = null
+
+    beforeAll ->
+      FolderSync = new foldersync
+      FolderSync.FileSync = jasmine.createSpyObj "FileSync", ["sync"]
+
+    it "should skipItem if methods skipItem returns true", ->
+      spyOn(FolderSync, "skipItem").and.returnValue(true)
+      FolderSync.syncItem "myItem", "src"
+      expect(FolderSync.FileSync.sync).not.toHaveBeenCalled()
+
+    it "should set correct FileSync option and src dst when walktype is src", ->
+      spyOn(FolderSync, "makeDstPath")
+      FolderSync.syncItem "myItem", "src"
+      expect(FolderSync.FileSync.sync).toHaveBeenCalled()
+    it "should set correct FileSync option and src dst when walktype is dst", ->
 
   describe "skipItem", ->
     options = null

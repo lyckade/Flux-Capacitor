@@ -27,14 +27,16 @@ class FolderSync
     @dstFolder = dstFolder
     @walk srcFolder, @syncItem
 
-  walk: (folder, callback) =>
+  walk: (folder, callback, walktype="src") =>
     @fs.walk(folder)
     .on("data", (item) ->
-      callback item)
+      callback item, walktype)
 
-  syncItem: (item) =>
+  syncItem: (item, walktype) =>
     if not @skipItem item, @options.skipItem
-      @FileSync.sync item.path, @makeDstPath(item.path), @syncOptions.FileSync
+      if walktype is "src"
+        @FileSync.sync item.path, @makeDstPath(item.path), @syncOptions.FileSync
+
 
   skipItem: (item, options) ->
     try
