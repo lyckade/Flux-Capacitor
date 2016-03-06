@@ -37,15 +37,19 @@ class FileSync
     sorted
 
   copy: (srcFile, dstFile) ->
+    if not @doNotCopy srcFile, dstFile
+      try
+        fs.copySync srcFile, dstFile, @options.copyOptions
+        #console.log "#{srcFiles} has been copied"
+      catch error
+        throw error
 
+  doNotCopy: (srcFile, dstFile) ->
     if srcFile is dstFile
       if @syncOptions.noErrors is false
         throw new Error "Source and destination are same file: #{srcFile}"
       return true
-    else if @syncOptions.justNewFiles and not @fileExists dstFile
+    else if @syncOptions.justNewFiles and @fileExists dstFile
       return true
-    try
-      fs.copySync srcFile, dstFile, @options.copyOptions
-      #console.log "#{srcFiles} has been copied"
-    catch error
-      throw error
+    else
+      return false

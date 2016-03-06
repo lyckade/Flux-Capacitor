@@ -38,6 +38,27 @@ describe "Filesync", ->
       fileSync.sync fileObj.name, "notExistingFile"
       expect(fileSync.copy).toHaveBeenCalledWith(fileObj.name, "notExistingFile")
 
+  describe "doNotCopy", ->
+    it "should not copy, when srcFile is dstFile", ->
+      doNotCopy = ->
+        fileSync.doNotCopy fileObj.name, fileObj.name
+      expect(doNotCopy).toThrowError(/Source and destination are same file/)
+      fileSync.syncOptions.noErrors = true
+      expect(fileSync.doNotCopy fileObj.name, fileObj.name).toBe(true)
+
+  describe "doNotCopy justNewFiles", ->
+
+    beforeAll ->
+      fileSync.syncOptions.justNewFiles = true
+
+    it "should return true, when justNewFiles and dstFile exists", ->
+      fileObj2 = tmp.fileSync()
+      expect(fileSync.doNotCopy fileObj.name, fileObj2.name).toBe(true)
+      fileObj2.removeCallback()
+
+    it "should copy return false, when justNewFiles and dstFile not exists", ->
+      expect(fileSync.doNotCopy fileObj.name, "newFile").toBe(false)
+
   describe "with the just Backup option", ->
     it "should copy src to dst file", ->
       firstFile = tmp.fileSync()
