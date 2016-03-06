@@ -1,3 +1,5 @@
+# out: ../lib/filecompare.js
+
 fileExists = require "./fileexists"
 fs = require "fs-extra"
 

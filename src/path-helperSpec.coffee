@@ -1,3 +1,5 @@
+# out: ../lib/path-helperSpec.js
+
 ph = require "./path-helper"
 path = require "path"
 describe "makeDstPath", ->

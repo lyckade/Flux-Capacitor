@@ -1,3 +1,5 @@
+# out: ../lib/filecopySpec.js
+
 FileCopy = require "./filecopy.js"
 tmp = require "tmp"
 path = require "path"

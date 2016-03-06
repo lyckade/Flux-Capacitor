@@ -1,3 +1,5 @@
+# out: ../lib/filecopy.js
+
 fs = require "fs-extra"
 
 module.exports=

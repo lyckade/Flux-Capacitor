@@ -1,3 +1,5 @@
+# out: ../lib/fileexists.js
+
 fs = require "fs"
 
 module.exports = (filePath) ->

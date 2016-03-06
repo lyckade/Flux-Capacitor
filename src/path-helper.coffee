@@ -1,3 +1,5 @@
+# out: ../lib/path-helper.js
+
 path = require "path"
 
 module.exports =

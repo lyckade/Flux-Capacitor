@@ -1,3 +1,5 @@
+# out: ../lib/foldersyncSpec.js
+
 foldersync = require "./foldersync"
 path = require "path"
 tmp = require "tmp"

@@ -1,3 +1,5 @@
+# out: ../lib/fileexistsSpec.js
+
 tmp = require "tmp"
 fileExists = require "./fileexists"
 

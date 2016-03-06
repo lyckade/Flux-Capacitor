@@ -22,7 +22,7 @@ function createMainWindow() {
 		width: 1200,
 		height: 900
 	});
-
+	require("coffee-script").register();
 	win.loadURL(`file://${__dirname}/index.html`);
 	win.on('closed', onClosed);
 

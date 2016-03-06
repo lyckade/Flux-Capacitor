@@ -26,6 +26,7 @@
     "electron"
   ],
   "dependencies": {
+    "coffee-script": "^1.10.0",
     "electron-debug": "^0.5.0",
     "fs-extra": "^0.26.3",
     "underscore": "^1.8.3",

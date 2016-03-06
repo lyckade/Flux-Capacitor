@@ -1,3 +1,5 @@
+# out: ../lib/filesyncSpec.js
+
 tmp = require "tmp"
 FileSync = require "./filesync"
 fileSync = new FileSync

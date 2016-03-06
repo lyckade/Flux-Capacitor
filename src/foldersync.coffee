@@ -1,3 +1,5 @@
+# out: ../lib/foldersync.js
+
 #fs = require "fs-extra"
 path = require "path"
 _ = require "underscore"

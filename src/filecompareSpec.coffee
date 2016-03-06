@@ -1,3 +1,5 @@
+# out: ../lib/filecompareSpec.js
+
 FileCompare = require "./filecompare"
 
 tmp = require "tmp"

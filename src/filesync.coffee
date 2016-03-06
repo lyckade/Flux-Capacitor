@@ -1,3 +1,5 @@
+# out: ../lib/filesync.js
+
 fileExists = require "./fileexists"
 FileCompare = require "./filecompare"
 fs = require "fs-extra"
