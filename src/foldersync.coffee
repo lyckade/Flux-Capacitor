@@ -12,7 +12,7 @@ class FolderSync
     @path = path
     @fs = require "fs-extra"
     @FileSync = new FileSync
-    @ph = new pathHelper()
+    @ph = pathHelper
     defaultOptions =
       FileSync: @FileSync.options
       justBackup: false
