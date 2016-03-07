@@ -15,9 +15,11 @@ class FolderSync
     @ph = new pathHelper()
     defaultOptions =
       FileSync: @FileSync.options
+      justBackup: false
       skipItem:
         patterns: []
     @options = _.defaults options, defaultOptions
+    @options.FileSync.justBackup = @options.justBackup
     @srcFolder = null
     @dstFolder = null
 
@@ -25,7 +27,9 @@ class FolderSync
     @syncOptions = _.defaults options, @options
     @srcFolder = srcFolder
     @dstFolder = dstFolder
-    @walk srcFolder, @syncItem
+    @walk srcFolder, @syncItem, "src"
+    if not @syncOptions.justBackup
+      @walk dstFolder, @syncItem, "dst"
 
   walk: (folder, callback, walktype="src") =>
     @fs.walk(folder)
@@ -36,7 +40,10 @@ class FolderSync
     if not @skipItem item, @options.skipItem
       if walktype is "src"
         @FileSync.sync item.path, @makeDstPath(item.path), @syncOptions.FileSync
-
+      if walktype is "dst"
+        options = @syncOptions.FileSync
+        options.justNewFiles = true
+        @FileSync.sync item.path, @makeSrcPath(item.path), options
 
   skipItem: (item, options) ->
     try

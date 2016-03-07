@@ -1,6 +1,7 @@
 # out: ../lib/foldersyncSpec.js
 
 foldersync = require "./foldersync"
+_ = require "underscore"
 path = require "path"
 tmp = require "tmp"
 fs = require "fs-extra"
@@ -27,20 +28,30 @@ describe "FolderSync", ->
   describe "syncItem", ->
     FolderSync = null
 
-    beforeAll ->
+    beforeEach ->
       FolderSync = new foldersync
       FolderSync.FileSync = jasmine.createSpyObj "FileSync", ["sync"]
+      spyOn(FolderSync, "makeDstPath")
+      spyOn(FolderSync, "makeSrcPath")
 
     it "should skipItem if methods skipItem returns true", ->
       spyOn(FolderSync, "skipItem").and.returnValue(true)
       FolderSync.syncItem "myItem", "src"
       expect(FolderSync.FileSync.sync).not.toHaveBeenCalled()
 
-    it "should set correct FileSync option and src dst when walktype is src", ->
-      spyOn(FolderSync, "makeDstPath")
+    it "should set correct FileSync and src and dst when walktype is src", ->
+      FolderSync.syncOptions = FolderSync.options
       FolderSync.syncItem "myItem", "src"
       expect(FolderSync.FileSync.sync).toHaveBeenCalled()
+      expect(FolderSync.makeDstPath).toHaveBeenCalled()
+      expect(FolderSync.makeSrcPath).not.toHaveBeenCalled()
     it "should set correct FileSync option and src dst when walktype is dst", ->
+      FolderSync.syncOptions = FolderSync.options
+      FolderSync.syncItem "myItem", "dst"
+      options = jasmine.objectContaining({justNewFiles: true})
+      expect(FolderSync.FileSync.sync).toHaveBeenCalledWith(undefined, undefined, options)
+      expect(FolderSync.makeDstPath).not.toHaveBeenCalled()
+      expect(FolderSync.makeSrcPath).toHaveBeenCalled()
 
   describe "skipItem", ->
     options = null
