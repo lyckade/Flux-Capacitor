@@ -2,6 +2,7 @@
 
 path = require "path"
 
+module.exports = path
 
 module.exports.makePath = (srcFolder, dstFolder, filePath) ->
   wayToSrcRoot = path.relative srcFolder, filePath
