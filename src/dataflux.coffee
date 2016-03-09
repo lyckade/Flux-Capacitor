@@ -10,7 +10,7 @@ pathHelper = require "./path-helper"
 
 module.exports =
 class Dataflux
-  constructor: (@srcFolder, @dataFluxFolder, options) ->
+  constructor: (@srcFolder, @dataFluxFolder, options = {}) ->
     @ts = timestamp
     @path = pathHelper
     @fse = fse
@@ -31,8 +31,8 @@ class Dataflux
         separator: "-"
     @options = _.defaults options, defaultOptions
     #console.log @options.timestamp
-    #@ts.timestampElements = @options.timestamp.elements
-    #@ts.timestampSeparator = @options.timestamp.separator
+    @ts.timestampElements = @options.timestamp.elements
+    @ts.timestampSeparator = @options.timestamp.separator
 
   watch: ->
 

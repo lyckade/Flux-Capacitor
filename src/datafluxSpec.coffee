@@ -31,10 +31,14 @@ describe "Dataflux", ->
     beforeEach ->
       options =
         skipFile:
-          patterns: [/skipMe/]
+          patterns: [/skipMe/, /meToo/]
       df = new dataflux("src", "flux", options)
-    it "should skip when the pattern matches", ->
+    it "should return true when the pattern matches", ->
       expect(df.skipFile "MyFolder/skipMe/file.txt").toBe(true)
+      expect(df.skipFile "MyFolder/meToo/file.txt").toBe(true)
+    it "should return false when the pattern not matches", ->
+      expect(df.skipFile "MyFolder/doNotSkip/file.txt").toBe(false)
+
   describe "Create Filepath", ->
 
   describe "Backup folder", ->
