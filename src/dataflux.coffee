@@ -15,6 +15,7 @@ class Dataflux
     @path = pathHelper
     @fse = fse
     @watch = watch
+    @backupCache = []
 
     defaultOptions =
       skipFile:
@@ -30,11 +31,23 @@ class Dataflux
           ]
         separator: "-"
     @options = _.defaults options, defaultOptions
-    #console.log @options.timestamp
     @ts.timestampElements = @options.timestamp.elements
     @ts.timestampSeparator = @options.timestamp.separator
 
   watch: ->
+    @watch.watchTree @srcFolder, (f, curr, prev) ->
+      if typeof f isnt "object" and prev is null
+        # f is a new file
+        @addFileForBackup f
+      else if typeof f isnt "object" and curr.nlink is null
+        # f was removed
+      else if typeof f isnt "object" and curr isnt null and prev isnt null
+        # f has changed
+        @addFileForBackup f
+
+  addFileForBackup: (filePath) ->
+    if filePath not in @backupCache and not @skipFile filePath
+      @backupCache.push filePath
 
   skipFile: (filePath) ->
     for pattern in @options.skipFile.patterns
