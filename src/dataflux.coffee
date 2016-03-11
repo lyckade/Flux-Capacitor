@@ -38,14 +38,14 @@ class Dataflux
   watch: ->
     @watch.watchTree @srcFolder, (f, curr, prev) ->
       if typeof f is "object" and prev is null and curr is null
-        @log.log "Listeners for #{@srcFolder} tree are ready."
+        @log.debug "Listeners for #{@srcFolder} tree are ready."
       else if typeof f isnt "object" and prev is null
-        @log.log "#{f} is new"
+        @log.debug "#{f} is new"
         @addFileForBackup f
       else if typeof f isnt "object" and curr.nlink is null
-        @log.log "#{f} was removed"
+        @log.debug "#{f} was removed"
       else if typeof f isnt "object" and curr isnt null and prev isnt null
-        @log.log "#{f} has changed"
+        @log.debug "#{f} has changed"
         @addFileForBackup f
 
   addFileForBackup: (filePath) ->
@@ -61,7 +61,7 @@ class Dataflux
   flushBackupCache: ->
     for filePath in @backupCache
       @copyFileVersion filePath
-    @log.log "Backup cache has been flushed"
+    @log.debug "Backup cache has been flushed"
     @backupCache = []
 
   copyFileVersion: (filePath) ->
