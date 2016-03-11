@@ -4,6 +4,7 @@ fse = require "fs-extra"
 watch = require "watch"
 _ = require "underscore"
 
+log = require "./logFactory"
 timestamp = require "./timestamp"
 pathHelper = require "./path-helper"
 
@@ -16,7 +17,7 @@ class Dataflux
     @fse = fse
     @watch = watch
     @backupCache = []
-
+    @log = log.makeLog()
     defaultOptions =
       skipFile:
         patterns: []
@@ -36,13 +37,15 @@ class Dataflux
 
   watch: ->
     @watch.watchTree @srcFolder, (f, curr, prev) ->
-      if typeof f isnt "object" and prev is null
-        # f is a new file
+      if typeof f is "object" and prev is null and curr is null
+        @log.log "Listeners for #{@srcFolder} tree are ready."
+      else if typeof f isnt "object" and prev is null
+        @log.log "#{f} is new"
         @addFileForBackup f
       else if typeof f isnt "object" and curr.nlink is null
-        # f was removed
+        @log.log "#{f} was removed"
       else if typeof f isnt "object" and curr isnt null and prev isnt null
-        # f has changed
+        @log.log "#{f} has changed"
         @addFileForBackup f
 
   addFileForBackup: (filePath) ->
@@ -55,7 +58,14 @@ class Dataflux
         return true
     return false
 
+  flushBackupCache: ->
+    for filePath in @backupCache
+      @copyFileVersion filePath
+    @backupCache = []
+
   copyFileVersion: (filePath) ->
+
+  makeFluxPath: (filePath) ->
 
   makeFileName: (filePath) ->
     fileStat = @fse.statSync filePath
