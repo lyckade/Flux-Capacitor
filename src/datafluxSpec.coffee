@@ -57,6 +57,7 @@ describe "Dataflux", ->
       fluxFolder = path.join "flux"
       fluxFile = path.join "flux", "Sub1", "Sub2", "file.txt"
       df = new dataflux srcFolder, fluxFolder
+      df.log.noLog = true
       df.fse = jasmine.createSpyObj "fse", ["copySync"]
       df.addTimestamp = (filePath) -> filePath
       df.copyFileVersion myFile

@@ -65,7 +65,9 @@ class Dataflux
     @backupCache = []
 
   copyFileVersion: (filePath) ->
-    @fse.copySync(filePath, @makeFluxPath filePath)
+    fluxPath = @makeFluxPath filePath
+    @fse.copySync(filePath, fluxPath)
+    @log.log "#{filePath} copied to #{fluxPath}"
 
   makeFluxPath: (filePath) ->
     @path.makePath @srcFolder, @dataFluxFolder, @addTimestamp filePath
