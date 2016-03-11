@@ -19,12 +19,12 @@ describe "Dataflux", ->
       afterEach ->
         file1.removeCallback()
 
-      it "should create a filename with timestamp", ->
+      it "should add the timestamp to the filepath", ->
         file1Stat = fse.statSync(file1.name)
         file1ts = ts.makeTimestamp file1Stat.mtime
         file1El = path.parse file1.name
-        newFilename = "#{file1El.name}.#{file1ts}#{file1El.ext}"
-        expect(df.makeFileName file1.name).toBe(newFilename)
+        newFilename = path.join file1El.dir, "#{file1El.name}.#{file1ts}#{file1El.ext}"
+        expect(df.addTimestamp file1.name).toBe(newFilename)
 
   describe "skipFile", ->
     df = null
@@ -40,8 +40,7 @@ describe "Dataflux", ->
       expect(df.skipFile "MyFolder/doNotSkip/file.txt").toBe(false)
 
   describe "flushBackupCache", ->
-
-    it "should", ->
+    it "should copy the files in the cache and empty it afterwards", ->
       df = new dataflux("src", "flux")
       df.log.noLog = true
       df.copyFileVersion = jasmine.createSpy("copyFileVersion")
@@ -51,9 +50,14 @@ describe "Dataflux", ->
       expect(df.backupCache.length).toBe(0)
       expect(df.copyFileVersion.calls.allArgs()).toEqual([['file1'], ['file2']])
 
-  #describe "Create Filepath", ->
-
-  describe "Backup folder", ->
-    it "should not watch the backup folder", ->
-
-    it "should never use the backup folder as src", ->
+  describe "copyFileVersion", ->
+    it "should copy the file into the fluxFolder", ->
+      srcFolder = path.join "myFolder"
+      myFile = path.join "myFolder", "Sub1", "Sub2", "file.txt"
+      fluxFolder = path.join "flux"
+      fluxFile = path.join "flux", "Sub1", "Sub2", "file.txt"
+      df = new dataflux srcFolder, fluxFolder
+      df.fse = jasmine.createSpyObj "fse", ["copySync"]
+      df.addTimestamp = (filePath) -> filePath
+      df.copyFileVersion myFile
+      expect(df.fse.copySync).toHaveBeenCalledWith(myFile, fluxFile)

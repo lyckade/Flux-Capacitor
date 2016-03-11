@@ -65,13 +65,16 @@ class Dataflux
     @backupCache = []
 
   copyFileVersion: (filePath) ->
+    @fse.copySync(filePath, @makeFluxPath filePath)
 
   makeFluxPath: (filePath) ->
+    @path.makePath @srcFolder, @dataFluxFolder, @addTimestamp filePath
 
-  makeFileName: (filePath) ->
+  addTimestamp: (filePath) ->
     fileStat = @fse.statSync filePath
     pathParse = @path.parse filePath
-    "#{pathParse.name}.#{@makeTimestamp fileStat.mtime}#{pathParse.ext}"
+    fileName ="#{pathParse.name}.#{@makeTimestamp fileStat.mtime}#{pathParse.ext}"
+    @path.join pathParse.dir, fileName
 
   makeTimestamp: (dateObj) ->
     @ts.makeTimestamp(dateObj)
