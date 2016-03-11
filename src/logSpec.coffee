@@ -23,3 +23,10 @@ describe "Log", ->
     log.log "Test"
     expect(spy1).toHaveBeenCalled()
     expect(spy2).toHaveBeenCalled()
+
+  it "should be disabled, when noLog property is true", ->
+    spy1 = jasmine.createSpy "spy1"
+    log.callbacks = [spy1]
+    log.noLog = true
+    log.log "Test"
+    expect(spy1).not.toHaveBeenCalled()

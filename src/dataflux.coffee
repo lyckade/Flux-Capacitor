@@ -61,6 +61,7 @@ class Dataflux
   flushBackupCache: ->
     for filePath in @backupCache
       @copyFileVersion filePath
+    @log.log "Backup cache has been flushed"
     @backupCache = []
 
   copyFileVersion: (filePath) ->

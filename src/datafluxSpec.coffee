@@ -39,7 +39,19 @@ describe "Dataflux", ->
     it "should return false when the pattern not matches", ->
       expect(df.skipFile "MyFolder/doNotSkip/file.txt").toBe(false)
 
-  describe "Create Filepath", ->
+  describe "flushBackupCache", ->
+
+    it "should", ->
+      df = new dataflux("src", "flux")
+      df.log.noLog = true
+      df.copyFileVersion = jasmine.createSpy("copyFileVersion")
+      df.backupCache = ["file1", "file2"]
+      expect(df.backupCache.length).toBe(2)
+      df.flushBackupCache()
+      expect(df.backupCache.length).toBe(0)
+      expect(df.copyFileVersion.calls.allArgs()).toEqual([['file1'], ['file2']])
+
+  #describe "Create Filepath", ->
 
   describe "Backup folder", ->
     it "should not watch the backup folder", ->
