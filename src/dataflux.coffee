@@ -47,7 +47,6 @@ class Dataflux
       else if typeof f isnt "object" and curr isnt null and prev isnt null
         @log.debug "#{f} has changed"
         @addFileForBackup f
-    true
 
   addFileForBackup: (filePath) ->
     if filePath not in @backupCache and not @skipFile filePath
