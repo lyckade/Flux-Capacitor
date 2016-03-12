@@ -20,6 +20,7 @@ class Log
   debug: (txt) ->
     if @debugModus
       @log txt, "DEBUG"
+    true
 
   log: (txt, type="INFO") ->
     return null if @noLog

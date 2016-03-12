@@ -14,9 +14,15 @@
 			<footer></footer>
 		</div>
 		<script>
-			FolderSync = require("./lib/foldersync.js");
+		var srcFolder = "C:\\Users\\Schroepfer\\test\\src2";
+		var dstFolder = "C:\\Users\\Schroepfer\\test\\dst";
+		var fluxFolder = "C:\\Users\\Schroepfer\\test\\flux";
+			/*FolderSync = require("./lib/foldersync.js");
 			fs = new FolderSync();
-			fs.sync("C:\\Users\\Schroepfer\\test\\src2","C:\\Users\\Schroepfer\\test\\dst");
+			fs.sync(srcFolder,srcFolder, dstFolder);*/
+			Dataflux = require("./lib/dataflux.js");
+			df = new Dataflux(srcFolder, dstFolder);
+			df.watch();
 		</script>
 	</body>
 </html>

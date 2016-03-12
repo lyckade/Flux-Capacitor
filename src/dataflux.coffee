@@ -15,7 +15,7 @@ class Dataflux
     @ts = timestamp
     @path = pathHelper
     @fse = fse
-    @watch = watch
+    @watcher = watch
     @backupCache = []
     @log = log.makeLog()
     defaultOptions =
@@ -35,8 +35,8 @@ class Dataflux
     @ts.timestampElements = @options.timestamp.elements
     @ts.timestampSeparator = @options.timestamp.separator
 
-  watch: ->
-    @watch.watchTree @srcFolder, (f, curr, prev) ->
+  watch: =>
+    @watcher.watchTree @srcFolder, (f, curr, prev) =>
       if typeof f is "object" and prev is null and curr is null
         @log.debug "Listeners for #{@srcFolder} tree are ready."
       else if typeof f isnt "object" and prev is null
@@ -47,6 +47,7 @@ class Dataflux
       else if typeof f isnt "object" and curr isnt null and prev isnt null
         @log.debug "#{f} has changed"
         @addFileForBackup f
+    true
 
   addFileForBackup: (filePath) ->
     if filePath not in @backupCache and not @skipFile filePath

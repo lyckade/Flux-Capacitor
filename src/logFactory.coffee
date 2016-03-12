@@ -3,4 +3,6 @@
 Log = require "./log"
 
 module.exports.makeLog = ->
-  new Log()
+  log = new Log()
+  log.debugModus = true
+  log
