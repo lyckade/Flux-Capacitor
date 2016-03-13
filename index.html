@@ -23,6 +23,11 @@
 			Dataflux = require("./lib/dataflux.js");
 			df = new Dataflux(srcFolder, dstFolder);
 			df.watch();
+			//ToDo Timout
+			/*setInterval ->
+			  flux.commit()
+			  console.log "commit called - set to #{flux.conf.autoCommitInterval.value}"
+			, 1000*/
 		</script>
 	</body>
 </html>
