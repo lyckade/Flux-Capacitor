@@ -21,7 +21,7 @@
 			fs = new FolderSync();
 			fs.sync(srcFolder,srcFolder, dstFolder);*/
 			Dataflux = require("./lib/dataflux.js");
-			df = new Dataflux(srcFolder, dstFolder);
+			df = new Dataflux(srcFolder, fluxFolder);
 			df.watch();
 			//ToDo Timout
 			/*setInterval ->

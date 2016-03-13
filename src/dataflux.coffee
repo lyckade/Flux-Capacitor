@@ -34,6 +34,11 @@ class Dataflux
     @options = _.defaults options, defaultOptions
     @ts.timestampElements = @options.timestamp.elements
     @ts.timestampSeparator = @options.timestamp.separator
+    @autoFlushIntervall = 1000
+    @autoFlush = ->
+      setInterval =>
+        @flushBackupCache()
+      , @autoFlushIntervall
 
   watch: =>
     @watcher.watchTree @srcFolder, (f, curr, prev) =>
@@ -56,7 +61,12 @@ class Dataflux
     for pattern in @options.skipFile.patterns
       if filePath.match pattern
         return true
+      else if @isDirectory filePath
+        return true
     return false
+
+  isDirectory: (filePath) ->
+    @fse.lstatSync(filePath).isDirectory()
 
   flushBackupCache: ->
     for filePath in @backupCache

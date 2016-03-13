@@ -33,6 +33,7 @@ describe "Dataflux", ->
         skipFile:
           patterns: [/skipMe/, /meToo/]
       df = new dataflux("src", "flux", options)
+      spyOn(df, "isDirectory").and.returnValue(false)
     it "should return true when the pattern matches", ->
       expect(df.skipFile "MyFolder/skipMe/file.txt").toBe(true)
       expect(df.skipFile "MyFolder/meToo/file.txt").toBe(true)
