@@ -61,8 +61,8 @@ class Dataflux
     for pattern in @options.skipFile.patterns
       if filePath.match pattern
         return true
-      else if @isDirectory filePath
-        return true
+    if @isDirectory filePath
+      return true
     return false
 
   isDirectory: (filePath) ->
