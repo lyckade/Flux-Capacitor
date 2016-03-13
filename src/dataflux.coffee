@@ -40,18 +40,16 @@ class Dataflux
         @flushBackupCache()
       , @autoFlushIntervall
 
-  watch: =>
-    @watcher.watchTree @srcFolder, (f, curr, prev) =>
-      if typeof f is "object" and prev is null and curr is null
-        @log.debug "Listeners for #{@srcFolder} tree are ready."
-      else if typeof f isnt "object" and prev is null
+  watch: ->
+    watcher.createMonitor @srcFolder, (monitor) ->
+      monitor.on "created", (f, stat) =>
         @log.debug "#{f} is new"
         @addFileForBackup f
-      else if typeof f isnt "object" and curr.nlink is null
-        @log.debug "#{f} was removed"
-      else if typeof f isnt "object" and curr isnt null and prev isnt null
+      monitor.on "changed", (f, curr, prev) =>
         @log.debug "#{f} has changed"
         @addFileForBackup f
+      monitor.on "removed", (f, stat) =>
+        @log.debug "#{f} was removed"
 
   addFileForBackup: (filePath) ->
     if filePath not in @backupCache and not @skipFile filePath
@@ -67,6 +65,7 @@ class Dataflux
 
   isDirectory: (filePath) ->
     @fse.lstatSync(filePath).isDirectory()
+
 
   flushBackupCache: ->
     for filePath in @backupCache
