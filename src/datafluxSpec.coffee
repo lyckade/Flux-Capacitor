@@ -41,7 +41,11 @@ describe "Dataflux", ->
       it "should return false when the pattern not matches", ->
         expect(df.skipFile "MyFolder/doNotSkip/file.txt").toBe(false)
     describe "directories", ->
-      xit "should not add directories", ->
+      it "should not add directories", ->
+        myDir = tmp.dirSync()
+        df = new dataflux()
+        expect(df.skipFile myDir.name).toBe(true)
+        myDir.removeCallback()
 
   describe "flushBackupCache", ->
     it "should copy the files in the cache and empty it afterwards", ->
