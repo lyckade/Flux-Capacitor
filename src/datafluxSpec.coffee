@@ -27,18 +27,21 @@ describe "Dataflux", ->
         expect(df.addTimestamp file1.name).toBe(newFilename)
 
   describe "skipFile", ->
-    df = null
-    beforeEach ->
-      options =
-        skipFile:
-          patterns: [/skipMe/, /meToo/]
-      df = new dataflux("src", "flux", options)
-      spyOn(df, "isDirectory").and.returnValue(false)
-    it "should return true when the pattern matches", ->
-      expect(df.skipFile "MyFolder/skipMe/file.txt").toBe(true)
-      expect(df.skipFile "MyFolder/meToo/file.txt").toBe(true)
-    it "should return false when the pattern not matches", ->
-      expect(df.skipFile "MyFolder/doNotSkip/file.txt").toBe(false)
+    describe "file actions", ->
+      df = null
+      beforeEach ->
+        options =
+          skipFile:
+            patterns: [/skipMe/, /meToo/]
+        df = new dataflux("src", "flux", options)
+        spyOn(df, "isDirectory").and.returnValue(false)
+      it "should return true when the pattern matches", ->
+        expect(df.skipFile "MyFolder/skipMe/file.txt").toBe(true)
+        expect(df.skipFile "MyFolder/meToo/file.txt").toBe(true)
+      it "should return false when the pattern not matches", ->
+        expect(df.skipFile "MyFolder/doNotSkip/file.txt").toBe(false)
+    describe "directories", ->
+      xit "should not add directories", ->
 
   describe "flushBackupCache", ->
     it "should copy the files in the cache and empty it afterwards", ->
