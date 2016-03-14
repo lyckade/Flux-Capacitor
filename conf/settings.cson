@@ -1,0 +1,18 @@
+###
+Configuration file
+###
+autoCommitInterval:
+  value: 10000
+  short: "Interval in ms for the automatic commit"
+defaultLocale:
+  value: "en"
+  short: "The default language for the output"
+debugLevel:
+  value: 7
+  short: "Defines what messages should be logged"
+fluxDataDefaultDir:
+  value: "000_Dataflux"
+  short: "Default folder inside the flux for the dataflux."
+fluxDefaultDir:
+  value: "000_Flux"
+  short: "Default folder, if no folder for the flux is set."

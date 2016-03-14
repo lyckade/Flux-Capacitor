@@ -7,6 +7,7 @@ _ = require "underscore"
 log = require "./logFactory"
 timestamp = require "./timestamp"
 pathHelper = require "./path-helper"
+conf = require "./confFactory"
 
 
 module.exports =
@@ -18,6 +19,9 @@ class Dataflux
     @watcher = watch
     @backupCache = []
     @log = log.makeLog()
+    @conf = conf.makeConf()
+    @settings = @conf.load "settings"
+    #data = @conf.load "settings"
     defaultOptions =
       skipFile:
         patterns: []
