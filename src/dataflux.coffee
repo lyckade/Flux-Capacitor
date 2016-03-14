@@ -34,14 +34,16 @@ class Dataflux
     @options = _.defaults options, defaultOptions
     @ts.timestampElements = @options.timestamp.elements
     @ts.timestampSeparator = @options.timestamp.separator
-    @autoFlushIntervall = 1000
-    @autoFlush = ->
-      setInterval =>
-        @flushBackupCache()
-      , @autoFlushIntervall
+    @autoFlushIntervall = 20000
+  autoFlush: ->
+    @log.debug "autoFlush method called"
+    setInterval =>
+      @log.debug "Call flushBackupCache()"
+      @flushBackupCache()
+    , @autoFlushIntervall
 
   watch: ->
-    watcher.createMonitor @srcFolder, (monitor) ->
+    @watcher.createMonitor @srcFolder, (monitor) =>
       monitor.on "created", (f, stat) =>
         @log.debug "#{f} is new"
         @addFileForBackup f
