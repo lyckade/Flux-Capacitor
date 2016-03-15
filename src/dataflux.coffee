@@ -4,6 +4,7 @@ fse = require "fs-extra"
 watch = require "watch"
 _ = require "underscore"
 
+fileExists = require "./fileexists"
 log = require "./logFactory"
 timestamp = require "./timestamp"
 pathHelper = require "./path-helper"
@@ -19,12 +20,11 @@ class Dataflux
     @watcher = watch
     @backupCache = []
     @log = log.makeLog()
-    @conf = conf.makeConf()
-    @settings = @conf.load "settings"
-    #data = @conf.load "settings"
+    @fileExists = fileExists
     defaultOptions =
       skipFile:
         patterns: []
+      autoFlushInterval: 10000
       timestamp:
         elements: [
           "yyyy"  # Year as 2015
@@ -38,13 +38,13 @@ class Dataflux
     @options = _.defaults options, defaultOptions
     @ts.timestampElements = @options.timestamp.elements
     @ts.timestampSeparator = @options.timestamp.separator
-    @autoFlushIntervall = 20000
+
   autoFlush: ->
     @log.debug "autoFlush method called"
     setInterval =>
       @log.debug "Call flushBackupCache()"
       @flushBackupCache()
-    , @autoFlushIntervall
+    , @options.autoFlushInterval
 
   watch: ->
     @watcher.createMonitor @srcFolder, (monitor) =>
@@ -72,7 +72,6 @@ class Dataflux
   isDirectory: (filePath) ->
     @fse.lstatSync(filePath).isDirectory()
 
-
   flushBackupCache: ->
     for filePath in @backupCache
       @copyFileVersion filePath
@@ -80,9 +79,12 @@ class Dataflux
     @backupCache = []
 
   copyFileVersion: (filePath) ->
-    fluxPath = @makeFluxPath filePath
-    @fse.copySync(filePath, fluxPath)
-    @log.log "#{filePath} copied to #{fluxPath}"
+    if @fileExists filePath
+      fluxPath = @makeFluxPath filePath
+      @fse.copySync(filePath, fluxPath)
+      @log.log "#{filePath} copied to #{fluxPath}"
+    else
+      @log.notice "#{filePath} does not exist anymore"
 
   makeFluxPath: (filePath) ->
     @path.makePath @srcFolder, @dataFluxFolder, @addTimestamp filePath

@@ -1,18 +1,18 @@
 ###
 Configuration file
 ###
-autoCommitInterval:
+autoFlushInterval:
   value: 10000
-  short: "Interval in ms for the automatic commit"
+  short: "Interval in ms for the automatic flush of the dataflux cache."
 defaultLocale:
   value: "en"
   short: "The default language for the output"
 debugModus:
   value: true
   short: "The debug modus logs more information"
-debugLevel:
-  value: 7
-  short: "Defines what messages should be logged"
+logFile:
+  value: "log.txt"
+  short: "Writes the log messages into that file"
 fluxDataDefaultDir:
   value: "000_Dataflux"
   short: "Default folder inside the flux for the dataflux."

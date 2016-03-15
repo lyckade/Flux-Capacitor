@@ -23,6 +23,7 @@
 			Dataflux = require("./lib/dataflux.js");
 			df = new Dataflux(srcFolder, fluxFolder);
 			df.watch();
+			//df.autoFlush();
 			//ToDo Timout
 			/*setInterval ->
 			  flux.commit()
