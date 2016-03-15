@@ -18,6 +18,18 @@ class Log extends EventEmitter
     # callbacks are called via callback(txt)
     @callbacks = [@consoleCallback]
 
+  error: (txt) ->
+    @log txt, "ERROR"
+
+  warning: (txt) ->
+    @log txt, "WARNING"
+
+  notice: (txt) ->
+    @log txt, "NOTICE"
+
+  info: (txt) ->
+    @log txt, "INFO"
+
   debug: (txt) ->
     if @debugModus
       @log txt, "DEBUG"
