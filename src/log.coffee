@@ -1,9 +1,10 @@
 # out: ../lib/log.js
 
+{EventEmitter} = require "events"
 dateformat = require "dateformat"
 
 module.exports =
-class Log
+class Log extends EventEmitter
 
   constructor: (options = {}) ->
     @separator = "|"
@@ -14,7 +15,7 @@ class Log
     @dateformat = dateformat
     @dateformat.masks.log = "yyyy.mm.dd HH:MM:ss"
 
-    # A callback is just called via callback txt
+    # callbacks are called via callback(txt)
     @callbacks = [@consoleCallback]
 
   debug: (txt) ->
@@ -24,8 +25,10 @@ class Log
 
   log: (txt, type="INFO") ->
     return null if @noLog
+    logLine = @makeLogLine txt, type
     for cb in @callbacks
-      cb @makeLogLine txt, type
+      cb logLine
+    @emit type, logLine
 
   makeLogLine: (txt, type="INFO") ->
     [@makeDateString(new Date), type, "#{@prefix}#{txt}"].join(@separator)

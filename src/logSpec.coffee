@@ -30,3 +30,31 @@ describe "Log", ->
     log.noLog = true
     log.log "Test"
     expect(spy1).not.toHaveBeenCalled()
+
+describe "Asynch Log Events", ->
+  spy1 = null
+  spy2 = null
+  beforeEach (done) ->
+    baseTime = new Date 2016, 1, 29, 11, 55, 0
+    jasmine.clock().mockDate baseTime
+    log = new Log()
+    log.callbacks = []
+    spy1 = jasmine.createSpy "spy1"
+    spy2 = jasmine.createSpy "spy2"
+    log.addListener "INFO", spy1
+    log.addListener "DEBUG", spy1
+    log.addListener "DEBUG", spy2
+    done()
+
+  it "should fire an event with the logtype info with one listener", (done) ->
+    log.log "Test"
+    expect(spy1).toHaveBeenCalledWith("2016.02.29 11:55:00|INFO|Test")
+    expect(spy2).not.toHaveBeenCalled()
+    done()
+
+  it "should fire an event with the logtype debug with 2 listeners", (done) ->
+    log.debugModus = true
+    log.debug "Test"
+    expect(spy1).toHaveBeenCalledWith("2016.02.29 11:55:00|DEBUG|Test")
+    expect(spy2).toHaveBeenCalled()
+    done()
