@@ -13,6 +13,12 @@ debugModus:
 logFile:
   value: "log.txt"
   short: "Writes the log messages into that file"
+  logModus: [
+    "DEBUG"
+    "INFO"
+    "NOTICE"
+    "WARNING"
+    "ERROR"]
 fluxDataDefaultDir:
   value: "000_Dataflux"
   short: "Default folder inside the flux for the dataflux."
