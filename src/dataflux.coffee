@@ -8,8 +8,6 @@ fileExists = require "./fileexists"
 log = require "./logFactory"
 timestamp = require "./timestamp"
 pathHelper = require "./path-helper"
-conf = require "./confFactory"
-
 
 module.exports =
 class Dataflux

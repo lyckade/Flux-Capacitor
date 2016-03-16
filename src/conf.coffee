@@ -1,9 +1,10 @@
 # out: ../lib/conf.js
 
+{EventEmitter} = require "events"
 CSON = require "season"
 
 module.exports =
-class Conf
+class Conf extends EventEmitter
 
   constructor: ->
     @CSON = CSON
@@ -13,10 +14,12 @@ class Conf
   reload: ->
     for confFileName in @confFiles
       @loadFile confFileName
+    @refreshCallback()
 
   load: (confFileName) ->
     @addFile confFileName
     @loadFile confFileName
+    @refreshCallback()
 
   addFile: (confFileName) ->
     if confFileName not in @confFiles
@@ -24,6 +27,9 @@ class Conf
 
   loadFile: (confFileName) ->
     @[confFileName] = @CSON.readFileSync @makeFilePath confFileName
+
+  refreshCallback: ->
+    @emit "loaded"
 
   write: (confFileName, dataObj) ->
     @CSON.writeFileSync @makeFilePath confFileName, dataObj
