@@ -67,6 +67,7 @@ describe "Dataflux", ->
       df = new dataflux srcFolder, fluxFolder
       df.log.noLog = true
       df.fse = jasmine.createSpyObj "fse", ["copySync"]
+      df.fileExists = -> return true
       df.addTimestamp = (filePath) -> filePath
       df.copyFileVersion myFile
       expect(df.fse.copySync).toHaveBeenCalledWith(myFile, fluxFile)
