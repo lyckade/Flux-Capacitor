@@ -19,6 +19,13 @@ logFile:
     "NOTICE"
     "WARNING"
     "ERROR"]
+logGuiModus:
+  value: [
+    "INFO"
+    "NOTICE"
+    "WARNING"
+    "ERROR"]
+
 fluxDataDefaultDir:
   value: "000_Dataflux"
   short: "Default folder inside the flux for the dataflux."
