@@ -1,6 +1,8 @@
 # out: ../lib/confFactory.js
 
-Conf = require "./conf"
-
 module.exports.makeConf = ->
-  new Conf()
+  # Singelton pattern over global var
+  if global.conf is undefined
+    Conf = require "./conf"
+    global.conf = new Conf()
+  global.conf
