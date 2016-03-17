@@ -3,13 +3,30 @@
 <head>
     <meta charset="utf-8">
     <title>Flux-Capacitor</title>
-
+    <link rel="stylesheet" href="../node_modules/angular-material/angular-material.css">
     <link rel="stylesheet" href="./css/style.css">
     </script>
 </head>
 <body layout="column" ng-app="flux-capacitor">
   <h1>Flux Capacitor</h1>
-<div ng-controller="LogController as log">
+<div ng-controller="LogController as log" layout="column" ng-cloak>
+
+    <md-toolbar class="md-warn">
+      <div class="md-toolbar-tools">
+        <h2 class="md-flex">System messages</h2>
+      </div>
+    </md-toolbar>
+    <md-content flex layout-padding>
+      <md-list class="md-dense" flex>
+        <md-list-item ng-repeat="item in log.logs">
+          <div class="md-list-item-text">{{item}}</div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>
+
+
+
   <ul>
     <li ng-repeat="item in log.logs">{{item}}</li>
   </ul>
@@ -17,6 +34,9 @@
 
   <script type="text/javascript">
     require('angular');
+    require('angular-aria');
+    require('angular-animate');
+    require('angular-material');
     //require("../lib/fadab.js");
   </script>
     <script src="../lib/controller.main.js" type="text/javascript" charset="utf-8">

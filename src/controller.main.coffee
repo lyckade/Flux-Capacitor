@@ -5,10 +5,7 @@ log = logFactory.makeLog()
 Conf = require "../lib/confFactory"
 conf = Conf.makeConf()
 
-
-
-
-app = angular.module "flux-capacitor", []
+app = angular.module "flux-capacitor", ['ngMaterial']
 
 app.controller "LogController", ($scope) ->
   $scope.logs = ["Test"]
