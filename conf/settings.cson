@@ -21,6 +21,7 @@ logFile:
     "ERROR"]
 logGuiModus:
   value: [
+    "DEBUG"
     "INFO"
     "NOTICE"
     "WARNING"
