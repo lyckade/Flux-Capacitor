@@ -15,15 +15,15 @@
   <md-sidenav class="md-whiteframe-z2">
 
       </md-sidenav>
-      <md-content flex id="content">
+      <md-content flex id="content" class="md-whiteframe-z2">
       <h2>Test</h2>
       <div ng-controller="DatafluxController as df">
+<div ng-repeat="item in df.folders" class="gray" layout-wrap>
+  Src:{{item.src}}<br>
+  Flux:{{item.flux}}
+</div>
 
-          <div ng-repeat="item in df.folders">Src:{{item.src}}<br>
-          Flux:{{item.flux}}
-          <md-divider ng-if="!$last"></md-divider>
-        </div>
-
+        <md-button class="md-raised">Add Dataflux</md-button>
       </div>
     </md-content>
 </div>
@@ -35,12 +35,10 @@
       </div>
     </md-toolbar>
     <md-content flex layout-padding>
-      <md-list class="md-dense" flex>
-        <md-list-item ng-repeat="item in log.logs">
-          <div class="md-list-item-text md-caption">{{item}}</div>
+        <div ng-repeat="item in log.logs" class="md-caption">
+          {{item}}
           <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-      </md-list>
+        </div>
     </md-content>
 </div>
 

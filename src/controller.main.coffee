@@ -38,6 +38,6 @@ conf.load "folders"
 for f in conf.folders
   datafluxes[f.src] = new Dataflux f.src, f.flux
   datafluxes[f.src].watch()
-  datafluxes[f.src].autoFlush()
+  #datafluxes[f.src].autoFlush()
 #df.watch()
 #df.autoFlush()
