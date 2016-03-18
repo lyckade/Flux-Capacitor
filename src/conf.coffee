@@ -31,8 +31,8 @@ class Conf extends EventEmitter
   refreshCallback: ->
     @emit "loaded"
 
-  write: (confFileName, dataObj) ->
-    @CSON.writeFileSync @makeFilePath confFileName, dataObj
+  write: (confFileName) ->
+    @CSON.writeFileSync @makeFilePath(confFileName), @[confFileName]
 
   makeFilePath: (confFileName) ->
     "./conf/#{confFileName}#{@suffix}"

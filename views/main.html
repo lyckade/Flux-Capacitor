@@ -23,7 +23,8 @@
   Flux:{{item.flux}}
 </div>
 
-        <md-button class="md-raised">Add Dataflux</md-button>
+
+        <md-button class="md-raised" ng-click="df.addDataflux()">Add Dataflux</md-button>
       </div>
     </md-content>
 </div>
@@ -48,6 +49,7 @@
     require('angular-aria');
     require('angular-animate');
     require('angular-material');
+
     //require("../lib/fadab.js");
   </script>
     <script src="../lib/controller.main.js" type="text/javascript" charset="utf-8">

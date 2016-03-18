@@ -8,7 +8,9 @@ Dataflux = require "../lib/dataflux"
 
 app = angular.module "flux-capacitor", ['ngMaterial']
 
-
+path = require "path"
+remote = require "remote"
+dialog = remote.require "dialog"
 
 app.config ($mdThemingProvider) ->
   $mdThemingProvider.theme('default')
@@ -20,6 +22,11 @@ app.controller "DatafluxController", ($scope) ->
   conf.addListener "loaded", ->
     $scope.folders = conf.folders
     #$scope.$apply()
+  $scope.addDataflux = ->
+    log.notice "addDataflux"
+    dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
+      f = files[0]
+      conf.folders.push {src: f, flux: path.join f, "flux"}
 
   $scope
 
@@ -29,7 +36,8 @@ app.controller "LogController", ($scope) ->
     for m in conf.settings.logGuiModus.value
       log.addListener m, (txt) ->
         $scope.logs.unshift "#{$scope.logs.length}:#{txt}"
-        $scope.$apply()
+        console.log $scope
+        #$scope.$apply()
   conf.load "settings"
   $scope
 

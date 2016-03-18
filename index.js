@@ -22,6 +22,7 @@ function createMainWindow() {
 		width: 1200,
 		height: 900
 	});
+	
 	//require("coffee-script").register();
 	win.loadURL(`file://${__dirname}/views/main.html`);
 	win.on('closed', onClosed);
