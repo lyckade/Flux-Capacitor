@@ -47,6 +47,19 @@ describe "Dataflux", ->
         expect(df.skipFile myDir.name).toBe(true)
         myDir.removeCallback()
 
+    describe "flux files", ->
+      it "should check if a file is from the flux folder", ->
+        myDir = tmp.dirSync()
+        fluxFolder = path.join myDir.name, "flux"
+        fluxFile = path.join fluxFolder, "fluxFile.txt"
+        noFluxFile = path.join myDir.name, "myFolder", "myFile.txt"
+        df = new dataflux(myDir.name, fluxFolder)
+        expect(df.isFluxFile fluxFile).toBe(true)
+        expect(df.isFluxFile noFluxFile).toBe(false)
+        myDir.removeCallback()
+
+      it "should not copy files from the fluxFolder", ->
+
   describe "flushBackupCache", ->
     it "should copy the files in the cache and empty it afterwards", ->
       df = new dataflux("src", "flux")

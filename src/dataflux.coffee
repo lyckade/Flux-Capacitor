@@ -65,7 +65,16 @@ class Dataflux
         return true
     if @isDirectory filePath
       return true
+    else if @isFluxFile filePath
+      return true
     return false
+
+  isFluxFile: (filePath) ->
+    rel = @path.relative @dataFluxFolder, filePath
+    if rel[0...2] is ".."
+      return false
+    else
+      return true
 
   isDirectory: (filePath) ->
     @fse.lstatSync(filePath).isDirectory()
@@ -77,7 +86,9 @@ class Dataflux
     @backupCache = []
 
   copyFileVersion: (filePath) ->
-    if @fileExists filePath
+    if @isFluxFile filePath
+      throw new Error "#{filePath} is part of the FluxFolder"
+    else if @fileExists filePath
       fluxPath = @makeFluxPath filePath
       @fse.copySync(filePath, fluxPath)
       @log.log "#{filePath} copied to #{fluxPath}"
