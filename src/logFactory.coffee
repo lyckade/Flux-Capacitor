@@ -23,7 +23,6 @@ refreshSettings = ->
   if conf.settings.logFile.value isnt "" and conf.settings.logFile.logModus.length > 0
     for m in conf.settings.logFile.logModus
       global.log.addListener m, writeLog
-  global.log.debug "Log settings loaded"
 
 writeLog = (txt) ->
   fse.appendFile conf.settings.logFile.value, "#{txt}\n", (err) ->

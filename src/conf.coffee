@@ -2,6 +2,7 @@
 
 {EventEmitter} = require "events"
 CSON = require "season"
+_ = require "underscore"
 
 module.exports =
 class Conf extends EventEmitter
@@ -31,8 +32,16 @@ class Conf extends EventEmitter
   refreshCallback: ->
     @emit "loaded"
 
-  write: (confFileName) ->
-    @CSON.writeFileSync @makeFilePath(confFileName), @[confFileName]
+  write: (confFileName, confObj) ->
+    if confObj is undefined
+      confObj = @[confFileName]
+    @CSON.writeFileSync @makeFilePath(confFileName), confObj
+
+  removeHashKeyFromArray: (confArray) ->
+    outArray = []
+    for item in confArray
+      outArray.push(_.omit item, "$$hashKey")
+    outArray
 
   makeFilePath: (confFileName) ->
     "./conf/#{confFileName}#{@suffix}"

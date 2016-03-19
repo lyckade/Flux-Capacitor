@@ -2,12 +2,17 @@
   {
     src: "C:\\Users\\Schroepfer\\test\\src"
     flux: "C:\\Users\\Schroepfer\\test\\flux"
-    $$hashKey: "object:6"
   }
   {
     src: "C:\\Users\\Schroepfer\\test\\src2"
     flux: "C:\\Users\\Schroepfer\\test\\flux2"
-    $$hashKey: "object:7"
   }
-
+  {
+    src: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\balanced-match"
+    flux: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\balanced-match\\flux"
+  }
+  {
+    src: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\brace-expansion"
+    flux: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\brace-expansion\\flux"
+  }
 ]

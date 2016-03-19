@@ -24,3 +24,10 @@ describe "Conf Class", ->
     expect(conf.loadFile.calls.allArgs()).toEqual([["test1"], ["test2"]])
     expect(conf.refreshCallback).toHaveBeenCalled()
     done()
+
+  it "should remove the $$hashKey from Angular", ->
+    conf["test"] = [
+      {a: 1, $$hashKey: "Obj1"},
+      {a: 2, $$hashKey: "Obj2"}
+    ]
+    expect(conf.removeHashKeyFromArray(conf["test"])).toEqual([{a: 1}, {a: 2}])

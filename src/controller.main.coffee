@@ -26,7 +26,11 @@ app.controller "DatafluxController", ($scope) ->
     log.notice "addDataflux"
     dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
       f = files[0]
-      conf.folders.push {src: f, flux: path.join f, "flux"}
+      $scope.folders.push {src: f, flux: path.join f, "flux"}
+      conf.folders = $scope.folders
+      conf.write("folders", conf.removeHashKeyFromArray conf.folders)
+      $scope.$apply()
+
 
   $scope
 
