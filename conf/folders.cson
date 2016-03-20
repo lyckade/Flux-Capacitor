@@ -5,14 +5,6 @@
   }
   {
     src: "C:\\Users\\Schroepfer\\test\\src2"
-    flux: "C:\\Users\\Schroepfer\\test\\flux2"
-  }
-  {
-    src: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\balanced-match"
-    flux: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\balanced-match\\flux"
-  }
-  {
-    src: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\brace-expansion"
-    flux: "C:\\Users\\Schroepfer\\Desktop\\Test\\node_modules\\brace-expansion\\flux"
+    flux: "C:\\Users\\Schroepfer\\test\\src2\\000_Flux"
   }
 ]

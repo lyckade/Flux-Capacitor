@@ -26,12 +26,10 @@ app.controller "DatafluxController", ($scope) ->
     log.notice "addDataflux"
     dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
       f = files[0]
-      $scope.folders.push {src: f, flux: path.join f, "flux"}
+      $scope.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
       conf.folders = $scope.folders
       conf.write("folders", conf.removeHashKeyFromArray conf.folders)
       $scope.$apply()
-
-
   $scope
 
 app.controller "LogController", ($scope) ->
@@ -40,8 +38,7 @@ app.controller "LogController", ($scope) ->
     for m in conf.settings.logGuiModus.value
       log.addListener m, (txt) ->
         $scope.logs.unshift "#{$scope.logs.length}:#{txt}"
-        console.log $scope
-        #$scope.$apply()
+        $scope.$apply()
   conf.load "settings"
   $scope
 
@@ -50,6 +47,6 @@ conf.load "folders"
 for f in conf.folders
   datafluxes[f.src] = new Dataflux f.src, f.flux
   datafluxes[f.src].watch()
-  #datafluxes[f.src].autoFlush()
+  datafluxes[f.src].autoFlush()
 #df.watch()
 #df.autoFlush()
