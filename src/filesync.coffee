@@ -2,6 +2,7 @@
 
 fileExists = require "./fileexists"
 FileCompare = require "./filecompare"
+log = require "./logFactory"
 fs = require "fs-extra"
 _ = require "underscore"
 
@@ -9,6 +10,7 @@ module.exports =
 class FileSync
 
   constructor: (options = {}) ->
+    @log = log.makeLog()
     @fileExists = fileExists
     defaultOptions =
       justBackup: false   #Backup syncs just from src to destination
@@ -40,7 +42,7 @@ class FileSync
     if not @doNotCopy srcFile, dstFile
       try
         fs.copySync srcFile, dstFile, @options.copyOptions
-        #console.log "#{srcFiles} has been copied"
+        @log.debug "Filesync: #{srcFile} copied to #{dstFile}"
       catch error
         throw error
 

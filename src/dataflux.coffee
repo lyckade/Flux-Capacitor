@@ -98,8 +98,11 @@ class Dataflux
       throw new Error "#{filePath} is part of the FluxFolder"
     else if @fileExists filePath
       fluxPath = @makeFluxPath filePath
-      @fse.copySync(filePath, fluxPath)
-      @log.log "#{filePath} copied to #{fluxPath}"
+      if not @fileExists fluxPath
+        @fse.copySync(filePath, fluxPath)
+        @log.debug "Dataflux: #{filePath} copied to #{fluxPath}"
+      else
+        @log.debug "Dataflux: #{fluxPath} exists"
     else
       @log.notice "#{filePath} does not exist anymore"
 
