@@ -23,7 +23,6 @@ app.controller "DatafluxController", ($scope) ->
     $scope.folders = conf.folders
     #$scope.$apply()
   $scope.addDataflux = ->
-    log.notice "addDataflux"
     dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
       f = files[0]
       $scope.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
@@ -46,6 +45,7 @@ datafluxes = {}
 conf.load "folders"
 for f in conf.folders
   datafluxes[f.src] = new Dataflux f.src, f.flux
+  datafluxes[f.src].walk()
   datafluxes[f.src].watch()
   datafluxes[f.src].autoFlush()
 #df.watch()

@@ -44,8 +44,16 @@ class Dataflux
       @flushBackupCache()
     , @options.autoFlushInterval
 
+  walk: =>
+    @fse.walk(@srcFolder)
+    .on("data", (item) =>
+      @addFileForBackup item.path)
+
   watch: ->
-    @watcher.createMonitor @srcFolder, (monitor) =>
+    options =
+      filer: @isFluxFile
+      ignoreDirectoryPattern: RegExp @dataFluxFolder
+    @watcher.createMonitor @srcFolder, options, (monitor) =>
       monitor.on "created", (f, stat) =>
         @log.debug "#{f} is new"
         @addFileForBackup f
