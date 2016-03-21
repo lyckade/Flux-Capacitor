@@ -6,12 +6,31 @@ Conf = require "../lib/confFactory"
 conf = Conf.makeConf()
 Dataflux = require "../lib/dataflux"
 
-app = angular.module "flux-capacitor", ['ngMaterial']
-
 path = require "path"
 remote = require "remote"
 dialog = remote.require "dialog"
 
+
+
+conf.load "folders"
+#log.addListener "a", (txt) ->
+
+vueFolders = Vue.extend({
+  template: 'T:<ul><li v-for="f in folders">{{f.src}}</li></ul>'
+  data: ->
+    folders: conf.folders
+  })
+
+Vue.component "folders", vueFolders
+
+new Vue({
+  el: '#fluxcapacitor',
+  data: {
+    folders: conf.folders
+  }
+})
+
+###
 app.config ($mdThemingProvider) ->
   $mdThemingProvider.theme('default')
   .primaryPalette('light-green')
@@ -50,3 +69,4 @@ for f in conf.folders
   datafluxes[f.src].autoFlush()
 #df.watch()
 #df.autoFlush()
+###
