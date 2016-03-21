@@ -25,9 +25,7 @@ Vue.component "folders", vueFolders
 
 new Vue({
   el: '#fluxcapacitor',
-  data: {
-    folders: conf.folders
-  }
+  
 })
 
 ###
