@@ -16,16 +16,25 @@ conf.load "folders"
 #log.addListener "a", (txt) ->
 
 vueFolders = Vue.extend({
-  template: 'T:<ul><li v-for="f in folders">{{f.src}}</li></ul>'
+  template: '<ul>
+  <li v-for="f in folders">{{f.src}}</li>
+  </ul>
+  <button v-on:click="addFolder">Add Folder</button>'
   data: ->
     folders: conf.folders
+  methods:
+    addFolder: ->
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
+        f = files[0]
+        conf.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
+        conf.write "folders"
   })
 
 Vue.component "folders", vueFolders
 
 new Vue({
   el: '#fluxcapacitor',
-  
+
 })
 
 ###
