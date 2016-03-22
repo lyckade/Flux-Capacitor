@@ -10,16 +10,14 @@ path = require "path"
 remote = require "remote"
 dialog = remote.require "dialog"
 
-
+class MainController
+  constructor:
+    @log = logFactory.makeLog()
 
 conf.load "folders"
-#log.addListener "a", (txt) ->
 
 vueFolders = Vue.extend({
-  template: '<ul>
-  <li v-for="f in folders">{{f.src}}</li>
-  </ul>
-  <button v-on:click="addFolder">Add Folder</button>'
+  template: '#datafluxes-template'
   data: ->
     folders: conf.folders
   methods:
@@ -30,12 +28,26 @@ vueFolders = Vue.extend({
         conf.write "folders"
   })
 
+vueLogs = Vue.extend({
+  template: '#logs-template'
+  data: ->
+    myLogs = []
+    conf.addListener "loaded", =>
+      for m in conf.settings.logGuiModus.value
+        log.addListener m, (txt) =>
+          myLogs.unshift "#{myLogs.length+1}: #{txt}"
+          this.logs = myLogs
+    conf.load "settings"
+    logs: myLogs
+  })
+
 Vue.component "folders", vueFolders
+Vue.component "logs", vueLogs
 
-new Vue({
+vm = new Vue({
   el: '#fluxcapacitor',
-
 })
+
 
 ###
 app.config ($mdThemingProvider) ->

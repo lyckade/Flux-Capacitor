@@ -7,6 +7,17 @@
     <script type="text/javascript">
       Vue = require('vue');
     </script>
+    <script type="text/x-template" id="logs-template">
+      <ul>
+        <li v-for="l in logs">{{l}}</li>
+      </ul>
+    </script>
+    <script type="text/x-template" id="datafluxes-template">
+    <ul>
+    <li v-for="f in folders">{{f.src}}</li>
+    </ul>
+    <button v-on:click="addFolder">Add Folder</button>
+    </script>
 
 </head>
 <body>
@@ -14,7 +25,7 @@
     <div id="top">Flux Capacitor</div>
   <div id="content">
       <folders></folders>
-    
+      <logs></logs>
   </div>
   <div id="logwrapper"></div>
 </div>
