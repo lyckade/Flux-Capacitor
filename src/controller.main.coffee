@@ -10,10 +10,11 @@ path = require "path"
 remote = require "remote"
 dialog = remote.require "dialog"
 
+
 class MainController
   constructor: ->
     @log = logFactory.makeLog()
-    @GUILogs = []
+    @GUILogs = ["Test","Test"]
     @conf = Conf.makeConf()
     conf.load "settings"
     conf.load "folders"
@@ -30,6 +31,7 @@ c = new MainController()
 for mode in conf.settings.logGuiModus.value
   c.log.addListener mode, (txt) ->
     c.addLog "#{c.GUILogs.length+1}: #{txt}"
+
 
 
 vueFolders = Vue.extend({

@@ -14,8 +14,8 @@
       <button v-on:click="clearLog">Clear Log</button>
     </script>
     <script type="text/x-template" id="datafluxes-template">
-    <ul>
-    <li v-for="f in folders">{{f.src}}</li>
+    <ul id="datafluxes">
+    <li v-for="f in folders"><div>{{f.src}}</a></li>
     </ul>
     <button v-on:click="addFolder">Add Folder</button>
     </script>

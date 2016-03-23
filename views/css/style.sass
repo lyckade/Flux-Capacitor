@@ -12,14 +12,17 @@ $accent3: $color3
 $accent4: $color4
 $accent5: $color5 // to dark
 
+$linecolor: $color6
 
 $font-color-dark: $color1
 $font-color-light: $color6
 $bg-color-dark: $color4
 $bg-color-light: $color6
 
-
 $font-stack: Helvetica, sans-serif
+
+$gradient1: linear-gradient(to top left, $bg-color-light, #FFF)
+$gradient2: linear-gradient(to bottom right, $bg-color-light, #FFF)
 
 body
   font: 100% $font-stack
@@ -36,6 +39,21 @@ body
   font-size: 120%
 
 #content
-  background-image: linear-gradient(to top left, $bg-color-light, #FFF)
+  background-image: $gradient1
   height: 700px
-  border: 1px solid black
+
+ul
+  list-style: none
+  padding: 0
+
+li
+
+
+#datafluxes
+  li
+    padding: 0.25em 5px
+    background-image: $gradient1
+    border: 1px solid $linecolor
+
+  li:hover
+    background-image: $gradient2
