@@ -37,7 +37,6 @@
     "fs-extra": "^0.26.3",
     "season": "^5.3.0",
     "underscore": "^1.8.3",
-    "vue": "^1.0.18",
     "walk": "^2.3.9",
     "watch": "^0.17.1"
   },
@@ -45,6 +44,7 @@
     "electron-packager": "^5.0.0",
     "electron-prebuilt": "^0.36.0",
     "grunt": "^0.4.5",
+    "grunt-jasmine-nodejs": "^1.5.1",
     "tmp": "0.0.28",
     "xo": "^0.12.0"
   },
