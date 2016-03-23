@@ -13,21 +13,24 @@ dialog = remote.require "dialog"
 class MainController
   constructor: ->
     @log = logFactory.makeLog()
-    @GUIlogs = []
+    @GUILogs = []
     @conf = Conf.makeConf()
     conf.load "settings"
-    for mode in conf.settings.logGuiModus.value
-      @log.addListener mode, (txt) ->
-        console.log "ccc:#{txt}"
-
     conf.load "folders"
 
-  addLog: (txt) ->
+  addLog: (txt) =>
     @GUILogs.unshift txt
-    console.log "addLog"
+
+  clearLog: =>
+    @GUILogs = []
 
 #conf.load "folders"
 c = new MainController()
+
+for mode in conf.settings.logGuiModus.value
+  c.log.addListener mode, (txt) ->
+    c.addLog "#{c.GUILogs.length+1}: #{txt}"
+
 
 vueFolders = Vue.extend({
   template: '#datafluxes-template'
@@ -44,7 +47,11 @@ vueFolders = Vue.extend({
 vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
-    logs: c.GUIlogs
+    logs: c.GUILogs
+  methods:
+    clearLog: ->
+      c.clearLog()
+      this.logs = c.GUILogs
   })
 
 Vue.component "folders", vueFolders
