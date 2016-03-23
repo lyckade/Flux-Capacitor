@@ -10,8 +10,8 @@ module.exports.makeLog = ->
   if global.log is undefined
     global.log = new Log()
     refreshSettings()
-  conf.addListener "loaded", ->
-    refreshSettings()
+    conf.addListener "loaded", ->
+      refreshSettings()
   global.log
 
 refreshSettings = ->
