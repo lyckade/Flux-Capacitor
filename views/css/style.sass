@@ -1,0 +1,41 @@
+
+$color1: #50514f; //rgba(80, 81, 79, 100)
+$color2: #f25f5c; //rgba(242, 95, 92, 100)
+$color3: #ffe066; //rgba(255, 224, 102, 100)
+$color4: #247ba0; //rgba(36, 123, 160, 100)
+$color5: #70c1b3; //rgba(112, 193, 179, 100)
+$color6: #DCDDD7
+
+$accent1: $color1  // From light
+$accent2: $color2
+$accent3: $color3
+$accent4: $color4
+$accent5: $color5 // to dark
+
+
+$font-color-dark: $color1
+$font-color-light: $color6
+$bg-color-dark: $color4
+$bg-color-light: $color6
+
+
+$font-stack: Helvetica, sans-serif
+
+body
+  font: 100% $font-stack
+  color: $font-color-dark
+  background-color: $accent1
+  padding: 0
+  margin: 0
+
+#top
+  //background-image: linear-gradient(to top right, $accent1, $accent4)
+  color: $font-color-light
+  font-weight: lighter
+  padding-top: 1em
+  font-size: 120%
+
+#content
+  background-image: linear-gradient(to top left, $bg-color-light, #FFF)
+  height: 700px
+  border: 1px solid black

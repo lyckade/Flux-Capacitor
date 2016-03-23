@@ -1,8 +1,8 @@
 # out: ../lib/LogFactory.js
 fse = require "fs-extra"
 Log = require "./log"
-Conf = require "./confFactory"
-conf = Conf.makeConf()
+confFactory = require "./confFactory"
+conf = confFactory.makeConf()
 conf.load "settings"
 
 module.exports.makeLog = ->

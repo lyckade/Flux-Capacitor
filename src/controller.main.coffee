@@ -6,12 +6,56 @@ Conf = require "../lib/confFactory"
 conf = Conf.makeConf()
 Dataflux = require "../lib/dataflux"
 
-app = angular.module "flux-capacitor", ['ngMaterial']
-
 path = require "path"
 remote = require "remote"
 dialog = remote.require "dialog"
 
+class MainController
+  constructor: ->
+    @log = logFactory.makeLog()
+    @GUIlogs = []
+    @conf = Conf.makeConf()
+    conf.load "settings"
+    for mode in conf.settings.logGuiModus.value
+      @log.addListener mode, (txt) ->
+        console.log "ccc:#{txt}"
+
+    conf.load "folders"
+
+  addLog: (txt) ->
+    @GUILogs.unshift txt
+    console.log "addLog"
+
+#conf.load "folders"
+c = new MainController()
+
+vueFolders = Vue.extend({
+  template: '#datafluxes-template'
+  data: ->
+    folders: c.conf.folders
+  methods:
+    addFolder: ->
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
+        f = files[0]
+        c.conf.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
+        c.conf.write "folders"
+  })
+
+vueLogs = Vue.extend({
+  template: '#logs-template'
+  data: ->
+    logs: c.GUIlogs
+  })
+
+Vue.component "folders", vueFolders
+Vue.component "logs", vueLogs
+
+vm = new Vue({
+  el: '#fluxcapacitor',
+})
+
+
+###
 app.config ($mdThemingProvider) ->
   $mdThemingProvider.theme('default')
   .primaryPalette('light-green')
@@ -50,3 +94,4 @@ for f in conf.folders
   datafluxes[f.src].autoFlush()
 #df.watch()
 #df.autoFlush()
+###

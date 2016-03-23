@@ -3,53 +3,40 @@
 <head>
     <meta charset="utf-8">
     <title>Flux-Capacitor</title>
-    <link rel="stylesheet" href="../node_modules/angular-material/angular-material.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.min.css" />
+    <script type="text/javascript">
+      Vue = require('vue');
     </script>
+    <script type="text/x-template" id="logs-template">
+      <ul>
+        <li v-for="l in logs">{{l}}</li>
+      </ul>
+    </script>
+    <script type="text/x-template" id="datafluxes-template">
+    <ul>
+    <li v-for="f in folders">{{f.src}}</li>
+    </ul>
+    <button v-on:click="addFolder">Add Folder</button>
+    </script>
+
 </head>
-<body layout="column" ng-app="flux-capacitor">
-  <md-toolbar layout="row" class="md-whiteframe-z4" >
-      <h1>Flux Capacitor</h1>
-    </md-toolbar>
-<div layout="row" flex>
-  <md-sidenav class="md-whiteframe-z2">
-
-      </md-sidenav>
-      <md-content flex id="content" class="md-whiteframe-z2">
-      <h2>Test</h2>
-      <div ng-controller="DatafluxController as df">
-<div ng-repeat="item in df.folders" class="gray" layout-wrap>
-  Src:{{item.src}}<br>
-  Flux:{{item.flux}}
+<body>
+  <div id="fluxcapacitor">
+    <div id="top">Flux Capacitor</div>
+  <div id="content">
+      <folders></folders>
+      <logs></logs>
+  </div>
+  <div id="logwrapper"></div>
 </div>
-
-
-        <md-button class="md-raised" ng-click="df.addDataflux()">Add Dataflux</md-button>
-      </div>
-    </md-content>
-</div>
-
-<div ng-controller="LogController as log" layout="column" ng-cloak style="overflow: auto; height: 30%;">
-    <md-toolbar class="md-warn">
-      <div class="md-toolbar-tools">
-        <div class="md-subhead">System messages</div>
-      </div>
-    </md-toolbar>
-    <md-content flex layout-padding>
-        <div ng-repeat="item in log.logs" class="md-caption">
-          {{item}}
-          <md-divider ng-if="!$last"></md-divider>
-        </div>
-    </md-content>
-</div>
-
-
   <script type="text/javascript">
-    require('angular');
+
+
+    /*require('angular');
     require('angular-aria');
     require('angular-animate');
     require('angular-material');
-
+*/
     //require("../lib/fadab.js");
   </script>
     <script src="../lib/controller.main.js" type="text/javascript" charset="utf-8">
