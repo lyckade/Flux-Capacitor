@@ -11,34 +11,40 @@ remote = require "remote"
 dialog = remote.require "dialog"
 
 class MainController
-  constructor:
+  constructor: ->
     @log = logFactory.makeLog()
+    @GUIlogs = []
+    @conf = Conf.makeConf()
+    conf.load "settings"
+    for mode in conf.settings.logGuiModus.value
+      @log.addListener mode, (txt) ->
+        console.log "ccc:#{txt}"
 
-conf.load "folders"
+    conf.load "folders"
+
+  addLog: (txt) ->
+    @GUILogs.unshift txt
+    console.log "addLog"
+
+#conf.load "folders"
+c = new MainController()
 
 vueFolders = Vue.extend({
   template: '#datafluxes-template'
   data: ->
-    folders: conf.folders
+    folders: c.conf.folders
   methods:
     addFolder: ->
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
         f = files[0]
-        conf.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
-        conf.write "folders"
+        c.conf.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
+        c.conf.write "folders"
   })
 
 vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
-    myLogs = []
-    conf.addListener "loaded", =>
-      for m in conf.settings.logGuiModus.value
-        log.addListener m, (txt) =>
-          myLogs.unshift "#{myLogs.length+1}: #{txt}"
-          this.logs = myLogs
-    conf.load "settings"
-    logs: myLogs
+    logs: c.GUIlogs
   })
 
 Vue.component "folders", vueFolders
