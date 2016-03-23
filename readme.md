@@ -26,4 +26,6 @@ Builds the app for OS X, Linux, and Windows, using [electron-packager](https://g
 
 ## License
 
+Icons are from http://typicons.com/ under Distributed under [CC BY-SA licence](http://creativecommons.org/licenses/by-sa/3.0/).
+
 MIT © [lyckade](http://apxp.info)

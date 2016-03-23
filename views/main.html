@@ -20,7 +20,13 @@
     <script type="text/x-template" id="datafluxes-template">
     <ul id="datafluxes">
       <li v-for="f in folders">
-        <div v-on:click="activateDataflux($index)">{{f.src}}</div>
+        <span v-on:click="activateDataflux($index)">
+          {{f.src}}
+          {{if f.src=active}}
+          (active)
+          {{/if}}
+        </span>
+        <img v-on:click="remove($index)" src="img/folder-delete.svg">
       </li>
     </ul>
     <div>Active Dataflux:{{active.src}}</div>

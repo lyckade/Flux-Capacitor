@@ -29,6 +29,9 @@ class MainController
   getDataflux: (index) ->
     conf.folders[index]
 
+  removeDataflux: (index) ->
+    conf.folders.splice index, 1
+
 #conf.load "folders"
 c = new MainController()
 
@@ -53,6 +56,11 @@ vueDatafluxes = Vue.extend({
       c.activeDataflux = c.getDataflux index
       this.active = c.activeDataflux
       c.log.debug "Activate: #{index}"
+    remove: (index) ->
+      c.log.debug "Remove: #{index}"
+      c.removeDataflux(index)
+      this.active = c.activeDataflux
+      c.conf.write "folders"
   })
 
 vueLogs = Vue.extend({
