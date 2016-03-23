@@ -9,23 +9,32 @@
     </script>
     <script type="text/x-template" id="logs-template">
       <ul>
-        <li v-for="l in logs">{{l}}</li>
+        <li v-for="l in logs">
+        {{l}}
+        </li>
       </ul>
       <button v-on:click="clearLog">Clear Log</button>
     </script>
+
+
     <script type="text/x-template" id="datafluxes-template">
     <ul id="datafluxes">
-    <li v-for="f in folders"><div>{{f.src}}</a></li>
+      <li v-for="f in folders">
+        <div v-on:click="activateDataflux($index)">{{f.src}}</div>
+      </li>
     </ul>
+    <div>Active Dataflux:{{active.src}}</div>
     <button v-on:click="addFolder">Add Folder</button>
     </script>
+
+
 
 </head>
 <body>
   <div id="fluxcapacitor">
     <div id="top">Flux Capacitor</div>
   <div id="content">
-      <folders></folders>
+      <datafluxes></datafluxes>
       <logs></logs>
   </div>
   <div id="logwrapper"></div>

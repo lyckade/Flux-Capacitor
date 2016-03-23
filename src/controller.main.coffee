@@ -14,16 +14,20 @@ dialog = remote.require "dialog"
 class MainController
   constructor: ->
     @log = logFactory.makeLog()
-    @GUILogs = ["Test","Test"]
+    @GUILogs = []
     @conf = Conf.makeConf()
     conf.load "settings"
     conf.load "folders"
+    @activeDataflux = @getDataflux 0
 
   addLog: (txt) =>
     @GUILogs.unshift txt
 
   clearLog: =>
     @GUILogs = []
+
+  getDataflux: (index) ->
+    conf.folders[index]
 
 #conf.load "folders"
 c = new MainController()
@@ -34,16 +38,21 @@ for mode in conf.settings.logGuiModus.value
 
 
 
-vueFolders = Vue.extend({
+vueDatafluxes = Vue.extend({
   template: '#datafluxes-template'
   data: ->
     folders: c.conf.folders
+    active: c.activeDataflux
   methods:
     addFolder: ->
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
         f = files[0]
         c.conf.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
         c.conf.write "folders"
+    activateDataflux: (index) ->
+      c.activeDataflux = c.getDataflux index
+      this.active = c.activeDataflux
+      c.log.debug "Activate: #{index}"
   })
 
 vueLogs = Vue.extend({
@@ -56,7 +65,7 @@ vueLogs = Vue.extend({
       this.logs = c.GUILogs
   })
 
-Vue.component "folders", vueFolders
+Vue.component "datafluxes", vueDatafluxes
 Vue.component "logs", vueLogs
 
 vm = new Vue({

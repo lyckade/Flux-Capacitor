@@ -7,4 +7,8 @@
     src: "C:\\Users\\Schroepfer\\test\\src2"
     flux: "C:\\Users\\Schroepfer\\test\\src2\\000_Flux"
   }
+  {
+    src: "C:\\Users\\Schroepfer\\test\\src3"
+    flux: "C:\\Users\\Schroepfer\\test\\src3\\000_Flux"
+  }
 ]
