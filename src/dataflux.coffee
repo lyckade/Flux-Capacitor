@@ -78,11 +78,7 @@ class Dataflux
     return false
 
   isFluxFile: (filePath) ->
-    rel = @path.relative @dataFluxFolder, filePath
-    if rel[0...2] is ".."
-      return false
-    else
-      return true
+    @path.isSubfolder @dataFluxFolder, filePath
 
   isDirectory: (filePath) ->
     @fse.lstatSync(filePath).isDirectory()
