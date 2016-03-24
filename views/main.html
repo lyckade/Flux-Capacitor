@@ -22,9 +22,6 @@
       <li v-for="f in folders">
         <span v-on:click="activateDataflux($index)">
           {{f.src}}
-          {{if f.src=active}}
-          (active)
-          {{/if}}
         </span>
         <img v-on:click="remove($index)" src="img/folder-delete.svg">
       </li>
@@ -40,8 +37,13 @@
   <div id="fluxcapacitor">
     <div id="top">Flux Capacitor</div>
   <div id="content">
+    <div id="content-left">
       <datafluxes></datafluxes>
       <logs></logs>
+    </div>
+    <div id="content-right">
+      <logs></logs>
+    </div>
   </div>
   <div id="logwrapper"></div>
 </div>
