@@ -2,11 +2,23 @@
 DatafluxesController = require "./controller.datafluxes"
 
 describe "DatafluxesController", ->
+  dfc = null
   beforeEach ->
     dfc = new DatafluxesController()
+    dfc.log.noLog = true # disables logging for the tests
 
   describe "Add a new Dataflux", ->
+    it "should return an error, when no srcFolder is given", ->
+      add = ->
+        dfc.addDataflux()
+      expect(add).toThrowError(/No src folder is specified/)
+
     it "should use the default options for new datafluxes", ->
+
+  describe "Check", ->
+    it "returns false if checked folder is subfolder of an existing dataflux folder", ->
+
+    it "returns false, when a dataflux folder is a subfolder of the folder", ->
 
   describe "Commiting changes to the dataflux folder", ->
     it "should be able to make auto commits", ->

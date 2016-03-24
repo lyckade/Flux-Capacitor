@@ -10,3 +10,10 @@ describe "makePath", ->
     filePath = path.join "MyFolder", "SourceFolder", "Subdir1", "Subdir2", "File"
     expect(ph.makePath(srcFolder, dstFolder, filePath))
     .toEqual(path.join dstFolder, "Subdir1", "Subdir2", "File")
+
+  it "should check if a folder is a subfolder", ->
+    folderPath = path.join "MyFolder"
+    subFolder = path.join "MyFolder", "A", "B"
+    noSubFolder = path.join "AnotherFolder", "MyFolder", "A"
+    expect(ph.isSubfolder folderPath, subFolder).toBe(true)
+    expect(ph.isSubfolder folderPath, noSubFolder).toBe(false)
