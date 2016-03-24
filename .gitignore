@@ -5,3 +5,4 @@ log.txt
 
 conf/folders.cson
 npm-debug.log
+conf/datafluxes.cson

@@ -1,5 +1,7 @@
 # out: ../lib/controller.datafluxesSpec.js
 DatafluxesController = require "./controller.datafluxes"
+path = require "./path-helper"
+tmp = require "tmp"
 
 describe "DatafluxesController", ->
   dfc = null
@@ -13,12 +15,31 @@ describe "DatafluxesController", ->
         dfc.addDataflux()
       expect(add).toThrowError(/No src folder is specified/)
 
-    it "should use the default options for new datafluxes", ->
+    it "should create a fluxFolderPath, when no path is given", ->
+      myDir = tmp.dirSync()
+      dfc.conf.settings.datafluxDefaultDir.value = ".default"
+      fluxFolderPath = path.join myDir.name, ".default"
+      dfc.addDataflux myDir.name
+      expect(dfc.objects[0].dataFluxFolder).toEqual(fluxFolderPath)
+
 
   describe "Check", ->
+    it "return false if folder already exists", ->
+      dfc.addDataflux "MyFolder"
+      expect(dfc.checkFolder "MyFolder").toBe(false)
+      expect(dfc.checkFolder "AnotherFolder").toBe(true)
+
     it "returns false if checked folder is subfolder of an existing dataflux folder", ->
+      dfc.addDataflux "MyFolder"
+      dfc.addDataflux "AnotherFolder"
+      subFolder = path.join "MyFolder", "A", "B"
+      expect(dfc.checkFolder subFolder).toBe(false)
 
     it "returns false, when a dataflux folder is a subfolder of the folder", ->
+      subFolder = path.join "MyFolder", "A", "B"
+      dfc.addDataflux subFolder
+      dfc.addDataflux "AnotherFolder"
+      expect(dfc.checkFolder "MyFolder").toBe(false)
 
   describe "Commiting changes to the dataflux folder", ->
     it "should be able to make auto commits", ->
