@@ -36,3 +36,14 @@ class DatafluxesController
         @log.error "The subfolder #{df.srcFolder} is already a dataflux!"
         return false
     return true
+
+  writeOptions: ->
+    datafluxesConf = []
+    for df in @objects
+      dfOptions =
+        srcFolder: df.srcFolder
+        dataFluxFolder: df.dataFluxFolder
+        options: df.options
+      datafluxesConf.push dfOptions
+    @conf.datafluxes = datafluxesConf
+    @conf.write "datafluxes"
