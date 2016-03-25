@@ -4,11 +4,12 @@ logFactory = require "../lib/logFactory"
 log = logFactory.makeLog()
 Conf = require "../lib/confFactory"
 conf = Conf.makeConf()
-Dataflux = require "../lib/dataflux"
+DatafluxesController = require "../lib/controller.datafluxes"
 
 path = require "path"
 remote = require "remote"
 dialog = remote.require "dialog"
+
 
 
 class MainController
@@ -18,7 +19,7 @@ class MainController
     @conf = Conf.makeConf()
     conf.load "settings"
     conf.load "folders"
-    @activeDataflux = @getDataflux 0
+
 
   addLog: (txt) =>
     @GUILogs.unshift txt
@@ -33,34 +34,41 @@ class MainController
     conf.folders.splice index, 1
 
 #conf.load "folders"
+
+
+dfc = new DatafluxesController()
+dfc.loadObjects()
+objects = dfc.getObjects()
+selectedObject = dfc.getSelectedObject()
+
 c = new MainController()
 
 for mode in conf.settings.logGuiModus.value
   c.log.addListener mode, (txt) ->
     c.addLog "#{c.GUILogs.length+1}: #{txt}"
 
-
-
 vueDatafluxes = Vue.extend({
   template: '#datafluxes-template'
   data: ->
-    folders: c.conf.folders
-    active: c.activeDataflux
+    folders: objects
+    active: selectedObject
   methods:
     addFolder: ->
-      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
         f = files[0]
-        c.conf.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
-        c.conf.write "folders"
+        dfc.addDataflux f
+        dfc.write()
+        @folders = dfc.getObjects()
     activateDataflux: (index) ->
-      c.activeDataflux = c.getDataflux index
-      this.active = c.activeDataflux
+      dfc.selectObject index
+      this.active = dfc.getSelectedObject()
+      this.folders = dfc.getObjects()
       c.log.debug "Activate: #{index}"
     remove: (index) ->
-      c.log.debug "Remove: #{index}"
+      ###c.log.debug "Remove: #{index}"
       c.removeDataflux(index)
       this.active = c.activeDataflux
-      c.conf.write "folders"
+      c.conf.write "folders"###
   })
 
 vueLogs = Vue.extend({
@@ -79,45 +87,3 @@ Vue.component "logs", vueLogs
 vm = new Vue({
   el: '#fluxcapacitor',
 })
-
-
-###
-app.config ($mdThemingProvider) ->
-  $mdThemingProvider.theme('default')
-  .primaryPalette('light-green')
-  .accentPalette('lime')
-  .warnPalette('blue-grey')
-
-app.controller "DatafluxController", ($scope) ->
-  conf.addListener "loaded", ->
-    $scope.folders = conf.folders
-    #$scope.$apply()
-  $scope.addDataflux = ->
-    dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
-      f = files[0]
-      $scope.folders.push {src: f, flux: path.join f, conf.settings.fluxDefaultDir.value}
-      conf.folders = $scope.folders
-      conf.write("folders", conf.removeHashKeyFromArray conf.folders)
-      $scope.$apply()
-  $scope
-
-app.controller "LogController", ($scope) ->
-  $scope.logs = []
-  conf.addListener "loaded", ->
-    for m in conf.settings.logGuiModus.value
-      log.addListener m, (txt) ->
-        $scope.logs.unshift "#{$scope.logs.length}:#{txt}"
-        $scope.$apply()
-  conf.load "settings"
-  $scope
-
-datafluxes = {}
-conf.load "folders"
-for f in conf.folders
-  datafluxes[f.src] = new Dataflux f.src, f.flux
-  datafluxes[f.src].walk()
-  datafluxes[f.src].watch()
-  datafluxes[f.src].autoFlush()
-#df.watch()
-#df.autoFlush()
-###

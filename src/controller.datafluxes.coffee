@@ -14,6 +14,14 @@ class DatafluxesController
     @conf = conf.makeConf()
     @conf.load "settings"
     @conf.load "datafluxes"
+    @selectedObject = null
+
+  loadObjects: ->
+    @conf.load "datafluxes"
+    for df, index in @conf.datafluxes
+      @objects.push(new Dataflux(df.srcFolder, df.dataFluxFolder, df.options))
+      if df.selected
+        @selectedObject = index
 
   addDataflux: (srcFolder, fluxFolder) ->
     if srcFolder is undefined
@@ -37,13 +45,26 @@ class DatafluxesController
         return false
     return true
 
-  writeOptions: ->
-    datafluxesConf = []
-    for df in @objects
+  write: ->
+    @conf.datafluxes = @getObjects()
+    @conf.write "datafluxes"
+
+  getObjects: ->
+    objs = []
+    for df, index in @objects
       dfOptions =
         srcFolder: df.srcFolder
         dataFluxFolder: df.dataFluxFolder
         options: df.options
-      datafluxesConf.push dfOptions
-    @conf.datafluxes = datafluxesConf
-    @conf.write "datafluxes"
+        selected: index is @selectedObject
+      objs.push dfOptions
+    objs
+
+  selectObject: (index) ->
+    @selectedObject = index
+
+  getSelectedObject: ->
+    @getObject @selectedObject
+
+  getObject: (index) ->
+    @objects[index]
