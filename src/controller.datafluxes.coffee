@@ -19,7 +19,12 @@ class DatafluxesController
   loadObjects: ->
     @conf.load "datafluxes"
     for df, index in @conf.datafluxes
-      @objects.push(new Dataflux(df.srcFolder, df.dataFluxFolder, df.options))
+      dataflux = new Dataflux(df.srcFolder, df.dataFluxFolder, df.options)
+      dataflux.walk()
+      dataflux.watch()
+      if df.autoCommit
+        dataflux.autoFlush()
+      @objects.push dataflux
       if df.selected
         @selectedObject = index
 
@@ -45,6 +50,9 @@ class DatafluxesController
         return false
     return true
 
+  removeDataflux: (index) ->
+    @objects.splice index, 1
+
   write: ->
     @conf.datafluxes = @getObjects()
     @conf.write "datafluxes"
@@ -57,6 +65,7 @@ class DatafluxesController
         dataFluxFolder: df.dataFluxFolder
         options: df.options
         selected: index is @selectedObject
+        autoCommit: df.autoFlushActive
       objs.push dfOptions
     objs
 
@@ -68,3 +77,12 @@ class DatafluxesController
 
   getObject: (index) ->
     @objects[index]
+
+  commit: (index) ->
+    @objects[index].flushBackupCache()
+
+  startAutoCommit: (index) ->
+    @objects[index].autoFlush()
+
+  stopAutoCommit: (index) ->
+    @objects[index].stopAutoFlush()

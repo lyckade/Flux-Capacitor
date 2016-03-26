@@ -28,10 +28,19 @@
         <img v-on:click="remove($index)" src="img/folder-delete.svg">
         </td>
         <td>
-        <img v-on:click="remove($index)" src="img/media-play-outline.svg">
+        <span v-if="f.autoCommit">
+        <img v-on:click="stopAutoCommit($index)" src="img/media-pause-outline.svg">
+        </span>
+        <span v-else>
+        <img v-on:click="startAutoCommit($index)" src="img/media-play-outline.svg">
+        </span>
+        </td>
+        <td>
+        <img v-on:click="commit($index)" src="img/arrow-up-outline.svg">
         </td>
       </tr>
     </table>
+
     <div>Active Dataflux:{{active.srcFolder}}</div>
     <button v-on:click="addFolder">Add Folder</button>
     </script>
@@ -50,8 +59,9 @@
     <div id="content-right">
 <pre>
 {{active.srcFolder}}
+{{active.backupCache | json}}
   {{ active.options | json }}</pre>
-      <logs></logs>
+
     </div>
   </div>
   <div id="logwrapper"></div>

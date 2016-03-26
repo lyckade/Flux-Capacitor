@@ -20,6 +20,7 @@ class Dataflux
     @log = log.makeLog()
     @fileExists = fileExists
     @autoFlushInterval = null
+    @autoFlushActive = false
     defaultOptions =
       skipFile:
         patterns: []
@@ -40,6 +41,7 @@ class Dataflux
 
   autoFlush: ->
     @log.debug "autoFlush method called"
+    @autoFlushActive = true
     @autoFlushInterval = setInterval =>
       @log.debug "Call flushBackupCache()"
       @flushBackupCache()
@@ -47,6 +49,7 @@ class Dataflux
 
   stopAutoFlush: ->
     clearInterval @autoFlushInterval
+    @autoFlushActive = false
 
   walk: =>
     @fse.walk(@srcFolder)

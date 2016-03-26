@@ -67,10 +67,20 @@ vueDatafluxes = Vue.extend({
       this.folders = dfc.getObjects()
       c.log.debug "Activate: #{index}"
     remove: (index) ->
-      ###c.log.debug "Remove: #{index}"
-      c.removeDataflux(index)
-      this.active = c.activeDataflux
-      c.conf.write "folders"###
+      c.log.debug "Remove: #{index}"
+      dfc.removeDataflux index
+      dfc.write()
+      @folders = dfc.getObjects()
+    startAutoCommit: (index) ->
+      dfc.startAutoCommit index
+      this.folders = dfc.getObjects()
+    stopAutoCommit: (index) ->
+      dfc.stopAutoCommit index
+      this.folders = dfc.getObjects()
+    commit: (index) ->
+      dfc.commit index
+      this.$root.active = this.active
+      this.folders = dfc.getObjects()
   })
 
 vueLogs = Vue.extend({
