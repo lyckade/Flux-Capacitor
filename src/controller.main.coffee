@@ -52,6 +52,7 @@ vueDatafluxes = Vue.extend({
   data: ->
     folders: objects
     active: selectedObject
+  props: ['active']
   methods:
     addFolder: ->
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
@@ -62,6 +63,7 @@ vueDatafluxes = Vue.extend({
     activateDataflux: (index) ->
       dfc.selectObject index
       this.active = dfc.getSelectedObject()
+      this.$root.active = this.active
       this.folders = dfc.getObjects()
       c.log.debug "Activate: #{index}"
     remove: (index) ->
@@ -86,4 +88,6 @@ Vue.component "logs", vueLogs
 
 vm = new Vue({
   el: '#fluxcapacitor',
+  data:
+    active: dfc.getSelectedObject()
 })

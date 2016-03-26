@@ -18,14 +18,20 @@
 
 
     <script type="text/x-template" id="datafluxes-template">
-    <ul id="datafluxes">
-      <li v-for="f in folders" :class="{selected: f.selected}">
-        <span v-on:click="activateDataflux($index)">
-          {{f.srcFolder}}<span v-show="f.selected">Active</span>
-        </span>
+    <table id="datafluxes">
+      <tr v-for="f in folders" :class="{selected: f.selected}">
+        <td v-on:click="activateDataflux($index)">
+          {{f.srcFolder}}
+        </td>
+        <td><span v-show="f.selected">Active</span></td>
+        <td>
         <img v-on:click="remove($index)" src="img/folder-delete.svg">
-      </li>
-    </ul>
+        </td>
+        <td>
+        <img v-on:click="remove($index)" src="img/media-play-outline.svg">
+        </td>
+      </tr>
+    </table>
     <div>Active Dataflux:{{active.srcFolder}}</div>
     <button v-on:click="addFolder">Add Folder</button>
     </script>
@@ -42,6 +48,9 @@
       <logs></logs>
     </div>
     <div id="content-right">
+<pre>
+{{active.srcFolder}}
+  {{ active.options | json }}</pre>
       <logs></logs>
     </div>
   </div>
