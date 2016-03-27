@@ -1,0 +1,10 @@
+button:
+  addFolder: "Add Folder"
+  clearLog: "Clear Log"
+img:
+  alt:
+    datafluxSettings: "Dataflux settings"
+    datafluxRemove: "Remove dataflux"
+    datafluxAutoCommitStart: "Start auto commit"
+    datafluxAutoCommitStop: "Stop auto commit"
+    datafluxCommit: "commit changes"

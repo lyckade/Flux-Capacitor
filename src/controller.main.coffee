@@ -5,6 +5,7 @@ log = logFactory.makeLog()
 Conf = require "../lib/confFactory"
 conf = Conf.makeConf()
 DatafluxesController = require "../lib/controller.datafluxes"
+t = require "../lib/view.tFactory"
 
 path = require "path"
 remote = require "remote"
@@ -52,6 +53,7 @@ vueDatafluxes = Vue.extend({
   data: ->
     folders: objects
     active: selectedObject
+    t: this.$root.t
   props: ['active']
   methods:
     addFolder: ->
@@ -74,9 +76,11 @@ vueDatafluxes = Vue.extend({
     startAutoCommit: (index) ->
       dfc.startAutoCommit index
       this.folders = dfc.getObjects()
+      dfc.write()
     stopAutoCommit: (index) ->
       dfc.stopAutoCommit index
       this.folders = dfc.getObjects()
+      dfc.write()
     commit: (index) ->
       dfc.commit index
       this.$root.active = this.active
@@ -87,17 +91,26 @@ vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
     logs: c.GUILogs
+    t: this.$root.t
   methods:
     clearLog: ->
       c.clearLog()
       this.logs = c.GUILogs
   })
 
+vueSettings = Vue.extend({
+  template: '#settings-template'
+  data: ->
+    active: this.$root.active
+  })
+
 Vue.component "datafluxes", vueDatafluxes
+Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
 
 vm = new Vue({
   el: '#fluxcapacitor',
   data:
     active: dfc.getSelectedObject()
+    t: t
 })
