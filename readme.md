@@ -28,4 +28,6 @@ Builds the app for OS X, Linux, and Windows, using [electron-packager](https://g
 
 Icons are from http://typicons.com/ under Distributed under [CC BY-SA licence](http://creativecommons.org/licenses/by-sa/3.0/).
 
+Template for the UI http://photonkit.com/ under [CC BY 3.0](https://github.com/connors/photon/blob/master/docs/LICENSE)
+
 MIT © [lyckade](http://apxp.info)
