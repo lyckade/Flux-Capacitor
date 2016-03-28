@@ -34,6 +34,7 @@ body
 #top
   //background-image: linear-gradient(to top right, $accent1, $accent4)
   color: $font-color-light
+  background-color: $bg-color-dark
   font-weight: lighter
   padding-top: 1em
   font-size: 120%
@@ -60,11 +61,12 @@ ul
 li
 
 
-#datafluxes
-  td
-    padding: 0.25em 5px
-    background-image: $gradient1
-    border: 1px solid $linecolor
+td
+  padding: 0.25em 5px
+  border-bottom: 1px solid $linecolor
 
-  td:hover, .selected
-    background-image: $gradient2
+tr.selected
+  background-color: $bg-color-light
+
+td:hover, .selected
+  background-image: $accent1
