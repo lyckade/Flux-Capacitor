@@ -4,52 +4,61 @@
     <meta charset="utf-8">
     <title>Flux-Capacitor</title>
     <link rel="stylesheet" href="./css/style.min.css" />
-    <script type="text/javascript">
-      Vue = require('vue');
-    </script>
-    <script type="text/x-template" id="logs-template">
-    <button v-on:click="clearLog">Clear Log</button>
-      <ul>
-        <li v-for="l in logs">
-        {{l}}
-        </li>
-      </ul>
-      <button v-on:click="clearLog">{{t.button.clearLog}}</button>
-    </script>
+  <script type="text/javascript">
+  Vue = require('vue');
+</script>
 
 
-    <script type="text/x-template" id="datafluxes-template">
-    <table id="datafluxes">
-      <tr v-for="f in folders" :class="{selected: f.selected}">
-        <td v-on:click="activateDataflux($index)">
-          {{f.srcFolder}}
-        </td>
-        <td><span v-show="f.selected">Active</span></td>
-        <td>
-        <img v-on:click="remove($index)" src="img/folder-delete.svg" alt="{{t.img.alt.datafluxRemove}}">
-        </td>
-        <td>
-        <span v-if="f.autoCommit">
-        <img v-on:click="stopAutoCommit($index)" src="img/media-pause-outline.svg" alt="{{t.img.alt.datafluxAutoCommitStop}}">
-        </span>
-        <span v-else>
-        <img v-on:click="startAutoCommit($index)" src="img/media-play-outline.svg" alt="{{t.img.alt.datafluxAutoCommitStart}}">
-        </span>
-        </td>
-        <td>
-        <img v-on:click="commit($index)" src="img/arrow-up-outline.svg" alt="{{t.img.alt.datafluxCommit}}">
-        </td>
-        <td>
-        <img  src="img/cog-outline.svg" alt="{{t.img.alt.datafluxSettings}}">
-        </td>
-      </tr>
-    </table>
+<script type="text/x-template" id="logs-template">
+<button v-on:click="clearLog">Clear Log</button>
+  <ul>
+    <li v-for="l in logs">
+    {{l}}
+    </li>
+  </ul>
+  <button v-on:click="clearLog">{{t.button.clearLog}}</button>
+</script>
 
-    <div>Active Dataflux:{{active.srcFolder}}</div>
-    <button v-on:click="addFolder">{{t.button.addFolder}}</button>
-    </script>
+
+<script type="text/x-template" id="datafluxes-template">
+<table id="datafluxes">
+  <tr v-for="f in folders" :class="{selected: f.selected}">
+    <td v-on:click="activateDataflux($index)">
+      {{f.srcFolder}}
+    </td>
+    <td><span v-show="f.selected">Active</span></td>
+    <td>
+    <img v-on:click="remove($index)" src="img/folder-delete.svg" alt="{{t.img.alt.datafluxRemove}}">
+    </td>
+    <td>
+    <span v-if="f.autoCommit">
+    <img v-on:click="stopAutoCommit($index)" src="img/media-pause-outline.svg" alt="{{t.img.alt.datafluxAutoCommitStop}}">
+    </span>
+    <span v-else>
+    <img v-on:click="startAutoCommit($index)" src="img/media-play-outline.svg" alt="{{t.img.alt.datafluxAutoCommitStart}}">
+    </span>
+    </td>
+    <td>
+    <img v-on:click="commit($index)" src="img/arrow-up-outline.svg" alt="{{t.img.alt.datafluxCommit}}">
+    </td>
+    <td>
+    <img  src="img/cog-outline.svg" alt="{{t.img.alt.datafluxSettings}}">
+    </td>
+  </tr>
+</table>
+
+<div>Active Dataflux:{{active.srcFolder}}</div>
+<button v-on:click="addFolder">{{t.button.addFolder}}</button>
+</script>
+
 
 <script type="text/x-template" id="settings-template">
+{{t.txt.autoCommitInterval}}: <input v-model="active.options.autoFlushInterval"><br>
+{{t.txt.srcFolder}}: {{active.srcFolder}}
+  <button v-on:click="changeFolder('srcFolder')">{{t.button.changeFolder}}</button><br>
+{{t.txt.datafluxFolder}}: {{active.dataFluxFolder}}
+  <button v-on:click="changeFolder('dataFluxFolder')">{{t.button.changeFolder}}</button><br><br>
+<button v-on:click="save">{{t.button.save}}</button>
 Settings: {{active.srcFolder}}
 </script>
 

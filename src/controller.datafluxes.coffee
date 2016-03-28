@@ -14,6 +14,7 @@ class DatafluxesController
     @conf = conf.makeConf()
     @conf.load "settings"
     @conf.load "datafluxes"
+    @selectedObjectIndex = null
     @selectedObject = null
 
   loadObjects: ->
@@ -26,7 +27,8 @@ class DatafluxesController
         dataflux.autoFlush()
       @objects.push dataflux
       if df.selected
-        @selectedObject = index
+        @selectedObjectIndex = index
+        @selectedObject = df
 
   addDataflux: (srcFolder, fluxFolder) ->
     if srcFolder is undefined
@@ -35,7 +37,9 @@ class DatafluxesController
     else if @checkFolder srcFolder
       if fluxFolder is undefined
         fluxFolder = @path.join srcFolder, @conf.settings.datafluxDefaultDir.value
-      @objects.push(new Dataflux(srcFolder, fluxFolder))
+      new_df = new Dataflux(srcFolder, fluxFolder)
+      new_df.name = srcFolder
+      @objects.push(new_df)
 
   checkFolder: (folderPath) ->
     for df in @objects
@@ -61,19 +65,24 @@ class DatafluxesController
     objs = []
     for df, index in @objects
       dfOptions =
+        name: df.name
         srcFolder: df.srcFolder
         dataFluxFolder: df.dataFluxFolder
         options: df.options
-        selected: index is @selectedObject
+        selected: index is @selectedObjectIndex
         autoCommit: df.autoFlushActive
       objs.push dfOptions
     objs
 
   selectObject: (index) ->
-    @selectedObject = index
+    @selectedObjectIndex = index
+    @selectedObject = @getSelectedObject()
 
   getSelectedObject: ->
-    @getObject @selectedObject
+    @getObject @selectedObjectIndex
+
+  setSelectedObject: ->
+    @objects[@selectedObjectIndex] = @selectedObject
 
   getObject: (index) ->
     @objects[index]

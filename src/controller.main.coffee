@@ -48,13 +48,35 @@ for mode in conf.settings.logGuiModus.value
   c.log.addListener mode, (txt) ->
     c.addLog "#{c.GUILogs.length+1}: #{txt}"
 
+vueSettings = Vue.extend({
+  name: 'settings'
+  template: '#settings-template'
+  data: ->
+    #active: this.$parent.active
+    active: dfc.selectedObject
+    t: this.$root.t
+  methods:
+    save: ->
+      dfc.setSelectedObject()
+      dfc.write()
+    changeFolder: (type) ->
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
+        f = files[0]
+        @active[type] = f
+      c.log.debug type
+  events:
+    'active': ->
+      c.log.debug "settings. active"
+      this.active = this.$parent.active
+
+  })
+
 vueDatafluxes = Vue.extend({
   template: '#datafluxes-template'
   data: ->
     folders: objects
-    active: selectedObject
+    active: dfc.selectedObject
     t: this.$root.t
-  props: ['active']
   methods:
     addFolder: ->
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
@@ -64,8 +86,9 @@ vueDatafluxes = Vue.extend({
         @folders = dfc.getObjects()
     activateDataflux: (index) ->
       dfc.selectObject index
-      this.active = dfc.getSelectedObject()
+      this.active = dfc.selectedObject
       this.$root.active = this.active
+      this.$dispatch 'active'
       this.folders = dfc.getObjects()
       c.log.debug "Activate: #{index}"
     remove: (index) ->
@@ -98,11 +121,7 @@ vueLogs = Vue.extend({
       this.logs = c.GUILogs
   })
 
-vueSettings = Vue.extend({
-  template: '#settings-template'
-  data: ->
-    active: this.$root.active
-  })
+
 
 Vue.component "datafluxes", vueDatafluxes
 Vue.component "settings", vueSettings
@@ -111,6 +130,10 @@ Vue.component "logs", vueLogs
 vm = new Vue({
   el: '#fluxcapacitor',
   data:
-    active: dfc.getSelectedObject()
+    active: dfc.selectedObject
     t: t
+  events:
+    'active': ->
+      this.$broadcast 'active'
+      this.active = dfc.selectedObject
 })

@@ -1,6 +1,12 @@
 button:
   addFolder: "Add Folder"
+  changeFolder: "Change Folder"
   clearLog: "Clear Log"
+  save: "Save"
+txt:
+  autoCommitInterval: "Auto-commit interval"
+  datafluxFolder: "Flux Capacitor folder"
+  srcFolder: "Source folder"
 img:
   alt:
     datafluxSettings: "Dataflux settings"
