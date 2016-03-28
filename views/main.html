@@ -24,7 +24,7 @@
 <table id="datafluxes">
   <tr v-for="f in folders" :class="{selected: f.selected}">
     <td v-on:click="activateDataflux($index)">
-      {{f.srcFolder}}
+      {{f.name}}
     </td>
     <td><span v-show="f.selected">Active</span></td>
     <td>
@@ -53,13 +53,21 @@
 
 
 <script type="text/x-template" id="settings-template">
-{{t.txt.autoCommitInterval}}: <input v-model="active.options.autoFlushInterval"><br>
-{{t.txt.srcFolder}}: {{active.srcFolder}}
-  <button v-on:click="changeFolder('srcFolder')">{{t.button.changeFolder}}</button><br>
-{{t.txt.datafluxFolder}}: {{active.dataFluxFolder}}
-  <button v-on:click="changeFolder('dataFluxFolder')">{{t.button.changeFolder}}</button><br><br>
+<table>
+<tr>
+<td>{{t.txt.name}}</td><td> <input v-model="active.name"></td>
+</tr>
+<tr>
+<td>{{t.txt.srcFolder}}</td><td>{{active.srcFolder}}</td>
+</tr>
+<tr>
+<td>{{t.txt.autoCommitInterval}}</td><td><input v-model="active.options.autoFlushInterval"></td>
+</tr>
+<tr>
+<td>{{t.txt.datafluxFolder}}</td><td>{{active.dataFluxFolder}}
+  <button v-on:click="changeFolder('dataFluxFolder')">{{t.button.changeFolder}}</button></td>
+</tr></table>
 <button v-on:click="save">{{t.button.save}}</button>
-Settings: {{active.srcFolder}}
 </script>
 
 

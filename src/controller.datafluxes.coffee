@@ -21,6 +21,7 @@ class DatafluxesController
     @conf.load "datafluxes"
     for df, index in @conf.datafluxes
       dataflux = new Dataflux(df.srcFolder, df.dataFluxFolder, df.options)
+      dataflux.name = df.name
       dataflux.walk()
       dataflux.watch()
       if df.autoCommit

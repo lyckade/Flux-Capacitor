@@ -4,8 +4,9 @@ button:
   clearLog: "Clear Log"
   save: "Save"
 txt:
-  autoCommitInterval: "Auto-commit interval"
+  autoCommitInterval: "Auto-commit interval (in Minutes)"
   datafluxFolder: "Flux Capacitor folder"
+  name: "Name"
   srcFolder: "Source folder"
 img:
   alt:
