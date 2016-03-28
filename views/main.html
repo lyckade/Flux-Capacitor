@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Flux-Capacitor</title>
-    <link rel="stylesheet" href="./css/photon.min.css" />
+    <link rel="stylesheet" href="./css/photon.css" />
     <link rel="stylesheet" href="./css/style2.min.css" />
   <script type="text/javascript">
   Vue = require('vue');
@@ -20,8 +20,18 @@
   <button v-on:click="clearLog">{{t.button.clearLog}}</button>
 </script>
 
-
 <script type="text/x-template" id="datafluxes-template">
+  <span v-for="f in folders"
+  :class="{active: f.selected}"
+   v-on:click="activateDataflux($index)"
+   class="nav-group-item">
+      {{f.name}}
+</span>
+
+<button v-on:click="addFolder">{{t.button.addFolder}}</button>
+</script>
+
+<script type="text/x-template" id="datafluxes-templatealt">
 <table id="datafluxes">
   <tr v-for="f in folders" :class="{selected: f.selected}">
     <td v-on:click="activateDataflux($index)">
@@ -85,10 +95,24 @@
         <nav class="nav-group">
     <div id="content-left">
       <datafluxes></datafluxes>
-      <logs></logs>
+
     </div>
   </nav></div>
     <div id="content-right" class="pane">
+      <div class="tab-group">
+  <div class="tab-item">
+    Files to commit
+  </div>
+  <div class="tab-item">
+    <span class="icon icon-cancel icon-close-tab"></span>
+    Settings
+  </div>
+  <div class="tab-item active">
+    <span class="icon icon-cancel icon-close-tab"></span>
+    Log
+  </div>
+</div>
+  <logs></logs>
       <settings></settings>
 <pre>
 {{active.srcFolder}}
