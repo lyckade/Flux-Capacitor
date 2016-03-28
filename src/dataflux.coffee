@@ -24,7 +24,7 @@ class Dataflux
     defaultOptions =
       skipFile:
         patterns: []
-      autoFlushInterval: 10000
+      autoFlushInterval: 1 # in Minutes
       timestamp:
         elements: [
           "yyyy"  # Year as 2015
@@ -45,7 +45,7 @@ class Dataflux
     @autoFlushInterval = setInterval =>
       @log.debug "Call flushBackupCache()"
       @flushBackupCache()
-    , @options.autoFlushInterval
+    , @options.autoFlushInterval * 60 * 1000
 
   stopAutoFlush: ->
     clearInterval @autoFlushInterval

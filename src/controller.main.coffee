@@ -122,7 +122,6 @@ vueLogs = Vue.extend({
   })
 
 
-
 Vue.component "datafluxes", vueDatafluxes
 Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
