@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Flux-Capacitor</title>
     <link rel="stylesheet" href="./css/photon.css" />
-    <link rel="stylesheet" href="./css/style2.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
   <script type="text/javascript">
   Vue = require('vue');
 </script>
@@ -12,21 +12,30 @@
 
 <script type="text/x-template" id="logs-template">
 <button v-on:click="clearLog">Clear Log</button>
-  <ul>
-    <li v-for="l in logs">
-    {{l}}
-    </li>
-  </ul>
+  <table class="table-striped">
+  <thead>
+  <th>Nr</th><th>Type</th><th>Text</th><th>Timestamp</th>
+  </thead>
+    <tr v-for="l in logs">
+    <td>{{l[0]}}</td>
+    <td>{{l[2]}}</td>
+    <td>{{l[3]}}</td>
+    <td>{{l[1]}}</td>
+    </tr>
+  </table>
   <button v-on:click="clearLog">{{t.button.clearLog}}</button>
 </script>
 
 <script type="text/x-template" id="datafluxes-template">
-  <span v-for="f in folders"
+<ul class="list-group">
+  <li v-for="f in folders"
   :class="{active: f.selected}"
    v-on:click="activateDataflux($index)"
-   class="nav-group-item">
-      {{f.name}}
-</span>
+   class="list-group-item">
+      <strong>{{f.name}}</strong>
+      <p>{{f.srcFolder}}</p>
+  </li>
+</ul>
 
 <button v-on:click="addFolder">{{t.button.addFolder}}</button>
 </script>
@@ -91,7 +100,7 @@
 
   <div id="content" class="window-content">
     <div class="pane-group">
-      <div class="pane pane-sm sidebar">
+      <div class="pane sidebar">
         <nav class="nav-group">
     <div id="content-left">
       <datafluxes></datafluxes>
@@ -100,24 +109,31 @@
   </nav></div>
     <div id="content-right" class="pane">
       <div class="tab-group">
-  <div class="tab-item">
+  <div class="tab-item"
+    :class="{active: activeTab=='files'}"
+    v-on:click="tabClick('files')">
     Files to commit
   </div>
-  <div class="tab-item">
-    <span class="icon icon-cancel icon-close-tab"></span>
+  <div class="tab-item"
+    :class="{active: activeTab=='settings'}"
+    v-on:click="tabClick('settings')">
     Settings
   </div>
-  <div class="tab-item active">
+  <div class="tab-item"
+    :class="{active: activeTab=='log'}"
+    v-on:click="tabClick('log')">
     <span class="icon icon-cancel icon-close-tab"></span>
     Log
   </div>
 </div>
-  <logs></logs>
-      <settings></settings>
-<pre>
-{{active.srcFolder}}
-{{active.backupCache | json}}
-  {{ active.options | json }}</pre>
+  <logs v-if="activeTab=='log'"></logs>
+  <settings v-if=activeTab=='settings'></settings>
+  <table v-if="activeTab=='files'" class="table-striped">
+    <thead>
+      <th>File</th>
+    </thead>
+    <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
+  </table>
 
     </div>
   </div>

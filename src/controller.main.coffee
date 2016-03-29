@@ -23,7 +23,8 @@ class MainController
 
 
   addLog: (txt) =>
-    @GUILogs.unshift txt
+    log = txt.split "|"
+    @GUILogs.unshift log
 
   clearLog: =>
     @GUILogs = []
@@ -46,7 +47,7 @@ c = new MainController()
 
 for mode in conf.settings.logGuiModus.value
   c.log.addListener mode, (txt) ->
-    c.addLog "#{c.GUILogs.length+1}: #{txt}"
+    c.addLog "#{c.GUILogs.length+1}| #{txt}"
 
 vueSettings = Vue.extend({
   name: 'settings'
@@ -131,8 +132,13 @@ vm = new Vue({
   data:
     active: dfc.selectedObject
     t: t
+    activeTab: 'files'
   events:
     'active': ->
       this.$broadcast 'active'
       this.active = dfc.selectedObject
+  methods:
+    'tabClick': (val) ->
+      this.activeTab = val
+      c.log.debug val
 })
