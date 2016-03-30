@@ -8,10 +8,9 @@ txt:
   datafluxFolder: "Flux Capacitor folder"
   name: "Name"
   srcFolder: "Source folder"
-img:
-  alt:
-    datafluxSettings: "Dataflux settings"
-    datafluxRemove: "Remove dataflux"
-    datafluxAutoCommitStart: "Start auto commit"
-    datafluxAutoCommitStop: "Stop auto commit"
-    datafluxCommit: "commit changes"
+icon:
+  datafluxSettings: "Dataflux settings"
+  datafluxRemove: "Remove dataflux"
+  datafluxAutoCommitStart: "Start auto commit"
+  datafluxAutoCommitStop: "Stop auto commit"
+  datafluxCommit: "commit changes"

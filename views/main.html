@@ -33,7 +33,7 @@
    v-on:click="activateDataflux($index)"
    class="list-group-item">
       <strong>{{f.name}}</strong>
-      <p>{{f.srcFolder}}</p>
+      <p><span class="icon icon-folder"></span> {{f.srcFolder}}</p>
   </li>
 </ul>
 
@@ -144,13 +144,29 @@
 </div>
   <logs v-if="activeTab=='log'"></logs>
   <settings v-if=activeTab=='settings'></settings>
-  <table v-if="activeTab=='files'" class="table-striped">
+<div v-if="activeTab=='files'" class="pane">
+  <br>
+  <div class="btn-group">
+  <button
+    v-on:click="stopAutoCommit($index)"
+    v-if="f.autoCommit"
+    class="btn btn-default">
+    <span class="icon icon-stop"></span> {{t.icon.datafluxAutoCommitStop}}
+  </button>
+  <button v-on:click="startAutoCommit($index)" v-else class="btn btn-default">
+    <span class="icon icon-play"></span> {{t.icon.datafluxAutoCommitStart}}
+  </button>
+  <button v-on:click="commit($index)" class="btn btn-default">
+    <span class="icon icon-up-bold"></span> {{t.icon.datafluxCommit}}
+  </button>
+</div><br><br>
+  <table class="table-striped">
     <thead>
       <th>File</th>
     </thead>
     <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
   </table>
-
+</div>
     </div>
   </div>
 

@@ -97,18 +97,7 @@ vueDatafluxes = Vue.extend({
       dfc.removeDataflux index
       dfc.write()
       @folders = dfc.getObjects()
-    startAutoCommit: (index) ->
-      dfc.startAutoCommit index
-      this.folders = dfc.getObjects()
-      dfc.write()
-    stopAutoCommit: (index) ->
-      dfc.stopAutoCommit index
-      this.folders = dfc.getObjects()
-      dfc.write()
-    commit: (index) ->
-      dfc.commit index
-      this.$root.active = this.active
-      this.folders = dfc.getObjects()
+
   })
 
 vueLogs = Vue.extend({
@@ -127,10 +116,12 @@ Vue.component "datafluxes", vueDatafluxes
 Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
 
+
 vm = new Vue({
   el: '#fluxcapacitor',
   data:
     active: dfc.selectedObject
+    folders: dfc.getObjects()
     t: t
     activeTab: 'files'
   events:
@@ -141,4 +132,15 @@ vm = new Vue({
     'tabClick': (val) ->
       this.activeTab = val
       c.log.debug val
+    startAutoCommit: (index) ->
+      dfc.startAutoCommit index
+      this.folders = dfc.getObjects()
+      dfc.write()
+    stopAutoCommit: (index) ->
+      dfc.stopAutoCommit index
+      this.folders = dfc.getObjects()
+      dfc.write()
+    commit: (index) ->
+      dfc.commit index
+      this.folders = dfc.getObjects()
 })
