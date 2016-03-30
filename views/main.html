@@ -11,7 +11,9 @@
 
 
 <script type="text/x-template" id="logs-template">
-<button v-on:click="clearLog">Clear Log</button>
+<button v-on:click="clearLog" class="btn btn-default">
+<span class="icon icon-trash"></span>
+  {{t.button.clearLog}}</button>
   <table class="table-striped">
   <thead>
   <th>Nr</th><th>Type</th><th>Text</th><th>Timestamp</th>
@@ -23,7 +25,9 @@
     <td>{{l[1]}}</td>
     </tr>
   </table>
-  <button v-on:click="clearLog">{{t.button.clearLog}}</button>
+  <button v-on:click="clearLog" class="btn btn-default">
+  <span class="icon icon-trash"></span>
+    {{t.button.clearLog}}</button>
 </script>
 
 <script type="text/x-template" id="datafluxes-template">
@@ -87,24 +91,24 @@
   <div class="form-control">{{active.dataFluxFolder}}</div>
   <button v-on:click="changeFolder('dataFluxFolder')">{{t.button.changeFolder}}</button>
   </div>
+  <div class="form-group">
+  <label>{{t.txt.autoCommitInterval}}</label>
+  <div class="form-control">
+  <input v-model="active.options.autoFlushInterval">
+  </div>
+  </div>
 </form>
-<table>
-<tr>
-<td>{{t.txt.name}}</td><td> <input v-model="active.name"></td>
-</tr>
-<tr>
-<td>{{t.txt.srcFolder}}</td><td>{{active.srcFolder}}</td>
-</tr>
-<tr>
-<td>{{t.txt.autoCommitInterval}}</td><td><input v-model="active.options.autoFlushInterval"></td>
-</tr>
-<tr>
-<td>{{t.txt.datafluxFolder}}</td><td>{{active.dataFluxFolder}}
-  <button v-on:click="changeFolder('dataFluxFolder')">{{t.button.changeFolder}}</button></td>
-</tr></table>
 <button v-on:click="save" class="btn btn-primary">{{t.button.save}}</button>
-
 </script>
+
+<scipt type="text/x-template" id="backup-files-template">
+  <table class="table-striped">
+    <thead>
+      <th>File</th>
+    </thead>
+    <tr v-for="f in files"><td>{{f}}</td></tr>
+  </table>
+</scipt>
 
 
 </head>
@@ -128,17 +132,19 @@
   <div class="tab-item"
     :class="{active: activeTab=='files'}"
     v-on:click="tabClick('files')">
+    <span class="icon icon-docs"></span>
     Files to commit
   </div>
   <div class="tab-item"
     :class="{active: activeTab=='settings'}"
     v-on:click="tabClick('settings')">
-    Settings
+    <span class="icon icon-cog"></span> Settings
   </div>
   <div class="tab-item"
     :class="{active: activeTab=='log'}"
     v-on:click="tabClick('log')">
     <span class="icon icon-cancel icon-close-tab"></span>
+    <span class="icon icon-doc-text"></span>
     Log
   </div>
 </div>
@@ -148,18 +154,19 @@
   <br>
   <div class="btn-group">
   <button
-    v-on:click="stopAutoCommit($index)"
-    v-if="f.autoCommit"
+    v-on:click="stopAutoCommit"
+    v-if="active.autoCommit"
     class="btn btn-default">
     <span class="icon icon-stop"></span> {{t.icon.datafluxAutoCommitStop}}
   </button>
-  <button v-on:click="startAutoCommit($index)" v-else class="btn btn-default">
+  <button v-on:click="startAutoCommit" v-else class="btn btn-default">
     <span class="icon icon-play"></span> {{t.icon.datafluxAutoCommitStart}}
   </button>
-  <button v-on:click="commit($index)" class="btn btn-default">
+  <button v-on:click="commit" class="btn btn-default">
     <span class="icon icon-up-bold"></span> {{t.icon.datafluxCommit}}
   </button>
 </div><br><br>
+<files></files>
   <table class="table-striped">
     <thead>
       <th>File</th>

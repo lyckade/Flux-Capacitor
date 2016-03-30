@@ -7,11 +7,10 @@ conf = Conf.makeConf()
 DatafluxesController = require "../lib/controller.datafluxes"
 t = require "../lib/view.tFactory"
 
+fse = require "fs-extra"
 path = require "path"
 remote = require "remote"
 dialog = remote.require "dialog"
-
-
 
 class MainController
   constructor: ->
@@ -20,7 +19,6 @@ class MainController
     @conf = Conf.makeConf()
     conf.load "settings"
     conf.load "folders"
-
 
   addLog: (txt) =>
     log = txt.split "|"
@@ -34,8 +32,6 @@ class MainController
 
   removeDataflux: (index) ->
     conf.folders.splice index, 1
-
-#conf.load "folders"
 
 
 dfc = new DatafluxesController()
@@ -100,6 +96,25 @@ vueDatafluxes = Vue.extend({
 
   })
 
+vueBackupFiles = Vue.extend({
+  template: '#backup-files-template'
+  data: ->
+    files: this.$root.active.backupCache
+    active: this.$root.active
+    activeIndex: this.$root.activeIndex
+    fsstats: this.fileStats this.files
+  methods:
+    fileStats: (filelist) ->
+      return [] if filelist is undefined or not filelist instanceof Array
+      stats = []
+      for f in filelist
+        stats.push fse.fsstatSync(f)
+      stats
+  events:
+    'active': ->
+      this.files = this.$root.active.backupCache
+})
+
 vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
@@ -115,12 +130,14 @@ vueLogs = Vue.extend({
 Vue.component "datafluxes", vueDatafluxes
 Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
+Vue.component "files", vueBackupFiles
 
 
 vm = new Vue({
   el: '#fluxcapacitor',
   data:
     active: dfc.selectedObject
+    activeIndex: dfc.selectedObjectIndex
     folders: dfc.getObjects()
     t: t
     activeTab: 'files'
@@ -128,19 +145,20 @@ vm = new Vue({
     'active': ->
       this.$broadcast 'active'
       this.active = dfc.selectedObject
+      c.log.debug "active event in root"
   methods:
     'tabClick': (val) ->
       this.activeTab = val
       c.log.debug val
-    startAutoCommit: (index) ->
-      dfc.startAutoCommit index
+    startAutoCommit: ->
+      dfc.startAutoCommit()
       this.folders = dfc.getObjects()
       dfc.write()
-    stopAutoCommit: (index) ->
-      dfc.stopAutoCommit index
+    stopAutoCommit: ->
+      dfc.stopAutoCommit()
       this.folders = dfc.getObjects()
       dfc.write()
-    commit: (index) ->
-      dfc.commit index
+    commit: ->
+      dfc.commit()
       this.folders = dfc.getObjects()
 })

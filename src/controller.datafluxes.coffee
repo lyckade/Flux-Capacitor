@@ -88,11 +88,11 @@ class DatafluxesController
   getObject: (index) ->
     @objects[index]
 
-  commit: (index) ->
+  commit: (index = @selectedObjectIndex) ->
     @objects[index].flushBackupCache()
 
-  startAutoCommit: (index) ->
+  startAutoCommit: (index = @selectedObjectIndex) ->
     @objects[index].autoFlush()
 
-  stopAutoCommit: (index) ->
+  stopAutoCommit: (index = @selectedObjectIndex) ->
     @objects[index].stopAutoFlush()
