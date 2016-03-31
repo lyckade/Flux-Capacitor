@@ -99,7 +99,7 @@ vueDatafluxes = Vue.extend({
 vueBackupFiles = Vue.extend({
   template: '#backup-files-template'
   data: ->
-    files: this.$root.active.backupCache
+    files: dfc.selectedObject.backupCache
     active: this.$root.active
     activeIndex: this.$root.activeIndex
     fsstats: this.fileStats this.files
