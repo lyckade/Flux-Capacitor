@@ -84,8 +84,9 @@ vueDatafluxes = Vue.extend({
     activateDataflux: (index) ->
       dfc.selectObject index
       this.active = dfc.selectedObject
-      this.$root.active = this.active
+      this.$dispatch 'refreshRoot'
       this.$dispatch 'active'
+
       this.folders = dfc.getObjects()
       c.log.debug "Activate: #{index}"
     remove: (index) ->
@@ -146,6 +147,10 @@ vm = new Vue({
       this.$broadcast 'active'
       this.active = dfc.selectedObject
       c.log.debug "active event in root"
+    'refreshRoot': ->
+      active: dfc.selectedObject
+      activeIndex: dfc.selectedObjectIndex
+      folders: dfc.getObjects()
   methods:
     'tabClick': (val) ->
       this.activeTab = val
@@ -153,10 +158,12 @@ vm = new Vue({
     startAutoCommit: ->
       dfc.startAutoCommit()
       this.folders = dfc.getObjects()
+      this.active = dfc.selectObject this.activeIndex
       dfc.write()
     stopAutoCommit: ->
       dfc.stopAutoCommit()
       this.folders = dfc.getObjects()
+      this.active = dfc.selectObject this.activeIndex
       dfc.write()
     commit: ->
       dfc.commit()
