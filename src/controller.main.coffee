@@ -100,7 +100,7 @@ vueBackupFiles = Vue.extend({
   template: '#backup-files-template'
   data: ->
     files: dfc.selectedObject.backupCache
-    active: this.$root.active
+    active: dfc.selectedObject
     activeIndex: this.$root.activeIndex
     fsstats: this.fileStats this.files
   methods:
