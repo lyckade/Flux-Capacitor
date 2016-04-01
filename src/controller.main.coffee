@@ -52,6 +52,7 @@ for mode in conf.settings.logGuiModus.value
   c.log.addListener mode, (txt) ->
     c.addLog "#{c.GUILogs.length+1}| #{txt}"
 
+
 vueSettings = Vue.extend({
   name: 'settings'
   template: '#settings-template'
@@ -86,7 +87,6 @@ vueLogs = Vue.extend({
       this.logs = c.GUILogs
   })
 
-
 Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
 
@@ -96,17 +96,17 @@ vm = new Vue({
   data:
     t: t
     folders: dfc.getObjects()
-    active: dfc.getSelectedObject
+    active: dfc.getSelectedObject()
     activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
   events:
     'active': ->
       this.$broadcast 'active'
-      this.active = dfc.getSelectedObject
+      this.active = dfc.getSelectedObject()
       c.log.debug "active event in root"
     'refreshRoot': ->
       @folders = dfc.getObjects()
-      @active = dfc.getSelectedObject
+      @active = dfc.getSelectedObject()
       @activeIndex = dfc.selectedObjectIndex
   methods:
     'tabClick': (val) ->
