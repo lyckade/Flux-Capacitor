@@ -33,11 +33,18 @@ class MainController
   removeDataflux: (index) ->
     conf.folders.splice index, 1
 
+  fileStats: (filelist) ->
+    return [] if filelist is undefined or not filelist instanceof Array
+    stats = []
+    for f in filelist
+      stats.push fse.fsstatSync(f)
+    stats
+
 
 dfc = new DatafluxesController()
 dfc.loadObjects()
-objects = dfc.getObjects()
-selectedObject = dfc.getSelectedObject()
+#objects = dfc.getObjects()
+#selectedObject = dfc.getSelectedObject()
 
 c = new MainController()
 
@@ -50,7 +57,7 @@ vueSettings = Vue.extend({
   template: '#settings-template'
   data: ->
     #active: this.$parent.active
-    active: dfc.selectedObject
+    active: dfc.getSelectedObject()
     t: this.$root.t
   methods:
     save: ->
@@ -68,54 +75,6 @@ vueSettings = Vue.extend({
 
   })
 
-vueDatafluxes = Vue.extend({
-  template: '#datafluxes-template'
-  data: ->
-    folders: objects
-    active: dfc.selectedObject
-    t: this.$root.t
-  methods:
-    addFolder: ->
-      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
-        f = files[0]
-        dfc.addDataflux f
-        dfc.write()
-        @folders = dfc.getObjects()
-    activateDataflux: (index) ->
-      dfc.selectObject index
-      this.active = dfc.selectedObject
-      this.$dispatch 'refreshRoot'
-      this.$dispatch 'active'
-
-      this.folders = dfc.getObjects()
-      c.log.debug "Activate: #{index}"
-    remove: (index) ->
-      c.log.debug "Remove: #{index}"
-      dfc.removeDataflux index
-      dfc.write()
-      @folders = dfc.getObjects()
-
-  })
-
-vueBackupFiles = Vue.extend({
-  template: '#backup-files-template'
-  data: ->
-    files: dfc.selectedObject.backupCache
-    active: dfc.selectedObject
-    activeIndex: this.$root.activeIndex
-    fsstats: this.fileStats this.files
-  methods:
-    fileStats: (filelist) ->
-      return [] if filelist is undefined or not filelist instanceof Array
-      stats = []
-      for f in filelist
-        stats.push fse.fsstatSync(f)
-      stats
-  events:
-    'active': ->
-      this.files = this.$root.active.backupCache
-})
-
 vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
@@ -128,33 +87,49 @@ vueLogs = Vue.extend({
   })
 
 
-Vue.component "datafluxes", vueDatafluxes
 Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
-Vue.component "files", vueBackupFiles
 
 
 vm = new Vue({
   el: '#fluxcapacitor',
   data:
-    active: dfc.selectedObject
-    activeIndex: dfc.selectedObjectIndex
-    folders: dfc.getObjects()
     t: t
+    folders: dfc.getObjects()
+    active: dfc.getSelectedObject
+    activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
   events:
     'active': ->
       this.$broadcast 'active'
-      this.active = dfc.selectedObject
+      this.active = dfc.getSelectedObject
       c.log.debug "active event in root"
     'refreshRoot': ->
-      active: dfc.selectedObject
-      activeIndex: dfc.selectedObjectIndex
-      folders: dfc.getObjects()
+      @folders = dfc.getObjects()
+      @active = dfc.getSelectedObject
+      @activeIndex = dfc.selectedObjectIndex
   methods:
     'tabClick': (val) ->
       this.activeTab = val
       c.log.debug val
+    addFolder: ->
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
+        f = files[0]
+        dfc.addDataflux f
+        dfc.write()
+        @folders = dfc.getObjects()
+    removeFolder: (index) ->
+      c.log.debug "Remove: #{index}"
+      dfc.removeDataflux index
+      @folders = dfc.getObjects()
+      dfc.write()
+    activateDataflux: (index) ->
+      dfc.selectObject index
+      this.folders = dfc.getObjects()
+      this.active = dfc.getSelectedObject()
+      this.$on 'refreshRoot'
+      dfc.write()
+      c.log.debug "Activate: #{index}"
     startAutoCommit: ->
       dfc.startAutoCommit()
       this.folders = dfc.getObjects()
