@@ -98,13 +98,6 @@ vm = new Vue({
     activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
   events:
-<<<<<<< HEAD
-=======
-    'active': ->
-      this.$broadcast 'active'
-      this.active = dfc.getSelectedObject()
-      c.log.debug "active event in root"
->>>>>>> origin/master
     'refreshRoot': ->
       c.log.debug "refreshRoot called"
       @folders = dfc.getObjects()
