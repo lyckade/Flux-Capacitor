@@ -43,8 +43,6 @@ class MainController
 
 dfc = new DatafluxesController()
 dfc.loadObjects()
-#objects = dfc.getObjects()
-#selectedObject = dfc.getSelectedObject()
 
 c = new MainController()
 
@@ -58,7 +56,7 @@ vueSettings = Vue.extend({
   template: '#settings-template'
   data: ->
     active: dfc.getSelectedObject()
-    t: this.$root.t
+    t: @$root.t
   methods:
     save: ->
       dfc.setSelectedObject()
@@ -71,18 +69,18 @@ vueSettings = Vue.extend({
   events:
     'refresh': ->
       c.log.debug "settings. active"
-      this.active = this.$root.active
+      @active = @$root.active
   })
 
 vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
     logs: c.GUILogs
-    t: this.$root.t
+    t: @$root.t
   methods:
     clearLog: ->
       c.clearLog()
-      this.logs = c.GUILogs
+      @logs = c.GUILogs
   })
 
 Vue.component "settings", vueSettings
@@ -105,7 +103,7 @@ vm = new Vue({
       @activeIndex = dfc.selectedObjectIndex
   methods:
     'tabClick': (val) ->
-      this.activeTab = val
+      @activeTab = val
       c.log.debug val
     addFolder: ->
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
@@ -120,22 +118,22 @@ vm = new Vue({
       dfc.write()
     activateDataflux: (index) ->
       dfc.selectObject index
-      this.folders = dfc.getObjects()
-      this.active = dfc.getSelectedObject()
+      @folders = dfc.getObjects()
+      @active = dfc.getSelectedObject()
       @$broadcast 'refresh'
       dfc.write()
       c.log.debug "Activate: #{index}"
     startAutoCommit: ->
       dfc.startAutoCommit()
-      this.folders = dfc.getObjects()
-      this.active = dfc.selectObject this.activeIndex
+      @folders = dfc.getObjects()
+      @active = dfc.selectObject @activeIndex
       dfc.write()
     stopAutoCommit: ->
       dfc.stopAutoCommit()
-      this.folders = dfc.getObjects()
-      this.active = dfc.selectObject this.activeIndex
+      @folders = dfc.getObjects()
+      @active = dfc.selectObject @activeIndex
       dfc.write()
     commit: ->
       dfc.commit()
-      this.folders = dfc.getObjects()
+      @folders = dfc.getObjects()
 })
