@@ -118,18 +118,36 @@
         :class="{active: f.selected}"
          v-on:click="activateDataflux($index)"
          class="list-group-item">
-         <button class="btn btn-mini btn-default pull-right"
-            v-on:click="removeFolder($index)">
-         <span class="icon icon-cancel"></span>
-        </button>
          <div class="media-body">
             <strong>{{f.name}}</strong>
             <p><span class="icon icon-folder"></span> {{f.srcFolder}}</p>
          </div>
+         <div class="btn-group">
+      <button
+      v-if="objects[$index].autoFlushActive"
+      v-on:click="stopAutoCommit($index)"
+      class="btn btn-mini btn-default">
+        <span class="icon icon-stop"></span>
+      </button>
+      <button
+      v-else
+      v-on:click="startAutoCommit($index)"
+      class="btn btn-mini btn-default">
+        <span class="icon icon-play"></span>
+      </button>
+      <button
+      v-on:click="commit($index)"
+      class="btn btn-mini btn-default">
+        <span class="icon icon-up-bold"></span>
+      </button>
+         <button class="btn btn-mini btn-default"
+            v-on:click="removeFolder($index)">
+         <span class="icon icon-cancel"></span>
+       </button></div>
         </li>
         <li class="list-group-item">
           <button v-on:click="addFolder" class="btn btn-default pull-right">
-          <span class="icon icon-plus"></span>
+          <span class="icon icon-plus icon-text"></span>
           {{t.button.addFolder}}
         </button></li>
       </ul>
@@ -166,15 +184,15 @@
   <div class="btn-group">
   <button
     v-if="active.autoFlushActive"
-    v-on:click="stopAutoCommit"
+    v-on:click="stopAutoCommit()"
     class="btn btn-default">
-    <span class="icon icon-stop"></span> {{t.icon.datafluxAutoCommitStop}}
+    <span class="icon icon-stop icon-text"></span> {{t.icon.datafluxAutoCommitStop}}
   </button>
-  <button v-else v-on:click="startAutoCommit" class="btn btn-default">
-    <span class="icon icon-play"></span> {{t.icon.datafluxAutoCommitStart}}
+  <button v-else v-on:click="startAutoCommit()" class="btn btn-default">
+    <span class="icon icon-play icon-text"></span> {{t.icon.datafluxAutoCommitStart}}
   </button>
-  <button v-on:click="commit" class="btn btn-default">
-    <span class="icon icon-up-bold"></span> {{t.icon.datafluxCommit}}
+  <button v-on:click="commit()" class="btn btn-default">
+    <span class="icon icon-up-bold icon-text"></span> {{t.icon.datafluxCommit}}
   </button>
 </div><br><br>
 <table class="table-striped">
