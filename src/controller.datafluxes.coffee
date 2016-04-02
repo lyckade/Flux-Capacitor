@@ -65,15 +65,18 @@ class DatafluxesController
   getObjects: ->
     objs = []
     for df, index in @objects
-      dfOptions =
-        name: df.name
-        srcFolder: df.srcFolder
-        dataFluxFolder: df.dataFluxFolder
-        options: df.options
-        selected: index is @selectedObjectIndex
-        autoCommit: df.autoFlushActive
-      objs.push dfOptions
+      objs.push(@makeObjectProperties index)
     objs
+
+  makeObjectProperties: (index) ->
+    df = @objects[index]
+    options =
+      name: df.name
+      srcFolder: df.srcFolder
+      dataFluxFolder: df.dataFluxFolder
+      options: df.options
+      selected: index is @selectedObjectIndex
+      autoCommit: df.autoFlushActive
 
   selectObject: (index) ->
     @selectedObjectIndex = index

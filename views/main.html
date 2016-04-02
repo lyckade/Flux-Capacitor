@@ -165,7 +165,7 @@
   <br>
   <div class="btn-group">
   <button
-    v-if="active.autoCommit"
+    v-if="active.autoFlushActive"
     v-on:click="stopAutoCommit"
     class="btn btn-default">
     <span class="icon icon-stop"></span> {{t.icon.datafluxAutoCommitStop}}

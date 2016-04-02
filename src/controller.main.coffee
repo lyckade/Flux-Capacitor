@@ -126,12 +126,13 @@ vm = new Vue({
     startAutoCommit: ->
       dfc.startAutoCommit()
       @folders = dfc.getObjects()
-      @active = dfc.selectObject @activeIndex
+      @active = dfc.getSelectedObject()
+      c.log.debug "#{@active.autoCommit}"
       dfc.write()
     stopAutoCommit: ->
       dfc.stopAutoCommit()
       @folders = dfc.getObjects()
-      @active = dfc.selectObject @activeIndex
+      @active = dfc.getSelectedObject()
       dfc.write()
     commit: ->
       dfc.commit()
