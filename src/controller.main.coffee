@@ -56,7 +56,6 @@ vueSettings = Vue.extend({
   name: 'settings'
   template: '#settings-template'
   data: ->
-    #active: this.$parent.active
     active: dfc.getSelectedObject()
     t: this.$root.t
   methods:
@@ -69,10 +68,9 @@ vueSettings = Vue.extend({
         @active[type] = f
       c.log.debug type
   events:
-    'active': ->
+    'refresh': ->
       c.log.debug "settings. active"
-      this.active = this.$parent.active
-
+      this.active = this.$root.active
   })
 
 vueLogs = Vue.extend({
@@ -100,11 +98,8 @@ vm = new Vue({
     activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
   events:
-    'active': ->
-      this.$broadcast 'active'
-      this.active = dfc.getSelectedObject
-      c.log.debug "active event in root"
     'refreshRoot': ->
+      c.log.debug "refreshRoot called"
       @folders = dfc.getObjects()
       @active = dfc.getSelectedObject
       @activeIndex = dfc.selectedObjectIndex
@@ -127,7 +122,7 @@ vm = new Vue({
       dfc.selectObject index
       this.folders = dfc.getObjects()
       this.active = dfc.getSelectedObject()
-      this.$on 'refreshRoot'
+      @$broadcast 'refresh'
       dfc.write()
       c.log.debug "Activate: #{index}"
     startAutoCommit: ->
