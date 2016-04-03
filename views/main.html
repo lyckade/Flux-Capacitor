@@ -9,7 +9,9 @@
   Vue = require('vue');
 </script>
 
-
+<!--
+logs component
+-->
 <script type="text/x-template" id="logs-template">
 <button v-on:click="clearLog" class="btn btn-default">
 <span class="icon icon-trash"></span>
@@ -30,51 +32,9 @@
     {{t.button.clearLog}}</button>
 </script>
 
-<script type="text/x-template" id="datafluxes-template">
-<ul class="list-group">
-  <li v-for="f in folders"
-  :class="{active: f.selected}"
-   v-on:click="activateDataflux($index)"
-   class="list-group-item">
-      <strong>{{f.name}}</strong>
-      <p><span class="icon icon-folder"></span> {{f.srcFolder}}</p>
-  </li>
-</ul>
-<button v-on:click="addFolder">{{t.button.addFolder}}</button>
-</script>
-
-<script type="text/x-template" id="datafluxes-templatealt">
-<table id="datafluxes">
-  <tr v-for="f in folders" :class="{selected: f.selected}">
-    <td v-on:click="activateDataflux($index)">
-      {{f.name}}
-    </td>
-    <td><span v-show="f.selected">Active</span></td>
-    <td>
-    <img v-on:click="remove($index)" src="img/folder-delete.svg" alt="{{t.img.alt.datafluxRemove}}">
-    </td>
-    <td>
-    <span v-if="f.autoCommit">
-    <img v-on:click="stopAutoCommit($index)" src="img/media-pause-outline.svg" alt="{{t.img.alt.datafluxAutoCommitStop}}">
-    </span>
-    <span v-else>
-    <img v-on:click="startAutoCommit($index)" src="img/media-play-outline.svg" alt="{{t.img.alt.datafluxAutoCommitStart}}">
-    </span>
-    </td>
-    <td>
-    <img v-on:click="commit($index)" src="img/arrow-up-outline.svg" alt="{{t.img.alt.datafluxCommit}}">
-    </td>
-    <td>
-    <img  src="img/cog-outline.svg" alt="{{t.img.alt.datafluxSettings}}">
-    </td>
-  </tr>
-</table>
-
-<div>Active Dataflux:{{active.srcFolder}}</div>
-<button v-on:click="addFolder">{{t.button.addFolder}}</button>
-</script>
-
-
+<!--
+settings component
+-->
 <script type="text/x-template" id="settings-template">
 <form>
   <div class="form-group">
@@ -104,14 +64,19 @@
 </head>
 <body>
   <div id="fluxcapacitor" class="window">
+
     <header class="toolbar toolbar-header">
         <h1 class="title">Flux Capacitor</h1>
     </header>
 
   <div id="content" class="window-content">
     <div class="pane-group">
-      <div class="pane sidebar">
-        <nav class="nav-group">
+
+<!--
+Sidebar: flux folders
+-->
+    <div class="pane sidebar">
+      <nav class="nav-group">
     <div id="content-left">
       <ul class="list-group">
         <li v-for="f in folders"
@@ -155,56 +120,68 @@
     </div>
   </nav></div>
 
+<!--
+Tab definition
+-->
 
-    <div id="content-right" class="pane">
-      <div class="tab-group">
-  <div class="tab-item"
-    :class="{active: activeTab=='files'}"
-    v-on:click="tabClick('files')">
-    <span class="icon icon-docs"></span>
-    Files to commit
-  </div>
-  <div class="tab-item"
-    :class="{active: activeTab=='settings'}"
-    v-on:click="tabClick('settings')">
-    <span class="icon icon-cog"></span> Settings
-  </div>
-  <div class="tab-item"
-    :class="{active: activeTab=='log'}"
-    v-on:click="tabClick('log')">
-    <span class="icon icon-cancel icon-close-tab"></span>
-    <span class="icon icon-doc-text"></span>
-    Log
-  </div>
-</div>
+  <div id="content-right" class="pane">
+    <div class="tab-group">
+      <div class="tab-item"
+        :class="{active: activeTab=='files'}"
+        v-on:click="tabClick('files')">
+        <span class="icon icon-docs"></span>
+        Files to commit
+      </div>
+      <div class="tab-item"
+        :class="{active: activeTab=='settings'}"
+        v-on:click="tabClick('settings')">
+        <span class="icon icon-cog"></span> Settings
+      </div>
+      <div class="tab-item"
+        :class="{active: activeTab=='log'}"
+        v-on:click="tabClick('log')">
+        <span class="icon icon-cancel icon-close-tab"></span>
+        <span class="icon icon-doc-text"></span>
+        Log
+      </div>
+    </div>
+<!--
+  logs tab
+-->
   <logs v-if="activeTab=='log'"></logs>
+  <!--
+    settings tab
+  -->
   <settings v-if=activeTab=='settings'></settings>
-<div v-if="activeTab=='files'" class="pane">
-  <br>
-  <div class="btn-group">
-  <button
-    v-if="active.autoFlushActive"
-    v-on:click="stopAutoCommit()"
-    class="btn btn-default">
-    <span class="icon icon-stop icon-text"></span> {{t.icon.datafluxAutoCommitStop}}
-  </button>
-  <button v-else v-on:click="startAutoCommit()" class="btn btn-default">
-    <span class="icon icon-play icon-text"></span> {{t.icon.datafluxAutoCommitStart}}
-  </button>
-  <button v-on:click="commit()" class="btn btn-default">
-    <span class="icon icon-up-bold icon-text"></span> {{t.icon.datafluxCommit}}
-  </button>
-</div><br><br>
-<table class="table-striped">
-  <thead>
-    <th>File</th>
-  </thead>
-    <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
-</table>
-
-</div>
+<!--
+  Files tab
+-->
+  <div v-if="activeTab=='files'" class="pane">
+    <br>
+    <div class="btn-group">
+      <button
+        v-if="active.autoFlushActive"
+        v-on:click="stopAutoCommit()"
+        class="btn btn-default">
+        <span class="icon icon-stop icon-text"></span> {{t.icon.datafluxAutoCommitStop}}
+      </button>
+      <button v-else v-on:click="startAutoCommit()" class="btn btn-default">
+        <span class="icon icon-play icon-text"></span> {{t.icon.datafluxAutoCommitStart}}
+      </button>
+      <button v-on:click="commit()" class="btn btn-default">
+        <span class="icon icon-up-bold icon-text"></span> {{t.icon.datafluxCommit}}
+      </button>
+    </div>
+<br><br>
+    <table class="table-striped">
+      <thead>
+      <th>File</th>
+      </thead>
+      <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
+    </table>
     </div>
   </div>
+</div>
 
 </div>
 </div>
