@@ -1,3 +1,13 @@
+#logBottom {
+  border-top: 3px solid #DDD;
+  position: fixed;
+  bottom: 1px;
+  height: 40%;
+  width: 100%;
+  background-color: white;
+  overflow: auto;
+}
+
 .sidebar {
   max-width: 350px;
   min-width: 220px;

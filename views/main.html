@@ -65,10 +65,6 @@ settings component
 <body>
   <div id="fluxcapacitor" class="window">
 
-    <header class="toolbar toolbar-header">
-        <h1 class="title">Flux Capacitor</h1>
-    </header>
-
   <div id="content" class="window-content">
     <div class="pane-group">
 
@@ -78,6 +74,7 @@ Sidebar: flux folders
     <div class="pane sidebar">
       <nav class="nav-group">
     <div id="content-left">
+      <h5 class="nav-group-title">{{t.txt.folders}}</h5>
       <ul class="list-group">
         <li v-for="f in folders"
         :class="{active: f.selected}"
@@ -117,7 +114,15 @@ Sidebar: flux folders
           {{t.button.addFolder}}
         </button></li>
       </ul>
-
+      <h5 class="nav-group-title">{{t.txt.actions}}</h5>
+      <span class="nav-group-item" v-if="showLog" v-on:click="toggleLog">
+      <span class="icon icon-doc-text"></span>
+      {{t.txt.hideLog}}
+      </span>
+      <span class="nav-group-item" v-else v-on:click="toggleLog">
+      <span class="icon icon-doc-text"></span>
+      {{t.txt.showLog}}
+      </span>
     </div>
   </nav></div>
 
@@ -125,7 +130,8 @@ Sidebar: flux folders
 Tab definition
 -->
 
-  <div id="content-right" class="pane">
+  <div class="pane">
+    <div id="content-right">
     <div class="tab-group">
       <div class="tab-item"
         :class="{active: activeTab=='files'}"
@@ -137,13 +143,6 @@ Tab definition
         :class="{active: activeTab=='settings'}"
         v-on:click="tabClick('settings')">
         <span class="icon icon-cog"></span> Settings
-      </div>
-      <div class="tab-item"
-        :class="{active: activeTab=='log'}"
-        v-on:click="tabClick('log')">
-        <span class="icon icon-cancel icon-close-tab"></span>
-        <span class="icon icon-doc-text"></span>
-        Log
       </div>
     </div>
 <!--
@@ -157,35 +156,40 @@ Tab definition
 <!--
   Files tab
 -->
-  <div v-if="activeTab=='files'" class="pane">
-    <br>
-    <div class="btn-group">
-      <button
-        v-if="active.autoFlushActive"
-        v-on:click="stopAutoCommit()"
-        class="btn btn-default">
-        <span class="icon icon-stop icon-text"></span> {{t.icon.datafluxAutoCommitStop}}
-      </button>
-      <button v-else v-on:click="startAutoCommit()" class="btn btn-default">
-        <span class="icon icon-play icon-text"></span> {{t.icon.datafluxAutoCommitStart}}
-      </button>
-      <button v-on:click="commit()" class="btn btn-default">
-        <span class="icon icon-up-bold icon-text"></span> {{t.icon.datafluxCommit}}
-      </button>
-    </div>
-<br><br>
-    <table class="table-striped">
-      <thead>
-      <th>File</th>
-      </thead>
-      <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
-    </table>
-    </div>
-  </div>
+    <div v-if="activeTab=='files'" class="pane">
+      <br>
+      <div class="btn-group">
+        <button
+          v-if="active.autoFlushActive"
+          v-on:click="stopAutoCommit()"
+          class="btn btn-default">
+          <span class="icon icon-stop icon-text"></span> {{t.icontext.datafluxAutoCommitStop}}
+        </button>
+        <button v-else v-on:click="startAutoCommit()" class="btn btn-default">
+          <span class="icon icon-play icon-text"></span> {{t.icontext.datafluxAutoCommitStart}}
+        </button>
+        <button v-on:click="commit()" class="btn btn-default">
+          <span class="icon icon-up-bold icon-text"></span> {{t.icontext.datafluxCommit}}
+        </button>
+      </div>
+  <br><br>
+      <table class="table-striped">
+        <thead>
+        <th>File</th>
+        </thead>
+        <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
+      </table>
+      </div>
+</div>
+<div id="logBottom" v-if="showLog">
+  <logs></logs>
 </div>
 
+    </div><!-- End of pane content area right-->
+  </div>
 </div>
 </div>
+
 
     <script src="../lib/controller.main.js" type="text/javascript" charset="utf-8">
     </script>

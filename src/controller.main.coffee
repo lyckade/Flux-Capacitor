@@ -96,6 +96,7 @@ vm = new Vue({
     activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
     objects: dfc.objects
+    showLog: false
   events:
     'refreshRoot': ->
       c.log.debug "refreshRoot called"
@@ -126,19 +127,25 @@ vm = new Vue({
       dfc.write()
 
     startAutoCommit: (index=dfc.selectedObjectIndex) ->
-
       dfc.startAutoCommit(index)
       @folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
       c.log.debug "#{@active.autoCommit}"
       dfc.write()
-    stopAutoCommit: (index=dfc.selectedObjectIndex) ->
 
+    stopAutoCommit: (index=dfc.selectedObjectIndex) ->
       dfc.stopAutoCommit(index)
       @folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
       dfc.write()
+
     commit: (index=dfc.selectedObjectIndex) ->
       dfc.commit(index)
       @folders = dfc.getObjects()
+
+    toggleLog: ->
+      if @showLog
+        @showLog = false
+      else
+        @showLog = true
 })
