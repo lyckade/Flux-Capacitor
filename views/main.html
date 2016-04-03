@@ -103,7 +103,8 @@ Sidebar: flux folders
       <button
       v-on:click="commit($index)"
       class="btn btn-mini btn-default">
-        <span class="icon icon-up-bold"></span>
+        <span class="icon icon-up-bold icon-text"></span>
+        {{objects[$index].backupCache.length}}
       </button>
          <button class="btn btn-mini btn-default"
             v-on:click="removeFolder($index)">

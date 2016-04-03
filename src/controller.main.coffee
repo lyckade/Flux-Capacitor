@@ -121,6 +121,7 @@ vm = new Vue({
       dfc.selectObject index
       @folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
+      @activeTab = 'files'
       @$broadcast 'refresh'
       dfc.write()
 
