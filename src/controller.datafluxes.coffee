@@ -52,7 +52,7 @@ class DatafluxesController
         @log.error "#{folderPath} already added to the controller."
         return false
       else if @path.isSubfolder df.srcFolder, folderPath
-        @log.error "#{folderPath} is a subfolder of an existing dataflux folder."
+        @log.error "#{folderPath} is a subfolder of an existing dataflux folder (#{df.srcFolder})."
         return false
       else if @path.isSubfolder folderPath, df.srcFolder
         @log.error "The subfolder #{df.srcFolder} is already a dataflux!"

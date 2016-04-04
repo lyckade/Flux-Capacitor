@@ -10,7 +10,7 @@ module.exports.makePath = (srcFolder, dstFolder, filePath) ->
 
 module.exports.isSubfolder = (folder, checkFolder) ->
   rel = path.relative folder, checkFolder
-  if rel[0...2] is ".."
+  if rel[0...2] is ".." or rel is checkFolder
     return false
   else
     return true
