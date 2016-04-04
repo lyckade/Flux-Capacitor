@@ -40,6 +40,8 @@ class DatafluxesController
         fluxFolder = @path.join srcFolder, @conf.settings.datafluxDefaultDir.value
       new_df = new Dataflux(srcFolder, fluxFolder)
       new_df.name = srcFolder
+      new_df.walk()
+      new_df.watch()
       @objects.push(new_df)
 
   checkFolder: (folderPath) ->
