@@ -76,13 +76,13 @@ Sidebar: flux folders
     <div id="content-left">
       <h5 class="nav-group-title">{{t.txt.folders}}</h5>
       <ul class="list-group">
-        <li v-for="f in folders"
-        :class="{active: f.selected}"
+        <li v-for="o in objects"
+        :class="{active: folders[$index].selected}"
          v-on:click="activateDataflux($index)"
          class="list-group-item">
          <div class="media-body">
-            <strong>{{f.name}}</strong>
-            <p><span class="icon icon-folder"></span> {{f.srcFolder}}</p>
+            <strong>{{folders[$index].name}}</strong>
+            <p><span class="icon icon-folder"></span> {{folders[$index].srcFolder}}</p>
          </div>
          <div class="btn-group">
       <button

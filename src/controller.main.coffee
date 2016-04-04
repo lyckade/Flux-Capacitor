@@ -115,23 +115,32 @@ vm = new Vue({
         dfc.write()
         @folders = dfc.getObjects()
     removeFolder: (index) ->
-      c.log.debug "Remove: #{index}"
-      dfc.removeDataflux index
-      @folders = dfc.getObjects()
-      dfc.write()
+      if confirm t.txt.confirmDelete
+        c.log.debug "Remove: #{index} - Active: #{@activeIndex}"
+        if index is @activeIndex
+          c.log.debug "removeFolder: activate 0"
+          @activateDataflux 0
+        dfc.removeDataflux index
+        @objects = dfc.objects
+        # objects needs to update before folders!
+        # because the loop goes over folders
+        @folders = dfc.getObjects()
+        @active = dfc.getSelectedObject()
+        dfc.write()
     activateDataflux: (index) ->
+      c.log.debug "activate #{index}"
       dfc.selectObject index
       @folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
-      @activeTab = 'files'
+      @activeIndex = index
       @$broadcast 'refresh'
+      @activeTab = 'files'
       dfc.write()
 
     startAutoCommit: (index=dfc.selectedObjectIndex) ->
       dfc.startAutoCommit(index)
       @folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
-      c.log.debug "#{@active.autoCommit}"
       dfc.write()
 
     stopAutoCommit: (index=dfc.selectedObjectIndex) ->

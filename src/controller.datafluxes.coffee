@@ -30,6 +30,8 @@ class DatafluxesController
       if df.selected
         @selectedObjectIndex = index
         @selectedObject = df
+    if @selectedObjectIndex is null
+      @selectObject 0
 
   addDataflux: (srcFolder, fluxFolder) ->
     if srcFolder is undefined
