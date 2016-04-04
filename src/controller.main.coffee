@@ -59,8 +59,8 @@ vueSettings = Vue.extend({
     t: @$root.t
   methods:
     save: ->
-      dfc.setSelectedObject()
       dfc.write()
+      @$root.folders = dfc.getObjects()
     changeFolder: (type) ->
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
         f = files[0]
@@ -85,7 +85,7 @@ vueLogs = Vue.extend({
 
 Vue.component "settings", vueSettings
 Vue.component "logs", vueLogs
-
+Vue.config.debug = true
 
 vm = new Vue({
   el: '#fluxcapacitor',
@@ -100,9 +100,10 @@ vm = new Vue({
   events:
     'refreshRoot': ->
       c.log.debug "refreshRoot called"
-      @folders = dfc.getObjects()
-      @active = dfc.getSelectedObject()
-      @activeIndex = dfc.selectedObjectIndex
+      #@folders = dfc.getObjects()
+      #@active = dfc.getSelectedObject()
+      #@activeIndex = dfc.selectedObjectIndex
+      #@objects = dfc.objects
   methods:
     'tabClick': (val) ->
       @activeTab = val
