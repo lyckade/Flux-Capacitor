@@ -47,8 +47,7 @@ settings component
   </div>
   <div class="form-group">
   <label>{{t.txt.datafluxFolder}}</label>
-  <div class="form-control">{{active.dataFluxFolder}}</div>
-  <button v-on:click="changeFolder('dataFluxFolder')">{{t.button.changeFolder}}</button>
+  <input v-model="active.dataFluxFolder" class="form-control">
   </div>
   <div class="form-group">
   <label>{{t.txt.autoCommitInterval}}</label>

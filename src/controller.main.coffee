@@ -61,11 +61,6 @@ vueSettings = Vue.extend({
     save: ->
       dfc.write()
       @$root.folders = dfc.getObjects()
-    changeFolder: (type) ->
-      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
-        f = files[0]
-        @active[type] = f
-      c.log.debug type
   events:
     'refresh': ->
       c.log.debug "settings. active"
@@ -109,6 +104,7 @@ vm = new Vue({
       @activeTab = val
       c.log.debug val
     addFolder: ->
+      c.log.debug "AddFolder called"
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
         f = files[0]
         dfc.addDataflux f
