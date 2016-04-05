@@ -1,6 +1,8 @@
 button:
   addFolder: "Add Folder"
+  addPattern: "Add pattern"
   clearLog: "Clear Log"
+  removePattern: "Remove pattern"
   save: "Save"
 txt:
   actions: "Actions"
@@ -12,6 +14,7 @@ txt:
   name: "Name"
   nr: "Nr"
   showLog: "Show log"
+  skipPatterns: "Skip patterns"
   srcFolder: "Source folder"
   text: "Text"
   timestamp: "Timestamp"

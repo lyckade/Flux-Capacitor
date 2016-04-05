@@ -61,6 +61,10 @@ vueSettings = Vue.extend({
     save: ->
       dfc.write()
       @$root.folders = dfc.getObjects()
+    addPattern: ->
+      @active.options.skipFile.patterns.push ""
+    removePattern: (index) ->
+      @active.options.skipFile.patterns.splice index, 1
   events:
     'refresh': ->
       c.log.debug "settings. active"

@@ -51,10 +51,29 @@ settings component
   </div>
   <div class="form-group">
   <label>{{t.txt.autoCommitInterval}}</label>
-  <div class="form-control">
-  <input v-model="active.options.autoFlushInterval">
+  <input v-model="active.options.autoFlushInterval" class="form-control">
   </div>
-  </div>
+
+  <table class="table-striped">
+    <thead>
+    <th>{{t.txt.skipPatterns}}</th><th></th>
+    </thead>
+    <tr v-for="p in active.options.skipFile.patterns">
+      <td><input v-model="p" class="tableinput"></td>
+      <td v-on:click="removePattern($index)">
+        <span class="icon icon-cancel"></span> {{t.button.removePattern}}
+      </td>
+    </tr>
+    <tr>
+      <td v-on:click="addPattern">
+        <span class="icon icon-plus"></span> {{t.button.addPattern}}
+      </td>
+      <td></td>
+    </tr>
+  </table>
+
+
+
 </form>
 <button v-on:click="save" class="btn btn-primary">{{t.button.save}}</button>
 </script>

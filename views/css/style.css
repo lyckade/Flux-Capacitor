@@ -12,3 +12,11 @@
   max-width: 350px;
   min-width: 220px;
 }
+
+input.tableinput {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid #DDD;
+  width: 100%;
+  background-color: inherit;
+}
