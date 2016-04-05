@@ -19,10 +19,10 @@ function onClosed() {
 
 function createMainWindow() {
 	const win = new electron.BrowserWindow({
-		width: 1200,
+		width: 1700,
 		height: 900
 	});
-	
+
 	//require("coffee-script").register();
 	win.loadURL(`file://${__dirname}/views/main.html`);
 	win.on('closed', onClosed);

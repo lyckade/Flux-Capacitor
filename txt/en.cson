@@ -1,6 +1,5 @@
 button:
   addFolder: "Add Folder"
-  changeFolder: "Change Folder"
   clearLog: "Clear Log"
   save: "Save"
 txt:
