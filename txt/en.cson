@@ -11,8 +11,12 @@ txt:
   folders: "Folders"
   hideLog: "Hide log"
   name: "Name"
+  nr: "Nr"
   showLog: "Show log"
   srcFolder: "Source folder"
+  text: "Text"
+  timestamp: "Timestamp"
+  type: "Type"
 icontext:
   datafluxSettings: "Dataflux settings"
   datafluxRemove: "Remove dataflux"
