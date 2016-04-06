@@ -94,17 +94,16 @@ Sidebar: flux folders
     <div id="content-left">
       <h5 class="nav-group-title">{{t.txt.folders}}</h5>
       <ul class="list-group">
-        <li v-for="o in objects"
+        <li v-for="o in myObjects"
         :class="{active: folders[$index].selected}"
-         v-on:click="activateDataflux($index)"
          class="list-group-item">
-         <div class="media-body">
-            <strong>{{folders[$index].name}}</strong>
-            <p><span class="icon icon-folder"></span> {{folders[$index].srcFolder}}</p>
+         <div class="media-body" v-on:click="activateDataflux($index)">
+            <strong>{{o.name}}</strong>
+            <p><span class="icon icon-folder"></span> {{o.srcFolder}}</p>
          </div>
          <div class="btn-group">
       <button
-      v-if="objects[$index].autoFlushActive"
+      v-if="o.autoFlushActive"
       v-on:click="stopAutoCommit($index)"
       class="btn btn-mini btn-default">
         <span class="icon icon-stop"></span>
@@ -119,7 +118,7 @@ Sidebar: flux folders
       v-on:click="commit($index)"
       class="btn btn-mini btn-default">
         <span class="icon icon-up-bold icon-text"></span>
-        {{objects[$index].backupCache.length}}
+        {{o.backupCache.length}}
       </button>
          <button class="btn btn-mini btn-default"
             v-on:click="removeFolder($index)">

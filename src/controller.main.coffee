@@ -99,6 +99,14 @@ vm = new Vue({
     objects: dfc.objects
     showLog: false
   computed:
+    myObjects:
+      cache: false
+      get: ->
+        myObjects = []
+        for obj, index in dfc.objects
+          obj.selected = index is @activeIndex
+          myObjects.push obj
+        myObjects
     filesToCommit: ->
       files = []
       for f in @active.backupCache
@@ -109,41 +117,47 @@ vm = new Vue({
         files.push fstat
       files
 
-  events:
+  ###events:
     'refreshRoot': ->
       c.log.debug "refreshRoot called"
       #@folders = dfc.getObjects()
       #@active = dfc.getSelectedObject()
       #@activeIndex = dfc.selectedObjectIndex
-      #@objects = dfc.objects
+      #@objects = dfc.objects###
   methods:
     'tabClick': (val) ->
       @activeTab = val
       c.log.debug val
     addFolder: ->
       c.log.debug "AddFolder called"
-      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
         f = files[0]
         dfc.addDataflux f
         dfc.write()
-        @folders = dfc.getObjects()
+        #@folders = dfc.getObjects()
     removeFolder: (index) ->
+      if index is @activeIndex
+        @activeIndex = 0
+        @activateDataflux 0
       if confirm t.txt.confirmDelete
         c.log.debug "Remove: #{index} - Active: #{@activeIndex}"
         if index is @activeIndex
+          @activeIndex = 0
           c.log.debug "removeFolder: activate 0"
-          @activateDataflux 0
         dfc.removeDataflux index
         @objects = dfc.objects
         # objects needs to update before folders!
         # because the loop goes over folders
-        @folders = dfc.getObjects()
+        #@folders = dfc.getObjects()
         @active = dfc.getSelectedObject()
         dfc.write()
+      else
+        @activateDataflux index
     activateDataflux: (index) ->
       c.log.debug "activate #{index}"
       dfc.selectObject index
-      @folders = dfc.getObjects()
+      #@folders = dfc.getObjects()
+      @objects = dfc.objects
       @active = dfc.getSelectedObject()
       @activeIndex = index
       @$broadcast 'refresh'
@@ -152,19 +166,19 @@ vm = new Vue({
 
     startAutoCommit: (index=dfc.selectedObjectIndex) ->
       dfc.startAutoCommit(index)
-      @folders = dfc.getObjects()
+      #@folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
       dfc.write()
 
     stopAutoCommit: (index=dfc.selectedObjectIndex) ->
       dfc.stopAutoCommit(index)
-      @folders = dfc.getObjects()
+      #@folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
       dfc.write()
 
     commit: (index=dfc.selectedObjectIndex) ->
       dfc.commit(index)
-      @folders = dfc.getObjects()
+      #@folders = dfc.getObjects()
 
     toggleLog: ->
       if @showLog
