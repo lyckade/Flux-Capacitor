@@ -22,4 +22,7 @@ ts.makeDateObj = (timestamp) ->
   el = timestamp.split(ts.timestampSeparator)
   dateObj = new Date el[0], el[1]-1, el[2], el[3], el[4], el[5]
 
+ts.makeDate = (dateObj) ->
+  dateformat dateObj, "dd.mm.yyyy HH:MM:ss"
+
 module.exports = ts

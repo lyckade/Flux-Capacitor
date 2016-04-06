@@ -5,6 +5,8 @@ log = logFactory.makeLog()
 Conf = require "../lib/confFactory"
 conf = Conf.makeConf()
 DatafluxesController = require "../lib/controller.datafluxes"
+timestamp = require "../lib/timestamp"
+bytesFormat = require "../lib/bytesFormat"
 t = require "../lib/view.tFactory"
 
 fse = require "fs-extra"
@@ -96,6 +98,17 @@ vm = new Vue({
     activeTab: 'files'
     objects: dfc.objects
     showLog: false
+  computed:
+    filesToCommit: ->
+      files = []
+      for f in @active.backupCache
+        fstat = fse.statSync f
+        fstat.lastChange = timestamp.makeDate fstat.mtime
+        fstat.size = bytesFormat fstat.size
+        fstat.path = f
+        files.push fstat
+      files
+
   events:
     'refreshRoot': ->
       c.log.debug "refreshRoot called"

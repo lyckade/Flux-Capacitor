@@ -193,9 +193,13 @@ Tab definition
   <br><br>
       <table class="table-striped">
         <thead>
-        <th>File</th>
+        <th>File</th><th>Last Change</th><th>Size</th>
         </thead>
-        <tr v-for="f in active.backupCache"><td>{{f}}</td></tr>
+        <tr v-for="f in filesToCommit">
+          <td>{{f.path}}</td>
+          <td>{{f.lastChange}}</td>
+          <td>{{f.size}}</td>
+        </tr>
       </table>
       </div>
 </div>
