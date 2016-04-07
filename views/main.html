@@ -94,7 +94,7 @@ Sidebar: flux folders
     <div id="content-left">
       <h5 class="nav-group-title">{{t.txt.folders}}</h5>
       <ul class="list-group">
-        <li v-for="o in myObjects"
+        <li v-for="o in objects"
         :class="{active: folders[$index].selected}"
          class="list-group-item">
          <div class="media-body" v-on:click="activateDataflux($index)">

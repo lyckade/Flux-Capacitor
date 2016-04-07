@@ -97,16 +97,10 @@ vm = new Vue({
     activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
     objects: dfc.objects
+    myObjects: 'setMyObjects'
     showLog: false
+
   computed:
-    myObjects:
-      cache: false
-      get: ->
-        myObjects = []
-        for obj, index in dfc.objects
-          obj.selected = index is @activeIndex
-          myObjects.push obj
-        myObjects
     filesToCommit: ->
       files = []
       for f in @active.backupCache
@@ -117,14 +111,13 @@ vm = new Vue({
         files.push fstat
       files
 
-  ###events:
-    'refreshRoot': ->
-      c.log.debug "refreshRoot called"
-      #@folders = dfc.getObjects()
-      #@active = dfc.getSelectedObject()
-      #@activeIndex = dfc.selectedObjectIndex
-      #@objects = dfc.objects###
   methods:
+    'setMyObjects': ->
+      myObjects = []
+      for obj, index in dfc.objects
+        obj.selected = index is @activeIndex
+        myObjects.push obj
+      @myObjects = myObjects
     'tabClick': (val) ->
       @activeTab = val
       c.log.debug val
@@ -156,7 +149,7 @@ vm = new Vue({
     activateDataflux: (index) ->
       c.log.debug "activate #{index}"
       dfc.selectObject index
-      #@folders = dfc.getObjects()
+      @folders = dfc.getObjects()
       @objects = dfc.objects
       @active = dfc.getSelectedObject()
       @activeIndex = index
