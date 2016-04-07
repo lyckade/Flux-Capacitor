@@ -1,6 +1,7 @@
 'use strict';
 const electron = require('electron');
 const app = electron.app;
+const Tray = electron.Tray;
 
 // report crashes to the Electron project
 require('crash-reporter').start();
@@ -42,6 +43,8 @@ app.on('activate', () => {
 	}
 });
 
+var appIcon = null;
 app.on('ready', () => {
 	mainWindow = createMainWindow();
+
 });
