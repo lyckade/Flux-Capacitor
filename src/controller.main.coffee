@@ -97,7 +97,6 @@ vm = new Vue({
     activeIndex: dfc.selectedObjectIndex
     activeTab: 'files'
     objects: dfc.objects
-    myObjects: 'setMyObjects'
     showLog: false
 
   computed:
@@ -111,7 +110,17 @@ vm = new Vue({
         files.push fstat
       files
 
+  events:
+    'refreshRoot': ->
+      c.log.debug "refreshRoot called"
+      @folders = dfc.getObjects()
+      @objects = dfc.objects
+      @active = dfc.getSelectedObject()
+      @activeIndex = dfc.selectedObjectIndex
+
   methods:
+    'refreshRoot': ->
+      @$emit 'refreshRoot'
     'setMyObjects': ->
       myObjects = []
       for obj, index in dfc.objects

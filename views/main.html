@@ -117,7 +117,7 @@ Sidebar: flux folders
       <button
       v-on:click="commit($index)"
       class="btn btn-mini btn-default">
-        <span class="icon icon-up-bold icon-text"></span>
+        <span class="icon icon-publish icon-text"></span>
         {{o.backupCache.length}}
       </button>
          <button class="btn btn-mini btn-default"
@@ -139,6 +139,10 @@ Sidebar: flux folders
       <span class="nav-group-item" v-else v-on:click="toggleLog">
       <span class="icon icon-doc-text"></span>
       {{t.txt.showLog}}
+      </span>
+      <span class="nav-group-item" v-on:click="refreshRoot">
+      <span class="icon icon-arrows-ccw"></span>
+      Reload folders
       </span>
     </div>
   </nav></div>
@@ -186,7 +190,7 @@ Tab definition
           <span class="icon icon-play icon-text"></span> {{t.icontext.datafluxAutoCommitStart}}
         </button>
         <button v-on:click="commit()" class="btn btn-default">
-          <span class="icon icon-up-bold icon-text"></span> {{t.icontext.datafluxCommit}}
+          <span class="icon icon-publish icon-text"></span> {{t.icontext.datafluxCommit}}
         </button>
       </div>
   <br><br>
