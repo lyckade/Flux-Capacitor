@@ -62,7 +62,8 @@ vueSettings = Vue.extend({
   methods:
     save: ->
       dfc.write()
-      @$root.folders = dfc.getObjects()
+      @$dispatch 'refreshActive'
+
     addPattern: ->
       @active.options.skipFile.patterns.push ""
     removePattern: (index) ->
@@ -114,9 +115,13 @@ vm = new Vue({
     'refreshRoot': ->
       c.log.debug "refreshRoot called"
       @folders = dfc.getObjects()
-      @objects = dfc.objects
+      dfc.reloadAllObjects()
+      #@objects = dfc.objects
       @active = dfc.getSelectedObject()
       @activeIndex = dfc.selectedObjectIndex
+    'refreshActive': ->
+      dfc.reloadSelectedObject()
+
 
   methods:
     'refreshRoot': ->

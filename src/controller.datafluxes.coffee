@@ -20,18 +20,22 @@ class DatafluxesController
   loadObjects: ->
     @conf.load "datafluxes"
     for df, index in @conf.datafluxes
-      dataflux = new Dataflux(df.srcFolder, df.dataFluxFolder, df.options)
-      dataflux.name = df.name
-      dataflux.walk()
-      dataflux.watch()
-      if df.autoCommit
-        dataflux.autoFlush()
-      @objects.push dataflux
+      @objects.push(@loadObject index)
       if df.selected
         @selectedObjectIndex = index
         @selectedObject = df
     if @selectedObjectIndex is null
       @selectObject 0
+
+  loadObject: (index) ->
+    df = @conf.datafluxes[index]
+    dataflux = new Dataflux(df.srcFolder, df.dataFluxFolder, df.options)
+    dataflux.name = df.name
+    dataflux.walk()
+    dataflux.watch()
+    if df.autoCommit
+      dataflux.autoFlush()
+    dataflux
 
   addDataflux: (srcFolder, fluxFolder) ->
     if srcFolder is undefined
@@ -85,6 +89,27 @@ class DatafluxesController
   selectObject: (index) ->
     @selectedObjectIndex = index
     @selectedObject = @getSelectedObject()
+
+
+  reloadAllObjects: ->
+    for o, index in @objects
+      @reloadObject index
+
+  reloadSelectedObject: ->
+    @reloadObject @selectedObjectIndex
+
+  reloadObject: (index) ->
+    @conf.load "datafluxes"
+    @objects[index].options = @conf.datafluxes[index].options
+    oldCache = @objects[index].backupCache
+    @objects[index].backupCache = []
+    for f in oldCache
+      @objects[index].addFileForBackup f
+    if @objects[index].autoFlushActive
+      @objects[index].stopAutoFlush()
+      @objects[index].autoFlush()
+    @objects[index].walk()
+
 
   getSelectedObject: ->
     @getObject @selectedObjectIndex
