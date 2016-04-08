@@ -77,7 +77,7 @@ vueSettings = Vue.extend({
 vueLogs = Vue.extend({
   template: '#logs-template'
   data: ->
-    logs: c.GUILogs
+    logs: @$root.logs
     t: @$root.t
   methods:
     clearLog: ->
@@ -93,6 +93,7 @@ vm = new Vue({
   el: '#fluxcapacitor',
   data:
     t: t
+    logs: c.GUILogs
     folders: dfc.getObjects()
     active: dfc.getSelectedObject()
     activeIndex: dfc.selectedObjectIndex
