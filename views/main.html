@@ -83,7 +83,7 @@ settings component
 <body>
   <div id="fluxcapacitor" class="window">
     <header class="toolbar toolbar-header">
-      <h1 class="title">Flux Capacitor</h1>
+      <h1 class="title">{{t.txt.fluxCapacitor}}</h1>
 
       <div class="toolbar-actions">
         <div class="btn-group">
@@ -101,8 +101,12 @@ settings component
         </button>
           <button class="btn btn-default" v-on:click="refreshRoot">
           <span class="icon icon-arrows-ccw icon-text"></span>
-          Reload folders
+          {{t.txt.reloadFolders}}
         </button>
+        <button class="btn btn-default" v-on:click="settings">
+        <span class="icon icon-cog icon-text"></span>
+        {{t.txt.settings}}
+      </button>
         </div>
       </div></header>
   <div id="content" class="window-content">
@@ -153,7 +157,7 @@ Sidebar: flux folders
           {{t.button.addFolder}}
         </button></li>
       </ul>
-      
+
     </div>
   </nav></div>
 
