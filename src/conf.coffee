@@ -4,6 +4,8 @@
 CSON = require "season"
 _ = require "underscore"
 
+fileexists = require "./fileexists"
+
 module.exports =
 class Conf extends EventEmitter
 
@@ -11,6 +13,9 @@ class Conf extends EventEmitter
     @CSON = CSON
     @suffix = ".cson"
     @confFiles = []
+    @defaultFiles =
+      settings: 'defaultSettings'
+    @fileexists = require "./fileexists"
 
   reload: ->
     for confFileName in @confFiles
@@ -27,7 +32,10 @@ class Conf extends EventEmitter
       @confFiles.push confFileName
 
   loadFile: (confFileName) ->
-    @[confFileName] = @CSON.readFileSync @makeFilePath confFileName
+    obj = confFileName
+    if not @fileexists(confFileName) and confFileName of @defaultFiles
+      confFileName = @defaultFiles[confFileName]
+    @[obj] = @CSON.readFileSync @makeFilePath confFileName
 
   refreshCallback: ->
     @emit "loaded"
