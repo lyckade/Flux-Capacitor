@@ -45,6 +45,7 @@ app.on('activate', () => {
 
 var appIcon = null;
 app.on('ready', () => {
+	var appIcon = new Tray('./dev/logo_24.png');
 	mainWindow = createMainWindow();
 
 });
