@@ -1,9 +1,6 @@
 ###
 Configuration file
 ###
-autoFlushInterval:
-  value: 10000
-  short: "Interval in ms for the automatic flush of the dataflux cache."
 defaultLocale:
   value: "en"
   short: "The default language for the output"

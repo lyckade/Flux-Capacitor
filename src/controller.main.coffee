@@ -124,15 +124,9 @@ vm = new Vue({
 
 
   methods:
-    'refreshRoot': ->
+    refreshRoot: ->
       @$emit 'refreshRoot'
-    'setMyObjects': ->
-      myObjects = []
-      for obj, index in dfc.objects
-        obj.selected = index is @activeIndex
-        myObjects.push obj
-      @myObjects = myObjects
-    'tabClick': (val) ->
+    tabClick: (val) ->
       @activeTab = val
       c.log.debug val
     addFolder: ->
