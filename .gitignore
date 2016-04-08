@@ -4,6 +4,7 @@ lib
 log.txt
 
 conf/folders.cson
+conf/settings.cson
 npm-debug.log
 conf/datafluxes.cson
 views/css/style.min.css
