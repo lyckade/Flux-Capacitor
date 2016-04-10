@@ -7,6 +7,7 @@ button:
 txt:
   actions: "Actions"
   autoCommitInterval: "Auto-commit interval (in Minutes)"
+  commitAll: "Commit all"
   confirmDelete: "Are you sure to delete this folder?"
   datafluxFolder: "Flux Capacitor folder"
   fluxCapacitor: "Flux-Capacitor"
