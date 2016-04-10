@@ -186,6 +186,10 @@ vm = new Vue({
       dfc.commit(index)
       #@folders = dfc.getObjects()
 
+    commitAll: ->
+      for obj in dfc.objects
+        obj.flushBackupCache()
+
     toggleLog: ->
       if @showLog
         @showLog = false
