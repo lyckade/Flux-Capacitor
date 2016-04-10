@@ -19,8 +19,6 @@ class MainController
     @log = logFactory.makeLog()
     @GUILogs = []
     @conf = Conf.makeConf()
-    conf.load "settings"
-    conf.load "folders"
 
   addLog: (txt) =>
     log = txt.split "|"
@@ -28,6 +26,10 @@ class MainController
 
   clearLog: =>
     @GUILogs = []
+
+  loadConf: ->
+    conf.load "settings"
+    conf.load "folders"
 
   getDataflux: (index) ->
     conf.folders[index]
@@ -48,9 +50,12 @@ dfc.loadObjects()
 
 c = new MainController()
 
-for mode in conf.settings.logGuiModus.value
-  c.log.addListener mode, (txt) ->
-    c.addLog "#{c.GUILogs.length+1}| #{txt}"
+conf.addListener "loaded", ->
+  for mode in conf.settings.logGuiModus.value
+    c.log.addListener mode, (txt) ->
+      c.addLog "#{c.GUILogs.length+1}| #{txt}"
+      
+c.loadConf()
 
 
 vueSettings = Vue.extend({
@@ -113,8 +118,7 @@ vm = new Vue({
       files
 
   events:
-    'refreshRoot': ->
-      c.log.debug "refreshRoot called"
+    'refreshAll': =>
       @folders = dfc.getObjects()
       dfc.reloadAllObjects()
       #@objects = dfc.objects
@@ -126,7 +130,7 @@ vm = new Vue({
 
   methods:
     refreshRoot: ->
-      @$emit 'refreshRoot'
+      @$emit 'refreshAll'
     tabClick: (val) ->
       @activeTab = val
       c.log.debug val
