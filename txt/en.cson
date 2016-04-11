@@ -4,6 +4,16 @@ button:
   clearLog: "Clear Log"
   removePattern: "Remove pattern"
   save: "Save"
+menu:
+  folders:
+    addFolder: "Add Folder"
+    commitAll: "Commit all"
+    label: "Folders"
+    reloadFolders: "Reload Folders"
+  edit:
+    settings: "Settings"
+  help:
+    about: "About"
 txt:
   actions: "Actions"
   autoCommitInterval: "Auto-commit interval (in Minutes)"
