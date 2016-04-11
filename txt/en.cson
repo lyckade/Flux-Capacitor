@@ -11,9 +11,11 @@ menu:
     label: "Folders"
     reloadFolders: "Reload Folders"
   edit:
+    label: "Edit"
     settings: "Settings"
   help:
-    about: "About"
+    about: "About Flux-Capacitor"
+    label: "Help"
 txt:
   actions: "Actions"
   autoCommitInterval: "Auto-commit interval (in Minutes)"

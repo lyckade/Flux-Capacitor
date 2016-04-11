@@ -21,10 +21,18 @@ module.exports =
       ]
     }
     {
-    label: 'Edit'
+    label: t.menu.edit.label
     submenu:
       [
-        label: 'Settings'
+        label: t.menu.edit.settings
+        command: 'settings'
+      ]
+    }
+    {
+    label: t.menu.help.label
+    submenu:
+      [
+        label: t.menu.help.about
         command: 'settings'
       ]
     }
