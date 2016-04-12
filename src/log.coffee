@@ -11,6 +11,13 @@ class Log extends EventEmitter
     @prefix = ""
     @noLog = false
     @debugModus = false
+    @logTypes = [
+      "ERROR"
+      "WARNING"
+      "NOTICE"
+      "INFO"
+      "DEBUG"
+    ]
 
     @dateformat = dateformat
     @dateformat.masks.log = "yyyy.mm.dd HH:MM:ss"

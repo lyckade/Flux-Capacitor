@@ -25,7 +25,7 @@ logGuiModus:
     "ERROR"]
 
 datafluxDefaultDir:
-  value: ".dataflux"
+  value: "000_Backup"
   short: "Default folder inside the flux for the dataflux."
 fluxDefaultDir:
   value: ".flux"
