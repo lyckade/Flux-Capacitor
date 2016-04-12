@@ -63,6 +63,7 @@ class MainController
     @settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
     @settingsWindow.on 'closed', =>
       @settingsWindow = null
+      @loadConf()
     #settingsWindow.
 
 
@@ -72,6 +73,8 @@ dfc.loadObjects()
 c = new MainController()
 
 conf.addListener "loaded", ->
+  c.log.debug "conf loaded fired"
+  c.log.removeAllListeners()
   for mode in conf.settings.logGuiModus.value
     c.log.addListener mode, (txt) ->
       c.addLog "#{c.GUILogs.length+1}| #{txt}"

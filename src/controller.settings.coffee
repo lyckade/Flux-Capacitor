@@ -16,5 +16,4 @@ vm = new Vue({
   methods:
     save: ->
       conf.write('settings')
-      conf.refreshCallback()
   })
