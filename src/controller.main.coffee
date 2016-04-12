@@ -11,6 +11,7 @@ t = require "../lib/view.tFactory"
 
 fse = require "fs-extra"
 path = require "path"
+
 remote = require "remote"
 dialog = remote.require "dialog"
 
@@ -19,8 +20,8 @@ class MainController
     @log = logFactory.makeLog()
     @GUILogs = []
     @conf = Conf.makeConf()
-    conf.load "settings"
-    conf.load "folders"
+    @settingsWindow = null
+
 
   addLog: (txt) =>
     log = txt.split "|"
@@ -28,6 +29,10 @@ class MainController
 
   clearLog: =>
     @GUILogs = []
+
+  loadConf: ->
+    conf.load "settings"
+    conf.load "folders"
 
   getDataflux: (index) ->
     conf.folders[index]
@@ -42,15 +47,39 @@ class MainController
       stats.push fse.fsstatSync(f)
     stats
 
+  openSettings: ->
+    # Singleton for the settings window
+    return if @settingsWindow isnt null
+    BrowserWindow = require('electron').remote.BrowserWindow
+    @settingsWindow = new BrowserWindow(
+      {
+        width: 800
+        height: 600
+        alwaysOnTop: true
+        skipTaskbar: true
+        minimizable: false
+        maximizable: false
+      })
+    @settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
+    @settingsWindow.on 'closed', =>
+      @settingsWindow = null
+      @loadConf()
+    #settingsWindow.
+
 
 dfc = new DatafluxesController()
 dfc.loadObjects()
 
 c = new MainController()
 
-for mode in conf.settings.logGuiModus.value
-  c.log.addListener mode, (txt) ->
-    c.addLog "#{c.GUILogs.length+1}| #{txt}"
+conf.addListener "loaded", ->
+  c.log.debug "conf loaded fired"
+  c.log.removeAllListeners()
+  for mode in conf.settings.logGuiModus.value
+    c.log.addListener mode, (txt) ->
+      c.addLog "#{c.GUILogs.length+1}| #{txt}"
+
+c.loadConf()
 
 
 vueSettings = Vue.extend({
@@ -113,8 +142,7 @@ vm = new Vue({
       files
 
   events:
-    'refreshRoot': ->
-      c.log.debug "refreshRoot called"
+    'refreshAll': =>
       @folders = dfc.getObjects()
       dfc.reloadAllObjects()
       #@objects = dfc.objects
@@ -126,7 +154,7 @@ vm = new Vue({
 
   methods:
     refreshRoot: ->
-      @$emit 'refreshRoot'
+      @$emit 'refreshAll'
     tabClick: (val) ->
       @activeTab = val
       c.log.debug val
@@ -191,4 +219,20 @@ vm = new Vue({
         @showLog = false
       else
         @showLog = true
+    openSettings: ->
+      c.openSettings()
 })
+
+ipcRenderer = require('electron').ipcRenderer
+Menu = remote.Menu
+template = require('../lib/menu')
+menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
+ipcRenderer.on 'addFolder', ->
+  vm.addFolder()
+ipcRenderer.on 'reloadFolders', ->
+  vm.refreshRoot()
+ipcRenderer.on 'commitAll', ->
+  vm.commitAll()
+ipcRenderer.on 'openSettings', ->
+  c.openSettings()
