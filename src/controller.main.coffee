@@ -11,6 +11,7 @@ t = require "../lib/view.tFactory"
 
 fse = require "fs-extra"
 path = require "path"
+
 remote = require "remote"
 dialog = remote.require "dialog"
 
@@ -54,7 +55,7 @@ conf.addListener "loaded", ->
   for mode in conf.settings.logGuiModus.value
     c.log.addListener mode, (txt) ->
       c.addLog "#{c.GUILogs.length+1}| #{txt}"
-      
+
 c.loadConf()
 
 
@@ -196,3 +197,15 @@ vm = new Vue({
       else
         @showLog = true
 })
+
+ipcRenderer = require('electron').ipcRenderer
+Menu = remote.Menu
+template = require('../lib/menu')
+menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
+ipcRenderer.on 'addFolder', ->
+  vm.addFolder()
+ipcRenderer.on 'reloadFolders', ->
+  vm.refreshRoot()
+ipcRenderer.on 'commitAll', ->
+  vm.commitAll()
