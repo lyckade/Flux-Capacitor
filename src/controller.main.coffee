@@ -45,6 +45,20 @@ class MainController
       stats.push fse.fsstatSync(f)
     stats
 
+  openSettings: ->
+    BrowserWindow = require('electron').remote.BrowserWindow
+    settingsWindow = new BrowserWindow(
+      {
+        width: 800
+        height: 600
+        alwaysOnTop: true
+        skipTaskbar: true
+        minimizable: false
+        maximizable: false
+      })
+    settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
+    #settingsWindow.
+
 
 dfc = new DatafluxesController()
 dfc.loadObjects()
@@ -196,6 +210,8 @@ vm = new Vue({
         @showLog = false
       else
         @showLog = true
+    openSettings: ->
+      c.openSettings()
 })
 
 ipcRenderer = require('electron').ipcRenderer
@@ -209,3 +225,5 @@ ipcRenderer.on 'reloadFolders', ->
   vm.refreshRoot()
 ipcRenderer.on 'commitAll', ->
   vm.commitAll()
+ipcRenderer.on 'openSettings', ->
+  c.openSettings()
