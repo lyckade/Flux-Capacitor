@@ -20,6 +20,8 @@ class MainController
     @log = logFactory.makeLog()
     @GUILogs = []
     @conf = Conf.makeConf()
+    @settingsWindow = null
+
 
   addLog: (txt) =>
     log = txt.split "|"
@@ -46,8 +48,10 @@ class MainController
     stats
 
   openSettings: ->
+    # Singleton for the settings window
+    return if @settingsWindow isnt null
     BrowserWindow = require('electron').remote.BrowserWindow
-    settingsWindow = new BrowserWindow(
+    @settingsWindow = new BrowserWindow(
       {
         width: 800
         height: 600
@@ -56,7 +60,9 @@ class MainController
         minimizable: false
         maximizable: false
       })
-    settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
+    @settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
+    @settingsWindow.on 'closed', =>
+      @settingsWindow = null
     #settingsWindow.
 
 
