@@ -20,6 +20,8 @@ class MainController
     @log = logFactory.makeLog()
     @GUILogs = []
     @conf = Conf.makeConf()
+    @settingsWindow = null
+
 
   addLog: (txt) =>
     log = txt.split "|"
@@ -44,6 +46,24 @@ class MainController
     for f in filelist
       stats.push fse.fsstatSync(f)
     stats
+
+  openSettings: ->
+    # Singleton for the settings window
+    return if @settingsWindow isnt null
+    BrowserWindow = require('electron').remote.BrowserWindow
+    @settingsWindow = new BrowserWindow(
+      {
+        width: 800
+        height: 600
+        alwaysOnTop: true
+        skipTaskbar: true
+        minimizable: false
+        maximizable: false
+      })
+    @settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
+    @settingsWindow.on 'closed', =>
+      @settingsWindow = null
+    #settingsWindow.
 
 
 dfc = new DatafluxesController()
@@ -196,6 +216,8 @@ vm = new Vue({
         @showLog = false
       else
         @showLog = true
+    openSettings: ->
+      c.openSettings()
 })
 
 ipcRenderer = require('electron').ipcRenderer
@@ -209,3 +231,5 @@ ipcRenderer.on 'reloadFolders', ->
   vm.refreshRoot()
 ipcRenderer.on 'commitAll', ->
   vm.commitAll()
+ipcRenderer.on 'openSettings', ->
+  c.openSettings()

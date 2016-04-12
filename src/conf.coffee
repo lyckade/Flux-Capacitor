@@ -33,7 +33,7 @@ class Conf extends EventEmitter
 
   loadFile: (confFileName) ->
     obj = confFileName
-    if not @fileexists(confFileName) and confFileName of @defaultFiles
+    if not @fileexists(@makeFilePath confFileName) and confFileName of @defaultFiles
       confFileName = @defaultFiles[confFileName]
     @[obj] = @CSON.readFileSync @makeFilePath confFileName
 

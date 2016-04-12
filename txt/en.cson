@@ -25,6 +25,7 @@ txt:
   fluxCapacitor: "Flux-Capacitor"
   folders: "Folders"
   hideLog: "Hide log"
+
   name: "Name"
   nr: "Nr"
   reloadFolders: "Reload Folders"
@@ -35,6 +36,13 @@ txt:
   text: "Text"
   timestamp: "Timestamp"
   type: "Type"
+settings:
+  dataflux: "Dataflux settings"
+  datafluxDefault: "Dataflux default folder"
+  guiLogTypes: "GUI log types"
+  log: "Log settings"
+  logFile: "Log file"
+  txtLogTypes: "Logfile types"
 icontext:
   datafluxSettings: "Dataflux settings"
   datafluxRemove: "Remove dataflux"

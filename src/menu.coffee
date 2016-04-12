@@ -24,8 +24,10 @@ module.exports =
     label: t.menu.edit.label
     submenu:
       [
-        label: t.menu.edit.settings
-        command: 'settings'
+        {label: t.menu.edit.settings
+        accelerator: 'CmdOrCtrl+,'
+        click: (item, win) ->
+          win.send "openSettings"}
       ]
     }
     {
