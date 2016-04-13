@@ -1,9 +1,19 @@
+about:
+  header: "About Flux-Capacitor"
 button:
   addFolder: "Add Folder"
   addPattern: "Add pattern"
   clearLog: "Clear Log"
   removePattern: "Remove pattern"
   save: "Save"
+
+icontext:
+  datafluxSettings: "Dataflux settings"
+  datafluxRemove: "Remove dataflux"
+  datafluxAutoCommitStart: "Start auto commit"
+  datafluxAutoCommitStop: "Stop auto commit"
+  datafluxCommit: "commit changes"
+
 menu:
   folders:
     addFolder: "Add Folder"
@@ -16,6 +26,7 @@ menu:
   help:
     about: "About Flux-Capacitor"
     label: "Help"
+
 txt:
   actions: "Actions"
   autoCommitInterval: "Auto-commit interval (in Minutes)"
@@ -25,7 +36,6 @@ txt:
   fluxCapacitor: "Flux-Capacitor"
   folders: "Folders"
   hideLog: "Hide log"
-
   name: "Name"
   nr: "Nr"
   reloadFolders: "Reload Folders"
@@ -36,6 +46,7 @@ txt:
   text: "Text"
   timestamp: "Timestamp"
   type: "Type"
+
 settings:
   dataflux: "Dataflux settings"
   datafluxDefault: "Dataflux default folder"
@@ -43,9 +54,3 @@ settings:
   log: "Log settings"
   logFile: "Log file"
   txtLogTypes: "Logfile types"
-icontext:
-  datafluxSettings: "Dataflux settings"
-  datafluxRemove: "Remove dataflux"
-  datafluxAutoCommitStart: "Start auto commit"
-  datafluxAutoCommitStop: "Stop auto commit"
-  datafluxCommit: "commit changes"
