@@ -170,6 +170,7 @@ vm = new Vue({
     addFolder: ->
       c.log.debug "AddFolder called"
       dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
+        return if files is undefined
         f = files[0]
         dfc.addDataflux f
         dfc.write()
