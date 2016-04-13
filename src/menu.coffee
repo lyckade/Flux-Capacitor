@@ -35,7 +35,8 @@ module.exports =
     submenu:
       [
         label: t.menu.help.about
-        command: 'settings'
+        click: (item, win) ->
+          win.send "openAbout"
       ]
     }
   ]

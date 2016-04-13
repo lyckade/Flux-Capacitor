@@ -21,6 +21,7 @@ class MainController
     @GUILogs = []
     @conf = Conf.makeConf()
     @settingsWindow = null
+    @aboutWindow = null
 
 
   addLog: (txt) =>
@@ -50,8 +51,21 @@ class MainController
   openSettings: ->
     # Singleton for the settings window
     return if @settingsWindow isnt null
+    @settingsWindow = @openWindow()
+    @settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
+    @settingsWindow.on 'closed', =>
+      @settingsWindow = null
+      @loadConf()
+    #settingsWindow.
+  openAbout: ->
+    return if @aboutWindow isnt null
+    @aboutWindow = @openWindow()
+    @aboutWindow.loadURL("file://#{__dirname}/../views/about.html")
+    @aboutWindow.on 'closed', =>
+      @aboutWindow = null
+  openWindow: ->
     BrowserWindow = require('electron').remote.BrowserWindow
-    @settingsWindow = new BrowserWindow(
+    win = new BrowserWindow(
       {
         width: 800
         height: 600
@@ -60,11 +74,6 @@ class MainController
         minimizable: false
         maximizable: false
       })
-    @settingsWindow.loadURL("file://#{__dirname}/../views/settings.html")
-    @settingsWindow.on 'closed', =>
-      @settingsWindow = null
-      @loadConf()
-    #settingsWindow.
 
 
 dfc = new DatafluxesController()
@@ -236,3 +245,5 @@ ipcRenderer.on 'commitAll', ->
   vm.commitAll()
 ipcRenderer.on 'openSettings', ->
   c.openSettings()
+ipcRenderer.on 'openAbout', ->
+  c.openAbout()

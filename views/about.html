@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Flux-Capacitor</title>
+    <link rel="stylesheet" href="./css/photon.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+
+<script type="text/javascript">
+fse = require("fs-extra");
+p = fse.readJsonSync("package.json");
+t = require("../lib/view.tFactory");
+Vue = require('vue');
+
+</script>
+
+</head>
+<body>
+  <div id="about" class="window">
+    <header class="toolbar toolbar-header">
+      <h1 class="title">{{t.about.header}}</h1>
+    </header>
+    <div class="window-content">
+      <div class="padded-more">
+      <center>
+        <img src="img/logo_1024.png" width="30%" height="30%">
+        <h1>{{t.txt.fluxCapacitor}}</h1>
+        <h2>{{version}}</h2>
+      </center>
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+vm = new Vue({
+  el: '#about',
+  data:{
+    t: t,
+    version: p.version
+    }
+  });
+</script>
+  </body>
+  </html>
