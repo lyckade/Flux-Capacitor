@@ -5,7 +5,7 @@ confFactory = require "./confFactory"
 
 conf = confFactory.makeConf()
 conf.load "settings"
-locale = conf.settings.defaultLocale.value
+locale = conf.settings.locale.value
 
 textFile = "./txt/#{locale}.cson"
 
