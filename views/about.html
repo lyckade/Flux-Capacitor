@@ -26,6 +26,11 @@ Vue = require('vue');
         <img src="img/logo_1024.png" width="30%" height="30%">
         <h1>{{t.txt.fluxCapacitor}}</h1>
         <h2>{{version}}</h2>
+        <h3>Credits: </h3>
+        <p>Template for the UI
+          <a href="" v-on:click="openExtern('http://photonkit.com/')">http://photonkit.com/</a> under
+          <a href="" v-on:click="openExtern('https://github.com/connors/photon/blob/master/docs/LICENSE')">CC BY 3.0</a></p>
+<p>MIT © lyckade</p>
       </center>
       </div>
 
@@ -39,7 +44,11 @@ vm = new Vue({
   data:{
     t: t,
     version: p.version
-    }
+  },
+  methods:{
+    openExtern: function (url) {
+      require('electron').shell.openExternal(url);}
+  }
   });
 </script>
   </body>
