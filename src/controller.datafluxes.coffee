@@ -85,6 +85,7 @@ class DatafluxesController
       options: df.options
       selected: index is @selectedObjectIndex
       autoCommit: df.autoFlushActive
+      deactivated: df.deactivated
 
   selectObject: (index) ->
     @selectedObjectIndex = index
