@@ -130,6 +130,7 @@ Sidebar: flux folders
          class="list-group-item">
          <div class="media-body" v-on:click="activateDataflux($index)">
             <strong>{{o.name}}</strong>
+            <span v-if="o.deactivated">({{t.txt.deactivated}})</span>
             <p><span class="icon icon-folder"></span> {{o.srcFolder}}</p>
          </div>
          <div class="btn-group">

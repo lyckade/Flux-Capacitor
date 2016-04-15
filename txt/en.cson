@@ -33,6 +33,7 @@ txt:
   commitAll: "Commit all"
   confirmDelete: "Are you sure to delete this folder?"
   datafluxFolder: "Flux Capacitor folder"
+  deactivated: "deactivated"
   fluxCapacitor: "Flux-Capacitor"
   folders: "Folders"
   hideLog: "Hide log"
