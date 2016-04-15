@@ -128,7 +128,7 @@ Sidebar: flux folders
         <li v-for="o in objects"
         :class="{active: folders[$index].selected}"
          class="list-group-item">
-         <div class="media-body" v-on:click="activateDataflux($index)">
+         <div class="media-body" v-on:click="activeDataflux($index)">
             <strong>{{o.name}}</strong>
             <span v-if="o.deactivated">({{t.txt.deactivated}})</span>
             <p><span class="icon icon-folder"></span> {{o.srcFolder}}</p>
@@ -155,13 +155,13 @@ Sidebar: flux folders
       <button
         v-if="o.deactivated"
         class="btn btn-mini btn-default"
-        v-on:click="o.watch()">
+        v-on:click="startDataflux($index)">
         <span class="icon icon-check"></span>
       </button>
       <button
         v-else
         class="btn btn-mini btn-default"
-        v-on:click="o.stop()">
+        v-on:click="stopDataflux($index)">
         <span class="icon icon-cancel"></span>
       </button>
          <button class="btn btn-mini btn-default"

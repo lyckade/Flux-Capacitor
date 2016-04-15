@@ -178,7 +178,7 @@ vm = new Vue({
     removeFolder: (index) ->
       if index is @activeIndex
         @activeIndex = 0
-        @activateDataflux 0
+        @activeDataflux 0
       if confirm t.txt.confirmDelete
         c.log.debug "Remove: #{index} - Active: #{@activeIndex}"
         if index is @activeIndex
@@ -192,8 +192,8 @@ vm = new Vue({
         @active = dfc.getSelectedObject()
         dfc.write()
       else
-        @activateDataflux index
-    activateDataflux: (index) ->
+        @activeDataflux index
+    activeDataflux: (index) ->
       c.log.debug "activate #{index}"
       dfc.selectObject index
       @folders = dfc.getObjects()
@@ -214,6 +214,14 @@ vm = new Vue({
       dfc.stopAutoCommit(index)
       #@folders = dfc.getObjects()
       @active = dfc.getSelectedObject()
+      dfc.write()
+
+    startDataflux: (index) ->
+      dfc.objects[index].watch()
+      dfc.write()
+
+    stopDataflux: (index) ->
+      dfc.objects[index].stop()
       dfc.write()
 
     commit: (index=dfc.selectedObjectIndex) ->
