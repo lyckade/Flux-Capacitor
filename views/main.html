@@ -151,9 +151,17 @@ Sidebar: flux folders
         <span class="icon icon-publish icon-text"></span>
         {{o.backupCache.length}}
       </button>
+      <button class="btn btn-mini btn-default"
+           v-on:click="removeFolder($index)">
+        <span class="icon icon-check"></span>
+      </button>
+      <button class="btn btn-mini btn-default"
+           v-on:click="removeFolder($index)">
+        <span class="icon icon-cancel"></span>
+      </button>
          <button class="btn btn-mini btn-default"
             v-on:click="removeFolder($index)">
-         <span class="icon icon-cancel"></span>
+         <span class="icon icon-minus"></span>
        </button></div>
         </li>
         <li class="list-group-item">
