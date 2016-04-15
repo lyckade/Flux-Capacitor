@@ -21,6 +21,7 @@ class Dataflux
     @fileExists = fileExists
     @autoFlushInterval = null
     @autoFlushActive = false
+    @deactivated = false
     defaultOptions =
       skipFile:
         patterns: []
@@ -60,6 +61,8 @@ class Dataflux
     options =
       filer: @isFluxFile
       ignoreDirectoryPattern: RegExp @dataFluxFolder
+    @deactivated = false
+    @log.notice "Watching #{@srcFolder}"
     @watcher.createMonitor @srcFolder, options, (monitor) =>
       monitor.on "created", (f, stat) =>
         @log.debug "#{f} is new"
@@ -69,6 +72,10 @@ class Dataflux
         @addFileForBackup f
       monitor.on "removed", (f, stat) =>
         @log.debug "#{f} was removed"
+  stop: ->
+    @watcher.unwatchTree @srcFolder
+    @deactivated = true
+    @log.notice "#{@srcFolder} deactivated"
 
   addFileForBackup: (filePath) ->
     if filePath not in @backupCache and not @skipFile filePath

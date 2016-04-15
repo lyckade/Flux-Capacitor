@@ -27,12 +27,16 @@ class DatafluxesController
     if @selectedObjectIndex is null
       @selectObject 0
 
+
   loadObject: (index) ->
     df = @conf.datafluxes[index]
     dataflux = new Dataflux(df.srcFolder, df.dataFluxFolder, df.options)
     dataflux.name = df.name
     dataflux.walk()
-    dataflux.watch()
+    if df.deactivated
+      dataflux.stop()
+    else
+      dataflux.watch()
     if df.autoCommit
       dataflux.autoFlush()
     dataflux
@@ -85,6 +89,7 @@ class DatafluxesController
       options: df.options
       selected: index is @selectedObjectIndex
       autoCommit: df.autoFlushActive
+      deactivated: df.deactivated
 
   selectObject: (index) ->
     @selectedObjectIndex = index
