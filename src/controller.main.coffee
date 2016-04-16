@@ -169,12 +169,13 @@ vm = new Vue({
       c.log.debug val
     addFolder: ->
       c.log.debug "AddFolder called"
-      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) ->
+      dialog.showOpenDialog {properties: ['openDirectory', 'createDirectory']}, (files) =>
         return if files is undefined
         f = files[0]
         dfc.addDataflux f
+        @folders = dfc.getObjects()
         dfc.write()
-        #@folders = dfc.getObjects()
+
     removeFolder: (index) ->
       if index is @activeIndex
         @activeIndex = 0
