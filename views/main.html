@@ -198,10 +198,8 @@ Tab definition
         <span class="icon icon-cog"></span> Settings
       </div>
     </div>
-<!--
-  logs tab
--->
-  <logs v-if="activeTab=='log'"></logs>
+  <div  class="padded-more">
+
   <!--
     settings tab
   -->
@@ -237,6 +235,7 @@ Tab definition
         </tr>
       </table>
       </div>
+    </div>
 </div>
 <div id="logBottom" v-if="showLog">
   <logs></logs>
