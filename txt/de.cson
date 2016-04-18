@@ -1,0 +1,57 @@
+about:
+  header: "&Uuml;ber Flux-Capacitor"
+button:
+  addFolder: "Ordner hinzufügen"
+  addPattern: "Pattern hinzufügen"
+  clearLog: "Log leeren"
+  removePattern: "Pattern entfernen"
+  save: "Speichern"
+
+icontext:
+  datafluxSettings: "Dataflux settings"
+  datafluxRemove: "Remove dataflux"
+  datafluxAutoCommitStart: "Start auto commit"
+  datafluxAutoCommitStop: "Stop auto commit"
+  datafluxCommit: "commit changes"
+
+menu:
+  folders:
+    addFolder: "Ordner hinzufügen"
+    commitAll: "Commit für alle"
+    label: "Ordner"
+    reloadFolders: "Ordner neu laden"
+  edit:
+    label: "Bearbeiten"
+    settings: "Einstellungen"
+  help:
+    about: "Über Flux-Capacitor"
+    label: "Hilfe"
+
+txt:
+  actions: "Aktionen"
+  autoCommitInterval: "Auto-Commit Intervall (in Minuten)"
+  commitAll: "Commit für alle"
+  confirmDelete: "Wollen Sie den Ordner wirklich entfernen?"
+  datafluxFolder: "Flux Capacitor Ordner"
+  deactivated: "deaktiviert"
+  fluxCapacitor: "Flux-Capacitor"
+  folders: "Ordner"
+  hideLog: "Log ausblenden"
+  name: "Name"
+  nr: "Nr"
+  reloadFolders: "Ordner neu laden"
+  settings: "Einstellungen"
+  showLog: "Log einblenden"
+  skipPatterns: "Pattern für ignorierte Dateien"
+  srcFolder: "Quellordner"
+  text: "Text"
+  timestamp: "Zeitstempel"
+  type: "Typ"
+
+settings:
+  dataflux: "Dataflux Einstellungen"
+  datafluxDefault: "Dataflux Standart-Ordner"
+  guiLogTypes: "GUI Log Typen"
+  log: "Log Einstellungen"
+  logFile: "Log Datei"
+  txtLogTypes: "Log Detei Typen"
