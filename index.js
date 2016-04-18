@@ -2,6 +2,7 @@
 const electron = require('electron');
 const app = electron.app;
 const Tray = electron.Tray;
+const Menu = electron.Menu;
 
 // report crashes to the Electron project
 require('crash-reporter').start();
@@ -46,6 +47,14 @@ app.on('activate', () => {
 var appIcon = null;
 app.on('ready', () => {
 	var appIcon = new Tray('./dev/logo_24.png');
+	var contextMenu = Menu.buildFromTemplate([
+    { label: 'Show window' },
+		{ label: 'Settings'},
+    { label: 'About Flux-Capacitor'},
+
+  ]);
+  appIcon.setToolTip('This is my application.');
+  appIcon.setContextMenu(contextMenu);
 	mainWindow = createMainWindow();
 
 });
