@@ -4,9 +4,13 @@ CSON = require "season"
 confFactory = require "./confFactory"
 
 conf = confFactory.makeConf()
-conf.load "settings"
-locale = conf.settings.locale.value
 
-textFile = "./txt/#{locale}.cson"
 
-module.exports = CSON.readFileSync textFile
+module.exports.load = load = ->
+  conf.load "settings"
+  locale = conf.settings.locale.value
+  textFile = "./txt/#{locale}.cson"
+  global.t = CSON.readFileSync textFile
+
+load()
+module.exports = global.t

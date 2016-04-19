@@ -21,6 +21,13 @@
       <div class="pane-sm sidebar">
         <h5 class="nav-group-title">{{t.txt.settings}}</h5>
         <span
+        v-on:click="activeSection='language'"
+        :class="{active: activeSection=='language'}"
+        class="nav-group-item">
+          <span class="icon icon-language"></span>
+          {{t.settings.language}}
+        </span>
+        <span
         v-on:click="activeSection='dataflux'"
         :class="{active: activeSection=='dataflux'}"
         class="nav-group-item">
@@ -37,6 +44,16 @@
 
       </div>
       <div class="pane">
+
+        <!-- language settings             -->
+        <div id="dataflux_section" v-if="activeSection=='language'" class="padded-more">
+          <div class="form-group">
+            <label>{{t.settings.language}}</label>
+            <input class="form-control" v-model="settings.locale.value">
+          </div>
+
+        </div>
+
         <!-- Dataflux settings             -->
         <div id="dataflux_section" v-if="activeSection=='dataflux'" class="padded-more">
           <div class="form-group">

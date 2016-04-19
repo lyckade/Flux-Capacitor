@@ -52,6 +52,8 @@ settings:
   dataflux: "Dataflux Einstellungen"
   datafluxDefault: "Dataflux Standart-Ordner"
   guiLogTypes: "GUI Log Typen"
+  language: "Sprache"
+  languageSettings: "Spracheinstellungen"
   log: "Log Einstellungen"
   logFile: "Log Datei"
   txtLogTypes: "Log Detei Typen"

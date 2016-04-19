@@ -56,6 +56,7 @@ class MainController
     @settingsWindow.on 'closed', =>
       @settingsWindow = null
       @loadConf()
+      t.load()
     #settingsWindow.
   openAbout: ->
     return if @aboutWindow isnt null
